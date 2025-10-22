@@ -697,3 +697,26 @@ letter-spacing: 0%;
   -ms-border-radius: 50px;
   -o-border-radius: 50px;
 }
+
+
+.carousel-bg {
+  background: #121212;
+}
+
+.slide-card {
+  background: linear-gradient(45deg, #4e54c8, #8f94fb);
+}
+
+.indicator-btn {
+  width: 10px;
+  height: 10px;
+  background: #aaa;
+  border: none;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.indicator-btn.active {
+  width: 20px;
+  background: #fff;
+}

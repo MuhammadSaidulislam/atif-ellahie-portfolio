@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./CSS/styles.css";
 import "./CSS/research.css";
 import "./CSS/awards.css";
@@ -71,12 +71,54 @@ const paginatedPaper = [
     paper_link: "https://example.com/climate-ml"
   }
 ];
+
+const slides = [
+  {
+    id: 1,
+    title: "Mountain Vista",
+    description: "Breathtaking mountain landscapes",
+    color: "from-blue-500 to-purple-600"
+  },
+  {
+    id: 2,
+    title: "Ocean Breeze",
+    description: "Serene coastal views",
+    color: "from-cyan-500 to-blue-600"
+  },
+  {
+    id: 3,
+    title: "Forest Path",
+    description: "Peaceful woodland trails",
+    color: "from-green-500 to-emerald-600"
+  },
+  {
+    id: 4,
+    title: "Desert Sunset",
+    description: "Golden hour in the dunes",
+    color: "from-orange-500 to-red-600"
+  },
+  {
+    id: 5,
+    title: "City Lights",
+    description: "Urban nightscape beauty",
+    color: "from-purple-500 to-pink-600"
+  },
+  {
+    id: 6,
+    title: "Aurora Sky",
+    description: "Northern lights magic",
+    color: "from-indigo-500 to-purple-600"
+  }
+];
 export const Home = () => {
   const [currentPaperType, setCurrentPaperType] = useState(teachingList[0]);
   const [currentPaperPage, setCurrentPaperPage] = useState(0);
   const [openIndex, setOpenIndex] = useState(null);
   const [currentTeaching, setCurrentTeaching] = useState(0);
   const [currentCourse, setCurrentCourse] = useState(courseList[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [itemsPerView, setItemsPerView] = useState(3);
   const papersPerPage = 2; // Set how many items per page
 
   const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
@@ -101,11 +143,74 @@ export const Home = () => {
 
 
   // course list
-  
+
   const handleTabClick = (item) => {
     setCurrentCourse(item);
   };
 
+
+  // award carousel
+
+  const maxIndex = slides.length - itemsPerView;
+
+  // Handle responsive items per view
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsPerView(2);
+      } else {
+        setItemsPerView(3);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Reset currentIndex if it exceeds maxIndex
+  useEffect(() => {
+    if (currentIndex > maxIndex) {
+      setCurrentIndex(maxIndex);
+    }
+  }, [itemsPerView, currentIndex, maxIndex]);
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (!isAutoPlay) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === maxIndex ? 0 : prevIndex + 1
+      );
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlay, maxIndex]);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? maxIndex : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === maxIndex ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
+
+  const toggleAutoPlay = () => {
+    setIsAutoPlay(!isAutoPlay);
+  };
+
+  const totalDots = maxIndex + 1;
 
   return (
     <div className="website">
@@ -307,34 +412,33 @@ export const Home = () => {
         </div>
 
         <div className="courseList container">
-      <div className="course-tabs">
-        {courseList.map((item, index) => (
-          <div
-            className={`course-tab ${
-              currentCourse.title === item.title ? "active" : ""
-            }`}
-            onClick={() => handleTabClick(item)}
-            key={index}
-          >
-            {item.type}
+          <div className="course-tabs">
+            {courseList.map((item, index) => (
+              <div
+                className={`course-tab ${currentCourse.title === item.title ? "active" : ""
+                  }`}
+                onClick={() => handleTabClick(item)}
+                key={index}
+              >
+                {item.type}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      <div className="course-card">
-        <div className="card-header">
-          <div className="course-name">{currentCourse.title}</div>
+          <div className="course-card">
+            <div className="card-header">
+              <div className="course-name">{currentCourse.title}</div>
+            </div>
+            <div className="card-description">
+              {currentCourse.description}
+            </div>
+            <div className="card-download">
+              <button>
+                <img src="./Assets/pdf.svg" alt="pdf" /> Download Outline
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="card-description">
-          {currentCourse.description}
-        </div>
-        <div className="card-download">
-          <button>
-            <img src="./Assets/pdf.svg" alt="pdf" /> Download Outline
-          </button>
-        </div>
-      </div>
-    </div>
       </div>
 
 
@@ -406,6 +510,81 @@ export const Home = () => {
           </div> */}
 
 
+      </div>
+
+
+
+      <div className="ResSection" id="conferences">
+        <div className="ResHeader container">
+          <div className="teaching-header container">
+            <div className='lineResHip'>
+              <div className="ResTitle">
+                <div className="heading-title">
+                  <p>Awards</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='container maxer AwardTitle' id="awards">
+          <div className="d-flex align-items-center justify-content-center min-vh-100 carousel-bg p-4">
+            <div className="w-100" style={{ maxWidth: "1200px" }}>
+
+              {/* Carousel Wrapper */}
+              <div className="d-flex align-items-center gap-3">
+
+                {/* Prev */}
+                <button onClick={goToPrevious} className="btn btn-light rounded-circle shadow">
+                  <i className="fa-solid fa-chevron-left"></i>
+                </button>
+
+                {/* Slides Container */}
+                <div className="position-relative flex-grow-1 overflow-hidden rounded shadow">
+                  <div
+                    className="d-flex transition-transform"
+                    style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
+                  >
+                    {slides.map((slide) => (
+                      <div
+                        key={slide.id}
+                        className="flex-shrink-0 p-2"
+                        style={{ width: `${100 / itemsPerView}%` }}
+                      >
+                        <div className="slide-card rounded p-4 text-white text-center h-100 d-flex flex-column justify-content-center">
+                          <h2 className="fw-bold">{slide.title}</h2>
+                          <p className="small mb-2">{slide.description}</p>
+                          <div className="display-6">{slide.id}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Next */}
+                <button onClick={goToNext} className="btn btn-light rounded-circle shadow">
+                  <i className="fa-solid fa-chevron-right"></i>
+                </button>
+              </div>
+
+              {/* Indicators */}
+              <div className="d-flex justify-content-center gap-2 mt-3">
+                {Array.from({ length: totalDots }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goToSlide(i)}
+                    className={`indicator-btn ${i === currentIndex ? "active" : ""}`}
+                  />
+                ))}
+              </div>
+
+              {/* Slide Info */}
+              <div className="text-center text-white mt-3">
+                <div>{currentIndex + 1} / {totalDots}</div>
+                <div className="small text-white-50">Showing {itemsPerView} per view</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       {/* {
           this.state.allAwards.length > 0 ?
