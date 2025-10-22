@@ -6,19 +6,18 @@
 }
 
 
-.HeroImage {
+/* .HeroImage {
   position: absolute;
   top: 100px;
   left: 52%;
   right: 0;
   bottom: 0;
   overflow: hidden;
-  /* Background image settings */
   background-image: url('/public/Assets/background.svg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top left;
-}
+} */
 
 .HeroContent {
   display: flex;
@@ -359,7 +358,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0px;
+  padding: 10px 15px;
   width: 100%;
 }
 
@@ -492,6 +491,34 @@
 }
 .pagination-buttons i{
   color: #D19A54;
+}
+
+.pagination-buttons .page-btn{
+    height: 31px;
+    width: 31px;
+  font-family: 'Poppins', sans-serif;
+font-weight: 500;
+font-style: Medium;
+font-size: 18px;
+line-height: 100%;
+letter-spacing: 0%;
+
+    background-color: transparent;
+    border: 1px solid #04486F24 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.pagination-buttons .page-btn.active{
+ background: linear-gradient(250.58deg, #D1A976 13.03%, #D19A54 89.02%);
+  color: #fff !important;
 }
 
 
