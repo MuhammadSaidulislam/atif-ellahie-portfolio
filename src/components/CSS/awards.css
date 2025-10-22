@@ -1,0 +1,116 @@
+.awardTitle {
+  color: var(--color-primary);
+  font-size: 36px;
+  font-family: var(--font);
+  font-weight: 600;
+  word-wrap: break-word
+}
+
+.AwardTitle {
+  min-height: 150px;
+  padding: 10px;
+  padding-bottom: 10px;
+}
+
+.awardCase {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.award {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+  padding: 50px 20px;
+  border-radius: 12px;
+  margin: 10px;
+}
+
+.awardImage {
+  color: var(--color-primary);
+  font-size: 29px;
+  font-family: Poppins;
+  font-weight: 600;
+  word-wrap: break-word;
+  padding: 40px;
+  padding-bottom: 70px !important;
+  margin-bottom: 30px;
+  background: url(/public/Assets/award.png) no-repeat bottom center/contain;
+}
+
+.awardDTitle {
+  color: var(--color-primary);
+  font-size: 18px;
+  font-family: var(--font);
+  font-weight: 700;
+  word-wrap: break-word;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.awardD {
+  color: black;
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: 400;
+  word-wrap: break-word;
+  text-align: center;
+  flex: 1;
+}
+
+@media screen and (max-width: 1000px) {
+  .award {
+    padding: 20px;
+  }
+
+  .AwardTitle {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .awardCase {
+    flex-direction: column;
+  }
+}
+
+
+.dotBtn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #c5c1c1;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.dot-active {
+  background-color: var(--color-primary);
+}
+
+.AwardCaser{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.awardNav{
+    width: 100px;
+    cursor: pointer;
+}
+
+.awardNav > img{
+    width: 100%;
+    object-fit: contain;
+}
+
+.bookButtonCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 40px 0;
+}

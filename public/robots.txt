@@ -1,0 +1,5 @@
+﻿User-Agent: *
+Disallow: 
+Allow: /opentotalk.org/
+
+Sitemap: http://opentotalk.org/sitemap.xml

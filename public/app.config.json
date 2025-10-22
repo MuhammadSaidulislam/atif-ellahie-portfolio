@@ -1,0 +1,10 @@
+{
+  apps : [
+        {
+      name      : "smoreira",
+      script    : "npx",
+      interpreter: "none",
+      args: "serve -s . --listen 7815 --ssl-cert '/etc/letsencrypt/live/smoreira.academic.blog/fullchain.pem' --ssl-key '/etc/letsencrypt/live/smoreira.academic.blog/privkey.pem'"
+        }
+    ]
+}
