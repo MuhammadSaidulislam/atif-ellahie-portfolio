@@ -12,6 +12,32 @@ import { Link } from 'react-router-dom';
 // social icons
 
 
+const courseList = [
+  {
+    type: "Publications",
+    title: "Sample Publication Title",
+    course: "Related Course (if any)",
+    description: "Short description about the publication or context."
+  },
+  {
+    type: "Working Papers",
+    title: "Sample Working Paper Title",
+    course: "Related Course (if any)",
+    description: "Short description about the content of the working paper."
+  },
+  {
+    type: "Cases",
+    title: "Sample Case Study Title",
+    course: "Course or Program where used",
+    description: "Brief explanation about the case."
+  },
+  {
+    type: "Work-in-Progress",
+    title: "Sample Work-in-Progress Title",
+    course: "Optional course/subject",
+    description: "Description of the current development work."
+  }
+];
 let teachingList = ["Publications", "Working Papers", "Cases", "Work-in-Progress", "Book Chapters", "Other Publications", "Practitioner Articles"]
 const paginatedPaper = [
   {
@@ -50,6 +76,7 @@ export const Home = () => {
   const [currentPaperPage, setCurrentPaperPage] = useState(0);
   const [openIndex, setOpenIndex] = useState(null);
   const [currentTeaching, setCurrentTeaching] = useState(0);
+  const [currentCourse, setCurrentCourse] = useState(courseList[0]);
   const papersPerPage = 2; // Set how many items per page
 
   const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
@@ -72,6 +99,12 @@ export const Home = () => {
     if (currentTeaching < totalPages - 1) setCurrentTeaching(currentTeaching + 1);
   };
 
+
+  // course list
+  
+  const handleTabClick = (item) => {
+    setCurrentCourse(item);
+  };
 
 
   return (
@@ -238,16 +271,16 @@ export const Home = () => {
                 <button className="btn-back" onClick={prevPage} disabled={currentTeaching === 0}>
                   <i className="fa-solid fa-chevron-left"></i>
                 </button>
-               {/* PAGE NUMBER BUTTONS */}
-      {[...Array(totalPages)].map((_, index) => (
-        <button
-          key={index}
-          className={`page-btn ${currentTeaching === index ? 'active' : ''}`}
-          onClick={() => setCurrentTeaching(index)}
-        >
-          {index + 1}
-        </button>
-      ))}
+                {/* PAGE NUMBER BUTTONS */}
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    className={`page-btn ${currentTeaching === index ? 'active' : ''}`}
+                    onClick={() => setCurrentTeaching(index)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
                 <button
                   className="btn-back"
                   onClick={nextPage}
@@ -258,32 +291,7 @@ export const Home = () => {
               </div>
             </div>
           )}
-
-          {/*
-            {
-              Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage) !== 1 ?
-                <div className="pagination">
-                  <div className="pagination-buttons">
-                    <button className="btn-back" onClick={this.prevPage} disabled={this.state.currentPage === 0}>
-                      <i className="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <div className="page-number">
-                      {this.state.currentPage + 1} of {Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage)}
-                    </div>
-                    <button className="btn-back"
-                      onClick={this.nextPage}
-                      disabled={(this.state.currentPage + 1) * this.state.studentsPerPage >= this.state.allPapers.length}>
-                      <i className="fa-solid fa-chevron-right"></i>
-                    </button>
-                  </div>
-                </div>
-                : null
-            }
-           */}
         </div>
-
-
-
       </div>
 
       <div className="teaching-section" id="classes">
@@ -298,27 +306,35 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className='courseList container'>
-          <div className="course-tabs">
-            {/* {this.state.allTeachingMaterials.map((cls, index) => (
-                <div className={"course-tab " + (this.state.currentTeachingTitle === cls.Title ? "active" : "")} onClick={() => this.setState({ currentTeachingTitle: cls.Title, currentTeachingCls: cls.Course })} key={index}>
-                  Course {index + 1}
-                </div>
-              ))} */}
+        <div className="courseList container">
+      <div className="course-tabs">
+        {courseList.map((item, index) => (
+          <div
+            className={`course-tab ${
+              currentCourse.title === item.title ? "active" : ""
+            }`}
+            onClick={() => handleTabClick(item)}
+            key={index}
+          >
+            {item.type}
           </div>
+        ))}
+      </div>
 
-          {/* <div className="course-card">
-              <div className="card-header">
-                <div className="course-name">{this.state.currentTeachingTitle}</div>
-              </div>
-              <div className="card-description">
-                {this.state.currentTeachingCls}
-              </div>
-              <div className="card-download">
-                <button> <img src="./Assets/pdf.svg" alt="pdf" /> Download Outline</button>
-              </div>
-            </div> */}
+      <div className="course-card">
+        <div className="card-header">
+          <div className="course-name">{currentCourse.title}</div>
         </div>
+        <div className="card-description">
+          {currentCourse.description}
+        </div>
+        <div className="card-download">
+          <button>
+            <img src="./Assets/pdf.svg" alt="pdf" /> Download Outline
+          </button>
+        </div>
+      </div>
+    </div>
       </div>
 
 
