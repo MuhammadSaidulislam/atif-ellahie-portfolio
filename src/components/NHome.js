@@ -14,6 +14,11 @@ import toast, { Toaster } from 'react-hot-toast';
 import isEqual from 'lodash.isequal';
 import 'react-tabs/style/react-tabs.css';
 import 'quill/dist/quill.snow.css';
+import { Link } from 'react-router-dom';
+
+// social icons
+
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -24,6 +29,8 @@ const database = getDatabase(app);
 
 const api = process.env.REACT_APP_API;
 const video_api = process.env.REACT_APP_VIDEO_API;
+
+let teachingList = ["Publications", "Working Papers", "Cases", "Work-in-Progress", "Book Chapters", "Other Publications", "Practitioner Articles"]
 
 export class Home extends Component {
   static displayName = Home.name;
@@ -868,6 +875,11 @@ export class Home extends Component {
     return validBooks;
   };
 
+  togglePaper = (index) => {
+    this.setState({ openIndex: this.state.openIndex === index ? null : index });
+  };
+
+
 
 
   render() {
@@ -877,36 +889,50 @@ export class Home extends Component {
       <div className="website">
         <div id="about" className='HeroSection'>
           <div className='HeroImage'></div>
-          <span className='HeroText'>{this.state.currentProfileData.firstName}</span>
           <div className='HeroContent container'>
             <div className='leftContainer'>
               <nav className="navbar">
-                <a className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</a>
-                <a className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Research</a>
-                <a className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</a>
-                <a className="conferences" onClick={() => document.querySelector("#conferences")?.scrollIntoView({ behavior: "smooth" })}>Conferences</a>
-                <a className="contact" onClick={() => { $('.contactMe').css('display', 'flex') }}>Contact</a>
+                <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
+                <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Publications</Link>
+                <Link className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</Link>
+                <Link className="contact" onClick={() => { $('.contactMe').css('display', 'flex') }}>Contact</Link>
               </nav>
 
               <div className="navBottom">
-                <div className='navButton'><i class="fa-solid fa-bars"></i> </div>
+                <div className='navButton'><i className="fa-solid fa-bars"></i> </div>
 
                 <div className='FLoadNav'>
-                  <a className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</a>
-                  <a className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Research</a>
-                  <a className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</a>
-                  <a className="conferences" onClick={() => document.querySelector("#conferences")?.scrollIntoView({ behavior: "smooth" })}>Conferences</a>
-                  <a className="contact" onClick={() => { $('.contactMe').css('display', 'flex') }}>Contact</a>
+                  <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
+                  <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Research</Link>
+                  <Link className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</Link>
+                  <Link className="conferences" onClick={() => document.querySelector("#conferences")?.scrollIntoView({ behavior: "smooth" })}>Conferences</Link>
+                  <Link className="contact" onClick={() => { $('.contactMe').css('display', 'flex') }}>Contact</Link>
                 </div>
               </div>
 
-              <div class="hero-container">
-                <div class="hero-name">
-                  {this.state.currentProfileData.firstName}<br />{this.state.currentProfileData.lastName}
+              <div className="hero-container">
+                <div className="hero-name">
+                  {this.state.currentProfileData.firstName} {this.state.currentProfileData.lastName}
                 </div>
-                <div class="hero-description">
-                  Dr. Solon Moreira is a Tenured Associate Professor of Entrepreneurship and Strategy at the Fox School of Business, where he teaches PhD, MBA, and Executive courses focusing on Corporate Entrepreneurship, Innovation, and Technology Strategy.
-                  <div className='readMore' onClick={() => { $("#aboutMore").css("left", "50%") }}>Read more.</div>
+                <div className="hero-description">
+                  is the William H. Carter Professor of Literature at the University of Cambridge. He specializes in Modern American Literature, Critical Theory, and the intersections of narrative form and cultural identity. His research explores how contemporary narratives influence and reflect shifting cultural landscapes. He also serves as the co-founder and director of the Narrative Studies Research Collective at Cambridge.
+                </div>
+                <div className='d-flex'>
+                  <div className='hero-contact'>
+                    <h6>Academic Focus</h6>
+                    <p>Critical Theory and Narrative Studies</p>
+                    <h6>Contact </h6>
+                    <p>t.brooks@cambridge.edu</p>
+                    <h5>#Thomas Brooks</h5>
+                    <ul className="social-icons">
+                      <li><Link href="https://twitter.com" target="_blank"><img src="./Assets/facebook.svg" alt="facebook" /></Link></li>
+                      <li><Link href="https://facebook.com" target="_blank"><img src="./Assets/twitter.svg" alt="facebook" /></Link></li>
+                      <li><Link href="https://linkedin.com" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
+                    </ul>
+                  </div>
+                  <div className='user-signature'>
+                    <p>Thomas Brooks</p>
+                  </div>
                 </div>
               </div>
 
@@ -919,23 +945,20 @@ export class Home extends Component {
         <div className="ResSection" id="research">
           <div className="ResHeader container">
             <div className='lineRes'>
-              <div className="ResTitle">research
+              <div className="heading-title">
+                <p>Teaching</p>
               </div>
-              <img src="/Assets/line_res.svg" className="line" /></div>
+            </div>
 
             <div className="ResButtons">
-              {["Publications", "Best Paper Proceedings", "Practitioner Publications", "Cases"].map((type) => (
+              {teachingList.map((type) => (
                 <div
                   key={type}
                   className={`ResButton ${this.state.currentPaperType === type ? 'page_active' : ''}`}
                   onClick={() => this.setState({ currentPaperType: type, currentPage: 0 })}
                 >
                   <div className="picon">
-                    <i className={
-                      type === "Publications" ? "fa-solid fa-paperclip" : type === "Best Paper Proceedings" ? "fa-solid fa-street-view" : type === "Practitioner Publications" ? "fa-solid fa-book" :
-                        type === "Professional Publications" ? "fa-solid fa-paper-plane" :
-                          "fa-solid fa-bookmark"
-                    }></i>
+                    <i className={type === "Publications" ? "fa-solid fa-paperclip" : type === "Working Papers" ? "fa-solid fa-paper-plane" : "fa-solid fa-bookmark"}></i>
                   </div>
                   <div className="label">{type}</div>
                 </div>
@@ -945,58 +968,78 @@ export class Home extends Component {
 
           <div className="PublicationsList">
             {this.getPaginatedPaper().length > 0 ? (
-              this.getPaginatedPaper().map((Paper, index) => (
+              this.getPaginatedPaper().map((Paper, index) =>
                 Paper ? (
                   <div className='enclosePublic' key={index}>
-                    <div className="PublicationItem container">
-                      <div className="ResLogo">
-                        <img src="/Assets/journal.svg" alt="journal" />
+                    <div className={this.state.openIndex === index ? "PublicationItem container w-full active" : "PublicationItem container w-full"}>
+                      <div className='d-flex align-items-center'>
+                        <div className="ResLogo">
+                          {this.state.openIndex === index ? <img src="/Assets/article_icon_active.svg" alt="journal" /> : <img src="/Assets/article_icon.svg" alt="journal" />}
+                        </div>
+
+                        <div className="PubContent">
+                          {Paper["Publishing Year"] && <div className="date">{this.getPublishDate(Paper["Publishing Year"])}</div>}
+
+                          <div className="title">
+                            {Paper["Paper Link"] ? (
+                              <a href={Paper["Paper Link"]} target="_blank" className="title">
+                                {Paper.Title}
+                              </a>
+                            ) : (
+                              <span className="title">{Paper.Title}</span>
+                            )}
+                            {Paper.Video && <a href={Paper.Video} target="_blank" className="ExtraRes">(Video)</a>}
+                            {Paper.Slides && <a href={Paper.Slides} target="_blank" className="ExtraRes">(Slides)</a>}
+                          </div>
+
+                          <div className="PubJournal">
+                            {Paper.Conference || Paper.Journal ? (
+                              <>
+                                {Paper.Conference && Paper.Conference !== "nan" ? (
+                                  <a href={Paper.Conference} target="_blank">{Paper.Journal || "See Journal/Conference"}</a>
+                                ) : (
+                                  <span>{Paper.Journal}</span>
+                                )}
+                                {Paper["Publishing Year"] && <span>, {this.getPublishDate(Paper["Publishing Year"])}</span>}
+                              </>
+                            ) : null}
+                          </div>
+
+                          {Paper.Authors && <div className="author">{Paper.Authors}</div>}
+                        </div>
                       </div>
-                      <div className="PubContent">
-                        {Paper["Publishing Year"] && <div className="date">{this.getPublishDate(Paper["Publishing Year"])}</div>}
 
-                        <div className="title">
-                          {Paper["Paper Link"] ? (
-                            <a href={Paper["Paper Link"]} target="_blank" className="title">
-                              {Paper.Title}
-                            </a>
-                          ) : (
-                            <span className="title">{Paper.Title}</span>
-                          )}
-                          {Paper.Video && <a href={Paper.Video} target="_blank" className="ExtraRes">(Video)</a>}
-                          {Paper.Slides && <a href={Paper.Slides} target="_blank" className="ExtraRes">(Slides)</a>}
-                        </div>
-
-                        <div className="PubJournal">
-                          {Paper.Conference || Paper.Journal ? (
-                            <>
-                              {Paper.Conference && Paper.Conference !== "nan" ? (
-                                <a href={Paper.Conference} target="_blank">{Paper.Journal || "See Journal/Conference"}</a>
-                              ) : (
-                                <span>{Paper.Journal}</span>
-                              )}
-                              {Paper["Publishing Year"] && <span>, {this.getPublishDate(Paper["Publishing Year"])}</span>}
-                            </>
-                          ) : null}
-                        </div>
-
-                        {Paper.Authors && <div className="author">{Paper.Authors}</div>}
+                      <div className='arrow-item d-flex'>
+                        <button onClick={() => this.togglePaper(index)}>
+                          {this.state.openIndex === index ? <img src="./Assets/arrow-up-circle.svg" alt="accordion-button" /> : <img src="./Assets/arrow-down-circle.svg" alt="accordion-button" />}
+                        </button>
+                        <img src="./Assets/social-you-tube.svg" alt="you-tube" />
                       </div>
                     </div>
+
+                    {/* Accordion content */}
+                    {this.state.openIndex === index && (
+                      <div className="accordion-content container">
+                        {/* Replace this with actual content */}
+                        <p>Here is the expanded content for {Paper.Title}</p>
+                      </div>
+                    )}
                   </div>
                 ) : null
-              ))
+              )
             ) : (
               <div className="noPapers">No papers found.</div>
             )}
           </div>
 
+
           {
             Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage) !== 1 ?
               <div className="pagination">
-                <div className="buttons">
+                <div className="pagination-buttons">
                   <button className="btn-back" onClick={this.prevPage} disabled={this.state.currentPage === 0}>
-                    <img className="frame-icon" loading="lazy" alt="" src="./Assets/back.svg" />
+                    <i className="fa-solid fa-chevron-left"></i>
+
                   </button>
                   <div className="page-number">
                     {this.state.currentPage + 1} of {Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage)}
@@ -1004,46 +1047,58 @@ export class Home extends Component {
                   <button className="btn-back"
                     onClick={this.nextPage}
                     disabled={(this.state.currentPage + 1) * this.state.studentsPerPage >= this.state.allPapers.length}>
-                    <img className="frame-icon" loading="lazy" alt="" src="./Assets/next.svg" />
+                    <i className="fa-solid fa-chevron-right"></i>
                   </button>
                 </div>
               </div>
               : null
           }
-          <img className="ResImage" src="/Assets/res.svg" />
-        </div>
-        <div class="teaching-section" id="classes">
 
-          <div class="teaching-header container">
+        </div>
+
+        <div className="teaching-section" id="classes">
+
+          <div className="teaching-header container">
             <div className='lineResHip'>
-              <div className="ResTitle">Teaching
+              <div className="ResTitle">
+                <div className="heading-title">
+                  <p>Courses</p>
+                </div>
               </div>
-              <img src="/Assets/line_sses.svg" className="line" /></div>
-          </div>
-          <br />
-          <br />
-
-          <div class="course-tabs container">
-            {this.state.allTeachingMaterials.map((cls, index) => (
-              <div class={"course-tab " + (this.state.currentTeachingTitle === cls.Title ? "active" : "")} onClick={() => this.setState({ currentTeachingTitle: cls.Title, currentTeachingCls: cls.Course })} key={index}>
-                Course {index + 1}
-              </div>
-            ))}
-          </div>
-
-          <div class="course-card container">
-            <div class="card-header">
-              <div class="course-name">{this.state.currentTeachingTitle}</div>
-            </div>
-            <div class="card-description">
-              {this.state.currentTeachingCls}
             </div>
           </div>
+
+          <div className='courseList container'>
+            <div className="course-tabs">
+              {this.state.allTeachingMaterials.map((cls, index) => (
+                <div className={"course-tab " + (this.state.currentTeachingTitle === cls.Title ? "active" : "")} onClick={() => this.setState({ currentTeachingTitle: cls.Title, currentTeachingCls: cls.Course })} key={index}>
+                  Course {index + 1}
+                </div>
+              ))}
+            </div>
+
+            <div className="course-card">
+              <div className="card-header">
+                <div className="course-name">{this.state.currentTeachingTitle}</div>
+              </div>
+              <div className="card-description">
+                {this.state.currentTeachingCls}
+              </div>
+                <div className="card-download">
+              <button> <img src="./Assets/pdf.svg" alt="pdf" /> Download Outline</button>
+                </div>
+            </div>
+          </div>
+
+
 
         </div>
+
+
+
         <div className="ResSection" id="conferences">
           <div className="ResHeader container">
-            <div class="teaching-header container">
+            <div className="teaching-header container">
               <div className='lineResHip'>
                 <div className="ResTitle">Conferences
                 </div>
@@ -1062,7 +1117,6 @@ export class Home extends Component {
                       </div>
                       <div className="PubContent">
                         {Paper["CRN"] && <div className="date">{Paper["CRN"]}</div>}
-
                         <div className="title">
                           {Paper["Paper Link"] ? (
                             <a href={Paper["Paper Link"]} target="_blank" className="title">
@@ -1072,7 +1126,6 @@ export class Home extends Component {
                             <span className="title">{Paper.Title}</span>
                           )}
                         </div>
-
                         <div className="author">
                           {Paper["Year"] && <span>{this.getPublishDate(Paper["Year"])}</span>}
                         </div>
@@ -1112,7 +1165,7 @@ export class Home extends Component {
             <>
               <div className="ResSection" id="conferences">
                 <div className="ResHeader container">
-                  <div class="teaching-header container">
+                  <div className="teaching-header container">
                     <div className='lineResHip'>
                       <div className="ResTitle">Awards
                       </div>
@@ -1198,25 +1251,25 @@ export class Home extends Component {
 
         }
 
-        <footer class="FooterSection">
-          <div class="FooterContainer">
-            <div class="FooterLeft">
+        <footer className="FooterSection">
+          <div className="FooterContainer">
+            <div className="FooterLeft">
               <span>© {this.state.currentProfileData.firstName} {this.state.currentProfileData.lastName} - {new Date().getFullYear()}</span>
             </div>
-            <div class="FooterRight">
+            <div className="FooterRight">
               {
                 this.state.socialMedia.social?.facebook ?
-                  <div class="SocialIcon"><i class="fa-brands fa-facebook"></i></div>
+                  <div className="SocialIcon"><i className="fa-brands fa-facebook"></i></div>
                   : null
               }
               {
                 this.state.socialMedia.social?.x ?
-                  <div class="SocialIcon"><i class="fa-brands fa-twitter"></i></div>
+                  <div className="SocialIcon"><i className="fa-brands fa-twitter"></i></div>
                   : null
               }
               {
                 this.state.socialMedia.social?.linkedin ?
-                  <div class="SocialIcon"><i class="fa-brands fa-linkedin-in"></i></div>
+                  <div className="SocialIcon"><i className="fa-brands fa-linkedin-in"></i></div>
                   : null
               }
             </div>
@@ -1224,13 +1277,13 @@ export class Home extends Component {
         </footer>
 
         <div className='contactMe'>
-          <div class="card">
-            <div class="card-title">{this.state.currentProfileData.firstName} {this.state.currentProfileData.lastName}</div>
-            <div class="card-subtitle">
+          <div className="card">
+            <div className="card-title">{this.state.currentProfileData.firstName} {this.state.currentProfileData.lastName}</div>
+            <div className="card-subtitle">
               {this.state.currentProfileData.designation}<br />
               {this.state.currentProfileData.university}<br />
             </div>
-            <div class="card-details">
+            <div className="card-details">
               E-mail: {this.state.currentProfileData.email}<br />
               {
                 this.state.currentProfileData.phone ?
@@ -1240,15 +1293,15 @@ export class Home extends Component {
 
             </div>
             <div className='xmarkTip' onClick={() => document.querySelector('.contactMe').style.display = 'none'}>
-              <i class="fa-solid fa-xmark"></i>
+              <i className="fa-solid fa-xmark"></i>
             </div>
           </div>
         </div>
         <div className='aboutMore' id="aboutMore">
           <div className='xmarkTip' onClick={() => { $("#aboutMore").css("left", "100%") }}>
-            <i class="fa-solid fa-xmark"></i>
+            <i className="fa-solid fa-xmark"></i>
           </div>
-          <div class="cardBlock"
+          <div className="cardBlock"
             dangerouslySetInnerHTML={{
               __html: this.state.socialMedia.about || ""
             }} style={{ zoom: "1" }}

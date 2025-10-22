@@ -13,14 +13,16 @@
   display: flex;
   padding: 0%;
   flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .course-tab {
   flex: 1;
   background: #f6f6f6;
-  padding: 15px 25px;
-  font-family: Poppins, sans-serif;
+  padding: 23px 100px;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
+  font-size: 18px;
   color: var(--color-primary);
   border: 1px solid #e0e0e0;
   cursor: pointer;
@@ -30,23 +32,20 @@
 
 .course-tab:first-child{
     border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .course-tab:last-child{
-    border-top-right-radius: 5px;
+    border-bottom-left-radius: 10px;
     border-bottom-right-radius: 5px;
 }
 
 .course-tab.active {
-  border-top: 4px solid var(--color-primary);
-  background: white;
+  background: var(--primary-background);
+  color: white;
 }
 
 .course-card {
-  background: white;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 0 0 25px 25px;
   padding: 40px 45px;
   position: relative;
 }
@@ -98,4 +97,24 @@
 .lineResHip img{
     flex: 1;
     margin-left: 30px;
+}
+
+.card-download button{
+  padding: 9px 18px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  background: transparent;
+  font-size: 18px;
+  line-height: 180%;
+  color: #BC9059;
+  border: 2px solid var(--golden-text, #BC9059);
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  -ms-border-radius: 50px;
+  -o-border-radius: 50px;
+}
+.card-download button img{
+  margin-right: 5px;
 }

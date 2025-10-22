@@ -1,6 +1,10 @@
+/* at the very top of your CSS file */
+@import url('https://fonts.googleapis.com/css2?family=Qwitcher+Grypen&display=swap');
+
 body {
     margin: 0;
     line-height: normal;
+    background-color: #FFFBF7;
 }
 
 a{
@@ -26,10 +30,11 @@ a{
     --font-size-21xl: 40px;
     --font-size-11xl: 30px;
 
-    --primary-background: linear-gradient(217deg, #462362 21.32%, #623F9F 79.02%);
+    --primary-background: linear-gradient(250.58deg, #D1A976 13.03%, #D19A54 89.02%);
+
     /* Colors */
     --white: #fff;
-    --color-primary: #462362;
+    --color-primary: #444444;
     --color-ghostwhite: #ebebf6;
     --color-gray: #7e7e7e;
     --color-darkslateblue: #623F9F;
