@@ -118,3 +118,14 @@
 .card-download button img{
   margin-right: 5px;
 }
+
+.conferenceBox{
+  box-shadow: 0px 4px 4px 0px #00000040;
+  background-color: #fff;
+  padding: 50px 90px;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  -ms-border-radius: 50px;
+  -o-border-radius: 50px;
+}
