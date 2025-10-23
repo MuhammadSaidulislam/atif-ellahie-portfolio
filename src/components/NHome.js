@@ -71,7 +71,6 @@ const paginatedPaper = [
     paper_link: "https://example.com/climate-ml"
   }
 ];
-
 const awardsList = [
   {
     "id": 1,
@@ -104,23 +103,39 @@ const awardsList = [
     "description": "Honored for exceptional leadership in guiding technical teams."
   }
 ]
-
 const conferences = [
   { title: "International Tech Innovation Summit", date: "2025-03-15", role: "Speaker" },
   { title: "Global AI & Cloud Expo", date: "2025-05-22", role: "Attendee" },
   { title: "Next.js World Developer Conference", date: "2025-07-10", role: "Panelist" }
 ];
+const Initiatives = [
+  {
+    "title": "Introduction to React",
+    "description": "Learn the basics of React, including components, state, and props."
+  },
+  {
+    "title": "Advanced JavaScript",
+    "description": "Deep dive into JavaScript concepts like closures, async/await, and event loops."
+  },
+  {
+    "title": "UI/UX Design Principles",
+    "description": "Understand the fundamentals of user interface and user experience design."
+  }
+]
+
 
 
 export const Home = () => {
   const [currentPaperType, setCurrentPaperType] = useState(teachingList[0]);
   const [currentPaperPage, setCurrentPaperPage] = useState(0);
   const [openIndex, setOpenIndex] = useState(null);
+  const [openInIndex, setOpenInIndex] = useState(null);
   const [currentTeaching, setCurrentTeaching] = useState(0);
   const [coursePage, setCoursePage] = useState(0);
   const [currentCourse, setCurrentCourse] = useState(courseList[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [showMore, setShowMore] = useState(false);
   const [itemsPerView, setItemsPerView] = useState(3);
   const papersPerPage = 2; // Set how many items per page
   const coursePerPage = 2;
@@ -130,6 +145,11 @@ export const Home = () => {
   const togglePaper = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  const toggleInPaper = (index) => {
+    setOpenInIndex(openInIndex === index ? null : index);
+  };
+
 
   // teaching pagination
   const paginatedPapers = paginatedPaper.slice(
@@ -232,6 +252,7 @@ export const Home = () => {
         <div className='HeroImage'></div>
         <div className='HeroContent container'>
           <div className='leftContainer'>
+
             <nav className="navbar">
               <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
               <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Publications</Link>
@@ -241,7 +262,6 @@ export const Home = () => {
 
             <div className="navBottom">
               <div className='navButton'><i className="fa-solid fa-bars"></i> </div>
-
               <div className='FLoadNav'>
                 <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
                 <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Research</Link>
@@ -250,30 +270,27 @@ export const Home = () => {
                 <Link className="contact">Contact</Link>
               </div>
             </div>
-
             <div className="hero-container">
               <div className="hero-name">
-
-                Thomas Brooks
+                Atif Ellahie
               </div>
               <div className="hero-description">
-                is the William H. Carter Professor of Literature at the University of Cambridge. He specializes in Modern American Literature, Critical Theory, and the intersections of narrative form and cultural identity. His research explores how contemporary narratives influence and reflect shifting cultural landscapes. He also serves as the co-founder and director of the Narrative Studies Research Collective at Cambridge.
+                Associate Professor of Accounting, <br /> David Eccles School of Business,The University of Utah <br />  Director, Accounting Ph.D. Program
               </div>
-              <div className='d-flex'>
+              <div className='userInfo'>
                 <div className='hero-contact'>
                   <h6>Academic Focus</h6>
-                  <p>Critical Theory and Narrative Studies</p>
+                  <p>Asset pricing, Disclosure, M&A, Compensation</p>
                   <h6>Contact </h6>
-                  <p>t.brooks@cambridge.edu</p>
-                  <h5>#Thomas Brooks</h5>
+                  <p>atif.ellahie@eccles.utah.edu</p>
                   <ul className="social-icons">
-                    <li><Link href="https://twitter.com" target="_blank"><img src="./Assets/facebook.svg" alt="facebook" /></Link></li>
-                    <li><Link href="https://facebook.com" target="_blank"><img src="./Assets/twitter.svg" alt="facebook" /></Link></li>
-                    <li><Link href="https://linkedin.com" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
+                    <li><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><img src="./Assets/facebook.svg" alt="facebook" /></Link></li>
+                    <li><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/twitter.svg" alt="twitter" /></Link></li>
+                    <li><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
                   </ul>
                 </div>
                 <div className='user-signature'>
-                  <p>Thomas Brooks</p>
+                  <p>Atif Ellahie</p>
                 </div>
               </div>
             </div>
@@ -282,6 +299,28 @@ export const Home = () => {
           <div className='rightContainer'>
             <img src="./Assets/hero_image.png" className='profileImage' alt="Profile" />
           </div>
+        </div>
+      </div>
+      <div className='descriptionSection'>
+        <div className='ResSection description'>
+          <p>I am an Associate Professor at the David <Link to="">Eccles School of Business</Link> at <Link to="">The University of Utah</Link> . I teach graduate-level courses on business valuation and analysis, and mergers and acquisitions, as well as executive-level courses in accounting and finance. My teaching has received the Kenneth J. Hanni Teaching Award and the Brady Faculty Superior Teaching Award. My research focuses on two primary areas at the intersection of financial economics and accounting:</p>
+
+          {showMore && (
+            <>
+              <ul>
+                <li><p>1. Examining ‘risk’ by incorporating the interaction of firm-level and macroeconomic information (e.g., <Link to="">earnings beta</Link>, <Link to="">volatility forecasting</Link>, <Link to="">growth risk</Link>).</p></li>
+                <li><p>2. Examining how firms and individuals respond to their institutional environment (e.g., <Link to="">disclosure</Link>, <Link to="">institutional quality</Link>, <Link to="">culture</Link>, <Link to="">policy intervention</Link>).</p></li>
+              </ul>
+              <p>My research has been published in several leading academic business journals, including Journal of Accounting Research, Journal of Accounting and Economics, Journal of Finance, Review of Accounting Studies, The Accounting Review, Management Science and Journal of Monetary Economics. I am an editorial board member at <Link to="">The Accounting Review</Link> and <Link to="">Review of Accounting Studies</Link>, and a frequent reviewer for other top journals in my field.</p>
+              <p>I earned a PhD from <Link to="">London Business School</Link>, an MSc in International Accounting and Finance (with distinction) from <Link to="">London School of Economics</Link>, and an MBA from <Link to="">Lahore University of Management Sciences</Link>. I have also held the professional designation of <Link to="">Chartered Financial Analyst</Link> since 2003.</p>
+              <p>Prior to academia, I worked for ten years (1999-2009) in investment banking in New York and London. Most recently, I was an Executive Director at <Link to="">UBS Investment Bank</Link> advising technology, software, and services companies on corporate finance strategy, capital raisings, and mergers and acquisitions. My clients included IBM, Xerox, Motorola, Infosys and BAE Systems, among others.</p>
+              <p>In my free time, I enjoy traveling with family, cooking, cricket, cars, and long walks.</p>
+            </>
+          )}
+          {/* Read More / Read Less Button */}
+          <button className="read-more-btn"   onClick={() => setShowMore(!showMore)}  >
+            {showMore ? "Read Less" : "Read More"} 
+            </button>
         </div>
       </div>
       <div className="ResSection" id="research">
@@ -311,7 +350,7 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className="PublicationsList ">
+        <div className="PublicationsList">
           {paginatedPapers.length > 0 ? (
             paginatedPapers.map((Paper, index) => (
               <div className="enclosePublic" key={index}>
@@ -413,7 +452,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="teaching-section" id="classes">
+      <div className="teachingSection" id="classes">
 
         <div className="teaching-header container">
           <div className='lineResHip'>
@@ -453,11 +492,12 @@ export const Home = () => {
             </div>
           </div>
         </div>
+
       </div>
 
 
 
-      <div className="ResSection" id="conferences">
+      <div className="courseSection" id="conferences">
         <div className="ResHeader container">
           <div className="teaching-header container">
             <div className='lineResHip'>
@@ -527,7 +567,7 @@ export const Home = () => {
           )}
         </div>
 
-
+        <img className='curveImage' src="./Assets/curve_image.png" alt="conference" />
       </div>
 
 
@@ -545,7 +585,7 @@ export const Home = () => {
           </div>
         </div>
         <div className='container maxer AwardTitle' id="awards">
-          <div className="d-flex align-items-center justify-content-center carousel-bg p-4">
+          <div className="d-flex align-items-center justify-content-center carousel-bg">
             <div className="w-100" style={{ maxWidth: "1200px" }}>
               <div className="d-flex align-items-center gap-3">
                 <button onClick={goToPrevious} className="carousel-btn rounded-circle">
@@ -581,6 +621,45 @@ export const Home = () => {
             </div>
           </div>
         </div>
+        <img className='dots_image_award' src="./Assets/dots_image.png" alt="dots" />
+      </div>
+
+      <div className='initiatives'>
+        <div className="initiativesList container">
+          <div className="initiatives-tabs">
+            <div className='lineRes'>
+              <div className="heading-title">
+                <p>Other <br /> Initiatives</p>
+                <h6>Financial Reporting and Control (Harvard <br /> Business School MBA) -2021, 2022, 2023</h6>
+              </div>
+            </div>
+          </div>
+          <div className="initiatives-card">
+            {Initiatives.length > 0 ? (
+              Initiatives.map((Paper, index) => (
+                <div className="initiativesPublic" key={index}>
+                  <div className="initiativesItems d-flex justify-content-between align-items-center">
+                    <h2 className="title">{Paper.title}</h2>
+                    <div className="arrow-item d-flex">
+                      <button onClick={() => toggleInPaper(index)}>
+                        {openInIndex === index ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
+                      </button>
+                    </div>
+                  </div>
+
+                  {openInIndex === index && (
+                    <div className="initiativesContent">
+                      <p>{Paper.description}</p>
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="noPapers">No papers found.</div>
+            )}
+          </div>
+        </div>
+        <img className='dots_image' src="./Assets/dots_image.png" alt="dots" />
       </div>
 
       <footer className="FooterSection">
@@ -592,7 +671,7 @@ export const Home = () => {
             <div className="SocialIcon"><i className="fa-brands fa-facebook"></i></div>
             <div className="SocialIcon"><i className="fa-brands fa-twitter"></i></div>
             <div className="SocialIcon"><i className="fa-brands fa-linkedin-in"></i></div>
-               <div className="SocialIcon"><i className="fa-brands fa-youtube"></i></div>
+            <div className="SocialIcon"><i className="fa-brands fa-youtube"></i></div>
           </div>
         </div>
       </footer>
