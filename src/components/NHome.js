@@ -110,18 +110,28 @@ const slides = [
     color: "from-indigo-500 to-purple-600"
   }
 ];
+
+const conferences = [
+  { title: "International Tech Innovation Summit", date: "2025-03-15", role: "Speaker" },
+  { title: "Global AI & Cloud Expo", date: "2025-05-22", role: "Attendee" },
+  { title: "Next.js World Developer Conference", date: "2025-07-10", role: "Panelist" }
+];
+
+
 export const Home = () => {
   const [currentPaperType, setCurrentPaperType] = useState(teachingList[0]);
   const [currentPaperPage, setCurrentPaperPage] = useState(0);
   const [openIndex, setOpenIndex] = useState(null);
   const [currentTeaching, setCurrentTeaching] = useState(0);
+  const [coursePage, setCoursePage] = useState(0);
   const [currentCourse, setCurrentCourse] = useState(courseList[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [itemsPerView, setItemsPerView] = useState(3);
   const papersPerPage = 2; // Set how many items per page
-
+ const coursePerPage = 2;
   const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
+   const totalCourses = Math.ceil(conferences.length / coursePerPage);
 
   const togglePaper = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -139,6 +149,20 @@ export const Home = () => {
 
   const nextPage = () => {
     if (currentTeaching < totalPages - 1) setCurrentTeaching(currentTeaching + 1);
+  };
+
+  // course pagination
+  const paginatedCourses = conferences.slice(
+    coursePage * papersPerPage,
+    coursePage * papersPerPage + papersPerPage
+  );
+
+  const prevCoursePage = () => {
+    if (coursePage > 0) setCoursePage(coursePage - 1);
+  };
+
+  const nextCoursePage = () => {
+    if (coursePage < totalPages - 1) setCoursePage(coursePage + 1);
   };
 
 
@@ -204,10 +228,6 @@ export const Home = () => {
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
-  };
-
-  const toggleAutoPlay = () => {
-    setIsAutoPlay(!isAutoPlay);
   };
 
   const totalDots = maxIndex + 1;
@@ -456,58 +476,62 @@ export const Home = () => {
           </div>
         </div>
 
-        {/* <div className="PublicationsList conferenceBox container">
-            {this.getPaginatedCF().length > 0 ? (
-              this.getPaginatedCF().map((Paper, index) => (
-                Paper ? (
-                  <div className='enclosePublic' key={index}>
-                    <div className="PublicationItem container justify-content-start">
-                      <div className="ResLogo">
-                        <img src="/Assets/presentation.svg" alt="journal" />
-                      </div>
-                      <div className="PubContent">
-                        {Paper["CRN"] && <div className="date">{Paper["CRN"]}</div>}
-                        <div className="title">
-                          {Paper["Paper Link"] ? (
-                            <a href={Paper["Paper Link"]} target="_blank" className="title">
-                              {Paper.Title}
-                            </a>
-                          ) : (
-                            <span className="title">{Paper.Title}</span>
-                          )}
-                        </div>
-                        <div className="author">
-                          {Paper["Year"] && <span>{this.getPublishDate(Paper["Year"])}</span>}
-                        </div>
-                      </div>
-                    </div>
+        <div className="PublicationsList conferenceBox container">
+          {paginatedCourses.length > 0 ? (
+            paginatedCourses.map((conf, index) => (
+              <div className='enclosePublic' key={index}>
+                <div className="PublicationItem container justify-content-start">
+                  <div className="ResLogo">
+                    <img src="/Assets/presentation.svg" alt="conference" />
                   </div>
-                ) : null
-              ))
-            ) : (
-              <div className="noPapers">No papers found.</div>
-            )}
+                  <div className="PubContent">
+                    {/* date */}
+                    <div className="date">{conf.date}</div>
 
-            {
-              Math.ceil(this.getPaginatedCFDetails().length / this.state.studentsPerPage) !== 1 ?
-                <div className="pagination mt-5">
-                  <div className="pagination-buttons">
-                    <button className="btn-back" onClick={this.prevPageCF} disabled={this.state.currentPage2 === 0}>
-                      <i className="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <div className="page-number">
-                      {this.state.currentPage2 + 1} of {Math.ceil(this.getPaginatedCFDetails().length / this.state.studentsPerPage)}
+                    {/* title */}
+                    <div className="title">
+                      <span className="title">{conf.title}</span>
                     </div>
-                    <button className="btn-back"
-                      onClick={this.nextPageCF}
-                      disabled={(this.state.currentPage2 + 1) * this.state.studentsPerPage >= this.state.allConfarences.length}>
-                      <i className="fa-solid fa-chevron-right"></i>
-                    </button>
+
+                    {/* role */}
+                    <div className="author">
+                      <span>{conf.role}</span>
+                    </div>
                   </div>
                 </div>
-                : null
-            }
-          </div> */}
+              </div>
+            ))
+          ) : (
+            <div className="noPapers">No conferences found.</div>
+          )}
+
+          {totalCourses > 1 && (
+            <div className="pagination">
+              <div className="pagination-buttons">
+                <button className="btn-back" onClick={prevCoursePage} disabled={coursePage === 0}>
+                  <i className="fa-solid fa-chevron-left"></i>
+                </button>
+                {/* PAGE NUMBER BUTTONS */}
+                {[...Array(totalCourses)].map((_, index) => (
+                  <button
+                    key={index}
+                    className={`page-btn ${coursePage === index ? 'active' : ''}`}
+                    onClick={() => setCoursePage(index)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button
+                  className="btn-back"
+                  onClick={nextCoursePage}
+                  disabled={coursePage === totalCourses - 1}
+                >
+                  <i className="fa-solid fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
 
 
       </div>
