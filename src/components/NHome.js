@@ -592,6 +592,7 @@ export const Home = () => {
             <div className="SocialIcon"><i className="fa-brands fa-facebook"></i></div>
             <div className="SocialIcon"><i className="fa-brands fa-twitter"></i></div>
             <div className="SocialIcon"><i className="fa-brands fa-linkedin-in"></i></div>
+               <div className="SocialIcon"><i className="fa-brands fa-youtube"></i></div>
           </div>
         </div>
       </footer>
