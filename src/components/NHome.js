@@ -72,44 +72,38 @@ const paginatedPaper = [
   }
 ];
 
-const slides = [
+const awardsList = [
   {
-    id: 1,
-    title: "Mountain Vista",
-    description: "Breathtaking mountain landscapes",
-    color: "from-blue-500 to-purple-600"
+    "id": 1,
+    "date": "2023",
+    "name": "Case Centre Award",
+    "description": "Recognized for outstanding innovation in software development."
   },
   {
-    id: 2,
-    title: "Ocean Breeze",
-    description: "Serene coastal views",
-    color: "from-cyan-500 to-blue-600"
+    "id": 2,
+    "date": "2023",
+    "name": "Case Centre Award",
+    "description": "Awarded for publishing impactful research in the technology domain."
   },
   {
-    id: 3,
-    title: "Forest Path",
-    description: "Peaceful woodland trails",
-    color: "from-green-500 to-emerald-600"
+    "id": 3,
+    "date": "2023",
+    "name": "Case Centre Award",
+    "description": "Honored for exceptional leadership in guiding technical teams."
   },
   {
-    id: 4,
-    title: "Desert Sunset",
-    description: "Golden hour in the dunes",
-    color: "from-orange-500 to-red-600"
+    "id": 4,
+    "date": "2023",
+    "name": "Case Centre Award",
+    "description": "Honored for exceptional leadership in guiding technical teams."
   },
   {
-    id: 5,
-    title: "City Lights",
-    description: "Urban nightscape beauty",
-    color: "from-purple-500 to-pink-600"
-  },
-  {
-    id: 6,
-    title: "Aurora Sky",
-    description: "Northern lights magic",
-    color: "from-indigo-500 to-purple-600"
+    "id": 5,
+    "date": "2023",
+    "name": "Case Centre Award",
+    "description": "Honored for exceptional leadership in guiding technical teams."
   }
-];
+]
 
 const conferences = [
   { title: "International Tech Innovation Summit", date: "2025-03-15", role: "Speaker" },
@@ -129,9 +123,9 @@ export const Home = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [itemsPerView, setItemsPerView] = useState(3);
   const papersPerPage = 2; // Set how many items per page
- const coursePerPage = 2;
+  const coursePerPage = 2;
   const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
-   const totalCourses = Math.ceil(conferences.length / coursePerPage);
+  const totalCourses = Math.ceil(conferences.length / coursePerPage);
 
   const togglePaper = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -175,7 +169,7 @@ export const Home = () => {
 
   // award carousel
 
-  const maxIndex = slides.length - itemsPerView;
+  const maxIndex = awardsList.length - itemsPerView;
 
   // Handle responsive items per view
   useEffect(() => {
@@ -551,157 +545,43 @@ export const Home = () => {
           </div>
         </div>
         <div className='container maxer AwardTitle' id="awards">
-          <div className="d-flex align-items-center justify-content-center min-vh-100 carousel-bg p-4">
+          <div className="d-flex align-items-center justify-content-center carousel-bg p-4">
             <div className="w-100" style={{ maxWidth: "1200px" }}>
-
-              {/* Carousel Wrapper */}
               <div className="d-flex align-items-center gap-3">
-
-                {/* Prev */}
-                <button onClick={goToPrevious} className="btn btn-light rounded-circle shadow">
+                <button onClick={goToPrevious} className="carousel-btn rounded-circle">
                   <i className="fa-solid fa-chevron-left"></i>
                 </button>
-
-                {/* Slides Container */}
-                <div className="position-relative flex-grow-1 overflow-hidden rounded shadow">
+                <div className="position-relative flex-grow-1 overflow-hidden rounded">
                   <div
                     className="d-flex transition-transform"
                     style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
                   >
-                    {slides.map((slide) => (
+                    {awardsList.map((slide) => (
                       <div
                         key={slide.id}
                         className="flex-shrink-0 p-2"
                         style={{ width: `${100 / itemsPerView}%` }}
                       >
-                        <div className="slide-card rounded p-4 text-white text-center h-100 d-flex flex-column justify-content-center">
-                          <h2 className="fw-bold">{slide.title}</h2>
-                          <p className="small mb-2">{slide.description}</p>
-                          <div className="display-6">{slide.id}</div>
+                        <div className="slide-card rounded p-4 text-center h-100 d-flex flex-column justify-content-center">
+                          <div className='award-date'>
+                            <img src="./Assets/award.svg" alt="award" />
+                            <p>{slide.date}</p>
+                          </div>
+                          <h5>{slide.name}</h5>
+                          <h6>{slide.description}</h6>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
-
-                {/* Next */}
-                <button onClick={goToNext} className="btn btn-light rounded-circle shadow">
+                <button onClick={goToNext} className="carousel-btn rounded-circle">
                   <i className="fa-solid fa-chevron-right"></i>
                 </button>
-              </div>
-
-              {/* Indicators */}
-              <div className="d-flex justify-content-center gap-2 mt-3">
-                {Array.from({ length: totalDots }).map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => goToSlide(i)}
-                    className={`indicator-btn ${i === currentIndex ? "active" : ""}`}
-                  />
-                ))}
-              </div>
-
-              {/* Slide Info */}
-              <div className="text-center text-white mt-3">
-                <div>{currentIndex + 1} / {totalDots}</div>
-                <div className="small text-white-50">Showing {itemsPerView} per view</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* {
-          this.state.allAwards.length > 0 ?
-            <>
-              <div className="ResSection" id="conferences">
-                <div className="ResHeader container">
-                  <div className="teaching-header container">
-                    <div className='lineResHip'>
-                      <div className="ResTitle">
-                        <div className="heading-title">
-                          <p>Awards</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className='container maxer AwardTitle' id="awards">
-                  <div className='AwardCaser'>
-                    <div className='awardNav' onClick={() => {
-                      // get list of all .dotBtn elements and find the one with the class 'dot-active' and click the previous one if it exists otherwise click the last one
-                      const dotBtns = document.querySelectorAll('.dotBtn');
-                      const activeDot = document.querySelector('.dot-active');
-                      if (activeDot) {
-                        const prevDot = activeDot.previousElementSibling;
-                        if (prevDot) {
-                          prevDot.click();
-                        } else {
-                          dotBtns[dotBtns.length - 1].click();
-                        }
-                      } else {
-                        dotBtns[dotBtns.length - 1].click();
-                      }
-                    }}>
-                      <img src="./Assets/back.svg" alt="Krishna" />
-                    </div>
-                    <div className='awardCase'>
-                      {
-                        this.awardFinder().map((award, index) => {
-                          return (
-                            <div className='award'>
-                              <div className='awardImage'>
-                                {award.Year}
-                              </div>
-                              <div className='awardDTitle paper_link_gtm' id="Awards">{award.Title}</div>
-                              <div className='awardD'>
-                                {award.Course}
-                              </div>
-                            </div>
-                          );
-                        }
-                        )
-                      }
-                    </div>
-                    <div className='awardNav' onClick={() => {
-                      // get list of all .dotBtn elements and find the one with the class 'dot-active' and click the next one if it exists otherwise click the first one
-                      const dotBtns = document.querySelectorAll('.dotBtn');
-                      const activeDot = document.querySelector('.dot-active');
-                      if (activeDot) {
-                        const nextDot = activeDot.nextElementSibling;
-                        if (nextDot) {
-                          nextDot.click();
-                        } else {
-                          dotBtns[0].click();
-                        }
-                      } else {
-                        dotBtns[0].click();
-                      }
-                    }
-                    }>
-                      <img src="./Assets/next.svg" alt="Krishna" />
-                    </div>
-                  </div>
-                  <div className='bookButtonCont'>
-                    {Array.from({ length: Math.ceil(this.state.allAwards.length / 3) }, (_, index) => {
-                      const dotPos = index * 2 + 1; // Generate odd numbers: 1, 3, 5, 7, ...
-                      return (
-                        <div
-                          key={dotPos}
-                          className={`dotBtn ${this.state.currentPos2 === dotPos ? 'dot-active' : ''}`}
-                          onClick={() => {
-                            this.setState({ currentPos2: dotPos });
-                          }}
-                        >
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-              </div>
-            </> : null
-
-        } */}
 
       <footer className="FooterSection">
         <div className="FooterContainer">
