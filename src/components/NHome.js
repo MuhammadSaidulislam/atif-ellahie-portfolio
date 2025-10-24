@@ -74,35 +74,108 @@ const paginatedPaper = [
 const awardsList = [
   {
     "id": 1,
-    "date": "2023",
-    "name": "Case Centre Award",
-    "description": "Recognized for outstanding innovation in software development."
+    "date": ["2023", "2024"],
+    "name": "Excellence in Refereeing Award",
+    "description": "Journal of Accounting Research"
   },
   {
     "id": 2,
-    "date": "2023",
-    "name": "Case Centre Award",
-    "description": "Awarded for publishing impactful research in the technology domain."
+    "date": "2024",
+    "name": "Top Referee Award",
+    "description": "Review of Accounting Studies"
   },
   {
     "id": 3,
-    "date": "2023",
-    "name": "Case Centre Award",
-    "description": "Honored for exceptional leadership in guiding technical teams."
+    "date": "2024",
+    "name": "Outstanding Reviewer Award",
+    "description": "The Accounting Review"
   },
   {
     "id": 4,
-    "date": "2023",
-    "name": "Case Centre Award",
-    "description": "Honored for exceptional leadership in guiding technical teams."
+    "date": "2024",
+    "name": "AAA FARS Outstanding Service Award",
+    "description": "American Accounting Association"
   },
   {
     "id": 5,
     "date": "2023",
-    "name": "Case Centre Award",
-    "description": "Honored for exceptional leadership in guiding technical teams."
+    "name": "Daniels Fund Leadership in Ethics Education Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 6,
+    "date": "2023",
+    "name": "Dr. Rodney H. Brady Faculty Superior Teaching Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 7,
+    "date": ["2022", "2023", "2024"],
+    "name": "David Eccles Faculty Fellow Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 8,
+    "date": ["2017", "2020", "2021", "2023"],
+    "name": "AAA FARS Excellence in Reviewing Award",
+    "description": "American Accounting Association"
+  },
+  {
+    "id": 9,
+    "date": ["2020", "2021"],
+    "name": "David Eccles Emerging Scholar Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 10,
+    "date": "2020",
+    "name": "Kenneth J. Hanni Teaching Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 11,
+    "date": ["2018", "2019"],
+    "name": "H. James Griggs-FIA Fellow Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 12,
+    "date": ["2010", "2015"],
+    "name": "PhD Program Financial Award",
+    "description": "London Business School"
+  },
+  {
+    "id": 13,
+    "date": "2012",
+    "name": "Best Paper Prize for Young Economists",
+    "description": "Warsaw International Economic Meeting"
+  },
+  {
+    "id": 14,
+    "date": ["2006", "2007"],
+    "name": "Performance Award for Leadership in Recruiting and Training",
+    "description": "UBS Investment Bank"
+  },
+  {
+    "id": 15,
+    "date": "1999",
+    "name": "Distinction Awarded for MSc Degree",
+    "description": "London School of Economics"
+  },
+  {
+    "id": 16,
+    "date": "1997",
+    "name": "Askari Bank Gold Medal for Best Student in Banking",
+    "description": "Lahore University of Management Sciences"
+  },
+  {
+    "id": 17,
+    "date": ["1996", "1997"],
+    "name": "Dean’s Honor Roll",
+    "description": "Lahore University of Management Sciences"
   }
 ]
+
 const conferences = [
   { title: "International Tech Innovation Summit", date: "2025-03-15", role: "Speaker" },
   { title: "Global AI & Cloud Expo", date: "2025-05-22", role: "Attendee" },
@@ -284,9 +357,11 @@ export const Home = () => {
                   <h6>Contact </h6>
                   <p>atif.ellahie@eccles.utah.edu</p>
                   <ul className="social-icons">
-                    <li><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><img src="./Assets/facebook.svg" alt="facebook" /></Link></li>
                     <li><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/twitter.svg" alt="twitter" /></Link></li>
                     <li><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
+                    <li><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><i class="fa-brands fa-google-scholar" aria-hidden="true"></i></Link></li>
+                    <li><Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" target="_blank"><img src="./Assets/ssrn_logo.svg" alt="facebook" /></Link></li>
+                    <li><Link to="https://orcid.org/0000-0002-5241-8578" target="_blank"><img src="./Assets/ORCID_iD.svg" alt="facebook" /></Link></li>
                   </ul>
                 </div>
                 <div className='user-signature'>
@@ -318,9 +393,9 @@ export const Home = () => {
             </>
           )}
           {/* Read More / Read Less Button */}
-          <button className="read-more-btn"   onClick={() => setShowMore(!showMore)}  >
-            {showMore ? "Read Less" : "Read More"} 
-            </button>
+          <button className="read-more-btn" onClick={() => setShowMore(!showMore)}  >
+            {showMore ? "Read Less" : "Read More"}
+          </button>
         </div>
       </div>
       <div className="ResSection" id="research">
@@ -603,15 +678,21 @@ export const Home = () => {
                         style={{ width: `${100 / itemsPerView}%` }}
                       >
                         <div className="slide-card rounded p-4 text-center h-100 d-flex flex-column justify-content-center">
-                          <div className='award-date'>
+                          <div className="award-date d-flex align-items-center justify-content-center gap-1">
                             <img src="./Assets/award.svg" alt="award" />
-                            <p>{slide.date}</p>
+                            {Array.isArray(slide.date)
+                              ? slide.date.map((date, index) => (
+                                <p key={index}>{date}</p>
+                              ))
+                              : <p>{slide.date}</p>
+                            }
                           </div>
                           <h5>{slide.name}</h5>
                           <h6>{slide.description}</h6>
                         </div>
                       </div>
                     ))}
+
                   </div>
                 </div>
                 <button onClick={goToNext} className="carousel-btn rounded-circle">

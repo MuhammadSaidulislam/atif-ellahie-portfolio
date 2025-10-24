@@ -243,6 +243,7 @@
 
 .social-icons li a {
   background: var(--primary-background);
+  color: #ffffff;
   width: 47px;
   height: 47px;
   display: flex;
