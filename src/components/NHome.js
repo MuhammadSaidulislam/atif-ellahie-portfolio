@@ -38,149 +38,388 @@ const courseList = [
     description: "Description of the current development work."
   }
 ];
-let teachingList = ["Publications", "Working Papers", "Cases", "Work-in-Progress", "Book Chapters", "Other Publications", "Practitioner Articles"]
+let teachingList = ["Publications", "Working Papers","Book Chapters"]
+
+
 const paginatedPaper = [
   {
-    title: "Artificial Intelligence in Healthcare: Challenges and Opportunities",
-    publish_date: "2023-06-15",
-    journal: "International Journal of Medical Informatics",
-    journal_title: "Int. J. Med. Inform.",
-    journal_image: "/assets/journals/ijmi.png",
-    authors: "Dr. John Doe, Dr. Jane Smith",
-    description: "This paper explores the application of artificial intelligence in healthcare decision-making, diagnostics, and patient outcome predictions, while highlighting the challenges of ethics, data privacy, and system reliability.",
-    paper_link: "https://example.com/ai-healthcare"
+    title: "Are CEOs Rewarded for Luck? Evidence from Corporate Tax Windfalls",
+    publish_date: "2025",
+    journal: "Journal of Finance",
+    journal_title: "J. Finance",
+    authors: "Andreani, M., Ellahie, A., & Shivakumar, L.",
+    description: "Study examining whether CEOs are rewarded for luck arising from corporate tax windfalls.",
+    paper_link: "",
+    tag: "publication"
   },
   {
-    title: "Blockchain for Secure Academic Credential Verification",
-    publish_date: "2022-12-05",
-    journal: "IEEE Access",
-    journal_title: "IEEE Access",
-    journal_image: "/assets/journals/ieee-access.png",
-    authors: "Dr. Rahul Kumar, Prof. Emily Brown",
-    description: "This study proposes a blockchain-based decentralized system to verify academic credentials, drastically reducing fraud, increasing transparency, and enhancing trust between institutions.",
-    paper_link: "https://example.com/blockchain-education"
+    title: "Measuring the Quality of Mergers and Acquisitions",
+    publish_date: "2025",
+    journal: "Management Science",
+    journal_title: "Manage. Sci.",
+    authors: "Ellahie, A., Hshieh, S., & Zhang, F.",
+    description: "Framework for assessing the long-term quality and effectiveness of M&A transactions.",
+    paper_link: "",
+    tag: "publication"
   },
   {
-    title: "Machine Learning Approaches to Climate Data Prediction",
-    publish_date: "2021-09-22",
-    journal: "Nature Climate Change",
-    journal_title: "Nat. Clim. Chang.",
-    journal_image: "/assets/journals/nature-climate.png",
-    authors: "Dr. Sarah Johnson, Dr. Albert Green",
-    description: "This publication presents hybrid deep learning models for climate prediction using satellite data and historical records, improving future climate impact forecasts.",
-    paper_link: "https://example.com/climate-ml"
+    title: "Accounting for Bubbles: A Discussion of Arif and Sul (2024)",
+    publish_date: "2024",
+    journal: "Journal of Accounting and Economics",
+    journal_title: "JAE",
+    authors: "Ellahie, A.",
+    description: "Invited discussion on accounting implications of market bubbles, presented at 2023 JAE Conference.",
+    paper_link: "",
+    tag: "publication"
+  },
+  {
+    title: "Disclosure in Initial Coin Offerings",
+    publish_date: "2024",
+    journal: "The Palgrave Encyclopedia of Private Equity",
+    journal_title: "",
+    authors: "Ellahie, A.",
+    description: "Book chapter in Palgrave Encyclopedia of Private Equity, edited by Cumming, D., Hammer, B.",
+    paper_link: "",
+    tag: "book_chapter"
+  },
+  {
+    title: "Growth Matters: Disclosure and Risk Premium",
+    publish_date: "2022",
+    journal: "The Accounting Review",
+    journal_title: "Acc. Rev.",
+    authors: "Ellahie, A., Hayes, R., & Plumlee, M.",
+    description: "Investigates how disclosure growth affects risk premiums in public markets.",
+    paper_link: "",
+    tag: "publication"
+  },
+  {
+    title: "The Role of Disclosure and Information Intermediaries in an Unregulated Capital Market: Evidence from Initial Coin Offerings",
+    publish_date: "2022",
+    journal: "Journal of Accounting Research",
+    journal_title: "JAR",
+    authors: "Bourveau, T., De George, E., Ellahie, A., & Macciocchi, D.",
+    description: "Analysis of disclosure and information intermediary impacts in ICO markets.",
+    paper_link: "",
+    tag: "publication"
+  },
+  {
+    title: "Show Me the Money! Dividend Policy in Countries with Weak Institutions",
+    publish_date: "2021",
+    journal: "Journal of Accounting Research",
+    journal_title: "JAR",
+    authors: "Ellahie, A., & Kaplan, Z.",
+    description: "Explores dividend policies in countries with weak governance and institutional frameworks.",
+    paper_link: "",
+    tag: "publication"
+  },
+  {
+    title: "Management Forecasts of Volatility",
+    publish_date: "2021",
+    journal: "Review of Accounting Studies",
+    journal_title: "RAS",
+    authors: "Ellahie, A., & Peng, X.",
+    description: "Examines how managers forecast firms’ volatility and its impact on capital markets.",
+    paper_link: "",
+    tag: "publication"
+  },
+  {
+    title: "Earnings Beta",
+    publish_date: "2021",
+    journal: "Review of Accounting Studies",
+    journal_title: "RAS",
+    authors: "Ellahie, A.",
+    description: "Sole-authored paper based on PhD dissertation on how earnings respond to aggregate economic factors.",
+    paper_link: "",
+    tag: "publication"
+  },
+  {
+    title: "Risky Value",
+    publish_date: "2020",
+    journal: "",
+    journal_title: "",
+    authors: "Ellahie, A., Katz, M., & Richardson, S.",
+    description: "Covered in UBS Academic Research Monitor.",
+    paper_link: "",
+    tag: "working_papers"
+  },
+  {
+    title: "Information Content of Mandated Bank Stress Test Disclosures",
+    publish_date: "2018",
+    journal: "",
+    journal_title: "",
+    authors: "Ellahie, A.",
+    description: "Presented at 2012 JAR/FRBNY Conference as Capital Market Consequences of EU Bank Stress Tests.",
+    paper_link: "",
+    tag: "working_papers"
+  },
+  {
+    title: "Do Common Inherited Beliefs and Values Influence CEO Pay?",
+    publish_date: "2017",
+    journal: "Journal of Accounting and Economics",
+    journal_title: "JAE",
+    authors: "Ellahie, A., Tahoun, A., & Tuna, İ.",
+    description: "Investigates how inherited beliefs and values influence compensation structures for CEOs.",
+    paper_link: "",
+    tag: "publication"
+  },
+  {
+    title: "Government Purchases Reloaded: Informational Insufficiency and Heterogeneity in Fiscal VARs",
+    publish_date: "2017",
+    journal: "Journal of Monetary Economics",
+    journal_title: "JME",
+    authors: "Ellahie, A., & Ricco, G.",
+    description: "Analyzes government purchases using fiscal VAR techniques, with a focus on informational heterogeneity.",
+    paper_link: "",
+    tag: "publication"
   }
 ];
+
+
+
 const awardsList = [
   {
     "id": 1,
-    "date": ["2023", "2024"],
-    "name": "Excellence in Refereeing Award",
-    "description": "Journal of Accounting Research"
+    "date": "1996",
+    "name": "Dean’s Honor Roll",
+    "description": "Lahore University of Management Sciences"
   },
   {
     "id": 2,
-    "date": "2024",
-    "name": "Top Referee Award",
-    "description": "Review of Accounting Studies"
-  },
-  {
-    "id": 3,
-    "date": "2024",
-    "name": "Outstanding Reviewer Award",
-    "description": "The Accounting Review"
-  },
-  {
-    "id": 4,
-    "date": "2024",
-    "name": "AAA FARS Outstanding Service Award",
-    "description": "American Accounting Association"
-  },
-  {
-    "id": 5,
-    "date": "2023",
-    "name": "Daniels Fund Leadership in Ethics Education Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 6,
-    "date": "2023",
-    "name": "Dr. Rodney H. Brady Faculty Superior Teaching Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 7,
-    "date": ["2022", "2023", "2024"],
-    "name": "David Eccles Faculty Fellow Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 8,
-    "date": ["2017", "2020", "2021", "2023"],
-    "name": "AAA FARS Excellence in Reviewing Award",
-    "description": "American Accounting Association"
-  },
-  {
-    "id": 9,
-    "date": ["2020", "2021"],
-    "name": "David Eccles Emerging Scholar Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 10,
-    "date": "2020",
-    "name": "Kenneth J. Hanni Teaching Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 11,
-    "date": ["2018", "2019"],
-    "name": "H. James Griggs-FIA Fellow Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 12,
-    "date": ["2010", "2015"],
-    "name": "PhD Program Financial Award",
-    "description": "London Business School"
-  },
-  {
-    "id": 13,
-    "date": "2012",
-    "name": "Best Paper Prize for Young Economists",
-    "description": "Warsaw International Economic Meeting"
-  },
-  {
-    "id": 14,
-    "date": ["2006", "2007"],
-    "name": "Performance Award for Leadership in Recruiting and Training",
-    "description": "UBS Investment Bank"
-  },
-  {
-    "id": 15,
-    "date": "1999",
-    "name": "Distinction Awarded for MSc Degree",
-    "description": "London School of Economics"
-  },
-  {
-    "id": 16,
     "date": "1997",
     "name": "Askari Bank Gold Medal for Best Student in Banking",
     "description": "Lahore University of Management Sciences"
   },
   {
-    "id": 17,
-    "date": ["1996", "1997"],
+    "id": 3,
+    "date": "1997",
     "name": "Dean’s Honor Roll",
     "description": "Lahore University of Management Sciences"
+  },
+  {
+    "id": 4,
+    "date": "1999",
+    "name": "Distinction Awarded for MSc Degree",
+    "description": "London School of Economics"
+  },
+  {
+    "id": 5,
+    "date": "2006",
+    "name": "Performance Award for Leadership in Recruiting and Training",
+    "description": "UBS Investment Bank"
+  },
+  {
+    "id": 6,
+    "date": "2007",
+    "name": "Performance Award for Leadership in Recruiting and Training",
+    "description": "UBS Investment Bank"
+  },
+  {
+    "id": 7,
+    "date": "2010",
+    "name": "PhD Program Financial Award",
+    "description": "London Business School"
+  },
+  {
+    "id": 8,
+    "date": "2012",
+    "name": "Best Paper Prize for Young Economists",
+    "description": "Warsaw International Economic Meeting"
+  },
+  {
+    "id": 9,
+    "date": "2015",
+    "name": "PhD Program Financial Award",
+    "description": "London Business School"
+  },
+  {
+    "id": 10,
+    "date": "2017",
+    "name": "AAA FARS Excellence in Reviewing Award",
+    "description": "American Accounting Association"
+  },
+  {
+    "id": 11,
+    "date": "2018",
+    "name": "H. James Griggs-FIA Fellow Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 12,
+    "date": "2019",
+    "name": "H. James Griggs-FIA Fellow Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 13,
+    "date": "2020",
+    "name": "David Eccles Emerging Scholar Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 14,
+    "date": "2020",
+    "name": "Kenneth J. Hanni Teaching Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 15,
+    "date": "2020",
+    "name": "AAA FARS Excellence in Reviewing Award",
+    "description": "American Accounting Association"
+  },
+  {
+    "id": 16,
+    "date": "2021",
+    "name": "David Eccles Emerging Scholar Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 17,
+    "date": "2021",
+    "name": "AAA FARS Excellence in Reviewing Award",
+    "description": "American Accounting Association"
+  },
+  {
+    "id": 18,
+    "date": "2022",
+    "name": "David Eccles Faculty Fellow Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 19,
+    "date": "2023",
+    "name": "Excellence in Refereeing Award",
+    "description": "Journal of Accounting Research"
+  },
+  {
+    "id": 20,
+    "date": "2023",
+    "name": "Daniels Fund Leadership in Ethics Education Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 21,
+    "date": "2023",
+    "name": "Dr. Rodney H. Brady Faculty Superior Teaching Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 22,
+    "date": "2023",
+    "name": "David Eccles Faculty Fellow Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 23,
+    "date": "2023",
+    "name": "AAA FARS Excellence in Reviewing Award",
+    "description": "American Accounting Association"
+  },
+  {
+    "id": 24,
+    "date": "2024",
+    "name": "Excellence in Refereeing Award",
+    "description": "Journal of Accounting Research"
+  },
+  {
+    "id": 25,
+    "date": "2024",
+    "name": "Top Referee Award",
+    "description": "Review of Accounting Studies"
+  },
+  {
+    "id": 26,
+    "date": "2024",
+    "name": "Outstanding Reviewer Award",
+    "description": "The Accounting Review"
+  },
+  {
+    "id": 27,
+    "date": "2024",
+    "name": "AAA FARS Outstanding Service Award",
+    "description": "American Accounting Association"
+  },
+  {
+    "id": 28,
+    "date": "2024",
+    "name": "David Eccles Faculty Fellow Award",
+    "description": "University of Utah"
   }
-]
+];
+
 
 const conferences = [
-  { title: "International Tech Innovation Summit", date: "2025-03-15", role: "Speaker" },
-  { title: "Global AI & Cloud Expo", date: "2025-05-22", role: "Attendee" },
-  { title: "Next.js World Developer Conference", date: "2025-07-10", role: "Panelist" }
+  // 2015
+  { title: "LBS Accounting Symposium", date: "2015", role: "Presenter" },
+  { title: "RAST Conference", date: "2015", role: "Presenter" },
+
+  // 2016
+  { title: "CAR Conference", date: "2016", role: "Presenter" },
+  { title: "CARE Conference", date: "2016", role: "Presenter" },
+  { title: "LBS Accounting Symposium", date: "2016", role: "Presenter" },
+  { title: "Utah Winter Accounting Conference (UWAC)", date: "2016", role: "Presenter" },
+
+  // 2017
+  { title: "Contemporary Accounting Research (CAR) Conference", date: "2017", role: "Presenter" },
+  { title: "Columbia Burton Conference", date: "2017", role: "Presenter" },
+  { title: "LBS Accounting Symposium", date: "2017", role: "Presenter" },
+  { title: "Utah Winter Accounting Conference (UWAC)", date: "2017", role: "Presenter" },
+
+  // 2018
+  { title: "LBS Accounting Symposium", date: "2018", role: "Presenter" },
+  { title: "RAST Conference", date: "2018", role: "Presenter" },
+  { title: "Utah Winter Accounting Conference (UWAC)", date: "2018", role: "Presenter" },
+  { title: "WashU Dopuch Accounting Conference", date: "2018", role: "Presenter" },
+
+  // 2019
+  { title: "Columbia Burton Conference", date: "2019", role: "Presenter" },
+  { title: "LBS Accounting Symposium", date: "2019", role: "Presenter" },
+  { title: "Michigan Kapnick Conference", date: "2019", role: "Presenter" },
+  { title: "Utah Winter Accounting Conference (UWAC)", date: "2019", role: "Presenter" },
+
+  // 2020
+  { title: "RAST Conference", date: "2020", role: "Virtual Presenter" },
+  { title: "Utah Winter Accounting Conference (UWAC)", date: "2020", role: "Presenter" },
+
+  // 2021
+  { title: "JAR Conference", date: "2021", role: "Presenter" },
+  { title: "Miami Winter Warm-up Conference", date: "2021", role: "Presenter" },
+  { title: "RAST Conference", date: "2021", role: "Presenter" },
+
+  // 2022
+  { title: "Carbon Disclosures Conference (Stanford)", date: "2022", role: "Presenter" },
+  { title: "LAG Conference", date: "2022", role: "Presenter" },
+  { title: "LBS Accounting Symposium", date: "2022", role: "Presenter" },
+  { title: "Miami Winter Warm-up Conference", date: "2022", role: "Presenter" },
+  { title: "JAR Conference", date: "2022", role: "Presenter" },
+  { title: "RAST Conference", date: "2022", role: "Presenter" },
+  { title: "Utah Winter Accounting Conference (UWAC)", date: "2022", role: "Presenter" },
+
+  // 2023
+  { title: "Bocconi Accounting Conference", date: "2023", role: "Presenter" },
+  { title: "Columbia Burton Conference", date: "2023", role: "Presenter" },
+  { title: "LBS Accounting Symposium", date: "2023", role: "Presenter" },
+  { title: "Michigan Kapnick Conference", date: "2023", role: "Presenter" },
+  { title: "RAST Conference", date: "2023", role: "Presenter" },
+  { title: "Utah Winter Accounting Conference (UWAC)", date: "2023", role: "Presenter" },
+  { title: "WashU Dopuch Conference", date: "2023", role: "Presenter" },
+
+  // 2024
+  { title: "Bocconi Accounting Conference", date: "2024", role: "Presenter" },
+  { title: "LBS Accounting Symposium", date: "2024", role: "Presenter" },
+  { title: "Minnesota Empirical Accounting Conference", date: "2024", role: "Presenter" },
+  { title: "Review of Accounting Studies Conference (RAST)", date: "2024", role: "Presenter" },
+
+  // 2025
+  { title: "INSEAD Accounting Symposium", date: "2025", role: "Presenter" },
+  { title: "Kelley Accounting Research Symposium", date: "2025", role: "Scheduled" },
+  { title: "LSE Economics of Accounting Conference", date: "2025", role: "Presenter" },
+  { title: "NYU Big Apple Accounting Conference", date: "2025", role: "Presenter" },
+  { title: "University of Illinois Young Scholars Research Symposium", date: "2025", role: "Presenter" },
+  { title: "Utah Winter Accounting Conference (UWAC)", date: "2025", role: "Presenter" },
+  { title: "UTD-SMU Cowtown Accounting Conference", date: "2025", role: "Scheduled" }
 ];
+
 const Initiatives = [
   {
     "title": "Introduction to React",
@@ -210,8 +449,8 @@ export const Home = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [showMore, setShowMore] = useState(false);
   const [itemsPerView, setItemsPerView] = useState(3);
-  const papersPerPage = 2; // Set how many items per page
-  const coursePerPage = 2;
+  const papersPerPage = 5; // Set how many items per page
+  const coursePerPage = 7;
   const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
   const totalCourses = Math.ceil(conferences.length / coursePerPage);
 
@@ -240,8 +479,8 @@ export const Home = () => {
 
   // course pagination
   const paginatedCourses = conferences.slice(
-    coursePage * papersPerPage,
-    coursePage * papersPerPage + papersPerPage
+    coursePage * coursePerPage,
+    coursePage * coursePerPage + coursePerPage
   );
 
   const prevCoursePage = () => {
@@ -359,7 +598,7 @@ export const Home = () => {
                   <ul className="social-icons">
                     <li><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/twitter.svg" alt="twitter" /></Link></li>
                     <li><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
-                    <li><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><i class="fa-brands fa-google-scholar" aria-hidden="true"></i></Link></li>
+                    <li><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><i className="fa-brands fa-google-scholar" aria-hidden="true"></i></Link></li>
                     <li><Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" target="_blank"><img src="./Assets/ssrn_logo.svg" alt="facebook" /></Link></li>
                     <li><Link to="https://orcid.org/0000-0002-5241-8578" target="_blank"><img src="./Assets/ORCID_iD.svg" alt="facebook" /></Link></li>
                   </ul>
@@ -402,7 +641,7 @@ export const Home = () => {
         <div className="ResHeader container">
           <div className='lineRes'>
             <div className="heading-title">
-              <p>Teaching</p>
+              <p>Publications and Scholarly Contributions</p>
             </div>
           </div>
 
@@ -680,12 +919,7 @@ export const Home = () => {
                         <div className="slide-card rounded p-4 text-center h-100 d-flex flex-column justify-content-center">
                           <div className="award-date d-flex align-items-center justify-content-center gap-1">
                             <img src="./Assets/award.svg" alt="award" />
-                            {Array.isArray(slide.date)
-                              ? slide.date.map((date, index) => (
-                                <p key={index}>{date}</p>
-                              ))
-                              : <p>{slide.date}</p>
-                            }
+                           <p>{slide.date}</p>
                           </div>
                           <h5>{slide.name}</h5>
                           <h6>{slide.description}</h6>
