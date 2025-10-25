@@ -162,7 +162,7 @@
 .hero-name {
   position: relative;
   color: var(--color-primary);
-    font-family: Rethink Sans, sans-serif;
+  font-family: Rethink Sans, sans-serif;
   font-size: 70px;
   font-weight: 600;
   line-height: 1.2;
@@ -491,6 +491,7 @@
 }
 
 .pagination-buttons {
+  gap: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -612,15 +613,14 @@
 .card-title {
   color: var(--color-primary);
   font-size: 40px;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 600;
-  word-wrap: break-word;
 }
 
 .card-subtitle {
   color: #564b4b;
   font-size: 16px;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 600;
   word-wrap: break-word;
 }
@@ -734,7 +734,7 @@
 }
 
 .award-date p {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 600;
   /* semibold */
   font-size: 36px;
@@ -756,7 +756,7 @@
 
 
 .slide-card h5 {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 600;
   font-size: 20px;
   line-height: 1;
@@ -802,7 +802,7 @@
 }
 
 .initiativesItems h2 {
-  font-family: 'Poppins', sans-serif;
+  font-family:"Rethink Sans", sans-serif;
   font-weight: 600;
   font-size: 20px;
   line-height: 1;
@@ -812,7 +812,7 @@
 }
 
 .initiativesContent p {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 400;
   font-size: 20px;
   line-height: 1.4;
@@ -845,10 +845,12 @@
   letter-spacing: 1px;
   color: #000000;
 }
-.initiatives{
+
+.initiatives {
   position: relative;
   overflow: hidden;
 }
+
 .dots_image {
   position: absolute;
   bottom: 0;
@@ -860,47 +862,54 @@
   -ms-transform: rotate(30deg) translateY(5px);
   -o-transform: rotate(30deg) translateY(5px); */
 }
-.dots_image_award{
+
+.dots_image_award {
   position: absolute;
   height: 100%;
   top: 0;
   right: 0;
- transform: rotate(180deg) ;
-  -webkit-transform: rotate(180deg) ;
-  -moz-transform: rotate(180deg) ;
-  -ms-transform: rotate(180deg) ;
-  -o-transform: rotate(180deg) ;
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
 }
-.teachingSection{
+
+.teachingSection {
   margin-bottom: 50px;
 }
-.courseSection{
+
+.courseSection {
   position: relative;
   overflow: hidden;
   margin-bottom: 100px;
   padding: 40px 0px;
 }
-.curveImage{
+
+.curveImage {
   position: absolute;
   bottom: 0;
   left: 0;
   height: 100%;
   width: 100%;
 }
-.userInfo{
+
+.userInfo {
   display: flex;
 }
-.descriptionSection{
+
+.descriptionSection {
   background-color: #fff;
   padding: 40px 0px;
   display: flex;
   justify-content: end;
   margin-top: 100px;
 }
-.description{
+
+.description {
   max-width: 1200px;
 
-    font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   font-size: 18px;
   line-height: 1.2;
@@ -914,27 +923,552 @@
   -ms-border-radius: 25px;
   -o-border-radius: 25px;
 }
-.description ul{
+
+.description ul {
   list-style: none;
 }
-.read-more-btn{
+
+.read-more-btn {
   background-color: transparent;
   border: none;
   color: #ffffff;
   font-weight: 700;
   border-bottom: 2px solid rgb(255, 255, 255);
 }
+
 @media (max-width: 786px) {
   .initiativesList {
- flex-wrap: wrap;
-  }
-  .courseList{
     flex-wrap: wrap;
   }
-  .userInfo{
+
+  .courseList {
     flex-wrap: wrap;
   }
-  .courseList{
+
+  .userInfo {
+    flex-wrap: wrap;
+  }
+
+  .courseList {
     padding: 20px;
+  }
+}
+
+/* roadmap */
+
+
+.roadmap-container {
+  min-height: 100vh;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.roadmap-header {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.roadmap-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: -1px;
+}
+
+.roadmap-subtitle {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+.roadmap-timeline {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-path {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--primary-background);
+  z-index: 0;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+}
+
+.phase-container {
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.phase-container.visible {
+  opacity: 1;
+}
+
+.phase-row {
+  display: flex;
+  align-items: center;
+  gap: 75px;
+  position: relative;
+  justify-content: center;
+}
+
+.phase-row.left-side {
+  flex-direction: row;
+}
+
+.phase-row.right-side {
+  flex-direction: row-reverse;
+}
+
+.phase-content {
+  flex: 0 0 calc(50% - 30px);
+  max-width: 450px;
+}
+
+.phase-spacer {
+  flex: 0 0 calc(50% - 30px);
+  max-width: 450px;
+}
+
+.phase-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.phase-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--primary-background);
+  transition: height 0.3s ease;
+}
+
+.phase-card:hover::before {
+  height: 8px;
+}
+
+.phase-card.from-left {
+  transform: translateX(-100px) rotate(-5deg);
+  opacity: 0;
+}
+
+.phase-card.from-right {
+  transform: translateX(100px) rotate(5deg);
+  opacity: 0;
+}
+
+.phase-container.visible .phase-card.from-left,
+.phase-container.visible .phase-card.from-right {
+  transform: translateX(0) rotate(0deg);
+  opacity: 1;
+}
+
+.phase-card.active {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+  transform: translateX(0) rotate(0deg) scale(1.03) !important;
+}
+
+.phase-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  display: inline-block;
+  animation: bounce 2s infinite;
+}
+
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.phase-label {
+  font-size: 17px;
+  color: #434343;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 0px;
+}
+
+.date-badge-inline {
+  display: inline-block;
+  color: #434343;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.task-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #f3f4f6;
+  animation: slideDown 0.3s ease;
+}
+
+.task-title {
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  font-size: 0.9rem;
+  color: #6b7280;
+  padding: 8px 0;
+  padding-left: 25px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.task-item::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  color: var(--card-color);
+  font-weight: bold;
+}
+
+.timeline-node {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary-background);
+  border: 5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 10px rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  transform: scale(0) rotate(-180deg);
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s;
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  transform-origin: center;
+  margin-left: -30px;
+}
+
+.phase-container.visible .timeline-node {
+  transform: scale(1) rotate(0deg) translateX(0);
+  margin-left: -30px;
+  left: 50%;
+}
+
+.date-badge {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: #434343;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.4s;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.phase-container.visible .date-badge {
+  opacity: 1;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.roadmap-legend {
+  max-width: 800px;
+  margin: 60px auto 0;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out 0.5s both;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.legend-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.legend-text {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-size: 1rem;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .roadmap-title {
+    font-size: 2.8rem;
+  }
+
+  .roadmap-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .phase-card,
+  .date-badge {
+    max-width: 380px;
+  }
+
+  .roadmap-timeline {
+    max-width: 900px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .roadmap-container {
+    padding: 40px 15px 30px;
+  }
+
+  .roadmap-title {
+    font-size: 2.2rem;
+  }
+
+  .roadmap-subtitle {
+    font-size: 1rem;
+  }
+
+  .roadmap-header {
+    margin-bottom: 40px;
+  }
+
+  .roadmap-timeline {
+    padding-left: 50px;
+  }
+
+  .timeline-path {
+    left: 30px;
+    width: 2px;
+  }
+
+  .phase-row {
+    flex-direction: row !important;
+    gap: 20px;
+    justify-content: flex-start;
+  }
+
+  .phase-row.right-side {
+    flex-direction: row !important;
+  }
+
+  .phase-card {
+    max-width: 100%;
+    flex: 1;
+    padding: 25px;
+  }
+
+  .phase-card.from-right {
+    transform: translateX(-100px) rotate(-5deg);
+  }
+
+  .phase-container.visible .phase-card.from-right {
+    transform: translateX(0) rotate(0deg);
+  }
+
+  .timeline-node {
+    position: absolute;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    font-size: 1.1rem;
+    min-width: 50px;
+  }
+
+  .date-badge {
+    display: none;
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+  }
+
+  .roadmap-legend {
+    margin: 40px auto 0;
+    padding: 25px;
+  }
+
+  .legend-title {
+    font-size: 1.1rem;
+  }
+
+  .legend-text {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .roadmap-container {
+    padding: 30px 10px 20px;
+  }
+
+  .roadmap-title {
+    font-size: 1.8rem;
+  }
+
+  .roadmap-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .roadmap-timeline {
+    padding-left: 45px;
+  }
+
+  .timeline-path {
+    left: 25px;
+  }
+
+  .timeline-node {
+    width: 45px;
+    height: 45px;
+    font-size: 1rem;
+    left: -2px;
+    min-width: 45px;
+  }
+
+  .phase-card {
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+  }
+
+  .phase-label {
+    font-size: 0.8rem;
+  }
+
+  .date-badge-inline {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+
+  .task-item {
+    font-size: 0.85rem;
   }
 }

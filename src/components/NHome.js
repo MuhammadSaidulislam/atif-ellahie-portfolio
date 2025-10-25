@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "./CSS/styles.css";
 import "./CSS/research.css";
 import "./CSS/awards.css";
@@ -38,7 +38,7 @@ const courseList = [
     description: "Description of the current development work."
   }
 ];
-let teachingList = ["Publications", "Working Papers","Book Chapters"]
+let teachingList = ["Publications", "Working Papers", "Book Chapters"]
 
 
 const paginatedPaper = [
@@ -50,7 +50,7 @@ const paginatedPaper = [
     authors: "Andreani, M., Ellahie, A., & Shivakumar, L.",
     description: "Study examining whether CEOs are rewarded for luck arising from corporate tax windfalls.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "Measuring the Quality of Mergers and Acquisitions",
@@ -60,7 +60,7 @@ const paginatedPaper = [
     authors: "Ellahie, A., Hshieh, S., & Zhang, F.",
     description: "Framework for assessing the long-term quality and effectiveness of M&A transactions.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "Accounting for Bubbles: A Discussion of Arif and Sul (2024)",
@@ -70,7 +70,7 @@ const paginatedPaper = [
     authors: "Ellahie, A.",
     description: "Invited discussion on accounting implications of market bubbles, presented at 2023 JAE Conference.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "Disclosure in Initial Coin Offerings",
@@ -80,7 +80,7 @@ const paginatedPaper = [
     authors: "Ellahie, A.",
     description: "Book chapter in Palgrave Encyclopedia of Private Equity, edited by Cumming, D., Hammer, B.",
     paper_link: "",
-    tag: "book_chapter"
+    tag: "Book Chapters"
   },
   {
     title: "Growth Matters: Disclosure and Risk Premium",
@@ -90,7 +90,7 @@ const paginatedPaper = [
     authors: "Ellahie, A., Hayes, R., & Plumlee, M.",
     description: "Investigates how disclosure growth affects risk premiums in public markets.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "The Role of Disclosure and Information Intermediaries in an Unregulated Capital Market: Evidence from Initial Coin Offerings",
@@ -100,7 +100,7 @@ const paginatedPaper = [
     authors: "Bourveau, T., De George, E., Ellahie, A., & Macciocchi, D.",
     description: "Analysis of disclosure and information intermediary impacts in ICO markets.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "Show Me the Money! Dividend Policy in Countries with Weak Institutions",
@@ -110,7 +110,7 @@ const paginatedPaper = [
     authors: "Ellahie, A., & Kaplan, Z.",
     description: "Explores dividend policies in countries with weak governance and institutional frameworks.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "Management Forecasts of Volatility",
@@ -120,7 +120,7 @@ const paginatedPaper = [
     authors: "Ellahie, A., & Peng, X.",
     description: "Examines how managers forecast firms’ volatility and its impact on capital markets.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "Earnings Beta",
@@ -130,7 +130,7 @@ const paginatedPaper = [
     authors: "Ellahie, A.",
     description: "Sole-authored paper based on PhD dissertation on how earnings respond to aggregate economic factors.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "Risky Value",
@@ -140,7 +140,7 @@ const paginatedPaper = [
     authors: "Ellahie, A., Katz, M., & Richardson, S.",
     description: "Covered in UBS Academic Research Monitor.",
     paper_link: "",
-    tag: "working_papers"
+    tag: "Working Papers"
   },
   {
     title: "Information Content of Mandated Bank Stress Test Disclosures",
@@ -150,7 +150,7 @@ const paginatedPaper = [
     authors: "Ellahie, A.",
     description: "Presented at 2012 JAR/FRBNY Conference as Capital Market Consequences of EU Bank Stress Tests.",
     paper_link: "",
-    tag: "working_papers"
+    tag: "Working Papers"
   },
   {
     title: "Do Common Inherited Beliefs and Values Influence CEO Pay?",
@@ -160,7 +160,7 @@ const paginatedPaper = [
     authors: "Ellahie, A., Tahoun, A., & Tuna, İ.",
     description: "Investigates how inherited beliefs and values influence compensation structures for CEOs.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   },
   {
     title: "Government Purchases Reloaded: Informational Insufficiency and Heterogeneity in Fiscal VARs",
@@ -170,7 +170,7 @@ const paginatedPaper = [
     authors: "Ellahie, A., & Ricco, G.",
     description: "Analyzes government purchases using fiscal VAR techniques, with a focus on informational heterogeneity.",
     paper_link: "",
-    tag: "publication"
+    tag: "Publications"
   }
 ];
 
@@ -451,7 +451,7 @@ export const Home = () => {
   const [itemsPerView, setItemsPerView] = useState(3);
   const papersPerPage = 5; // Set how many items per page
   const coursePerPage = 7;
-  const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
+  // const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
   const totalCourses = Math.ceil(conferences.length / coursePerPage);
 
   const togglePaper = (index) => {
@@ -464,7 +464,13 @@ export const Home = () => {
 
 
   // teaching pagination
-  const paginatedPapers = paginatedPaper.slice(
+  const filteredPapers = paginatedPaper.filter(
+  (paper) => paper.tag === currentPaperType
+);
+ const totalPages =Math.ceil(filteredPapers.length / papersPerPage) || 1;
+
+
+  const paginatedPapers = filteredPapers.slice(
     currentTeaching * papersPerPage,
     currentTeaching * papersPerPage + papersPerPage
   );
@@ -558,6 +564,93 @@ export const Home = () => {
 
   const totalDots = maxIndex + 1;
 
+
+
+  // roadmap
+ 
+  const [visiblePhases, setVisiblePhases] = useState([]);
+  const phaseRefs = useRef([]);
+
+const roadmapData = [
+  {
+    id: 1,
+    title: "Mergers & Acquisitions",
+    school: "MAcc/MSF/MBA/PMBA Elective, University of Utah (2023 – Present)",
+    rating: "Average instructor rating (out of 6.0): 5.7 (2023); 5.9 (2024); 5.8 (2025)."
+  },
+  {
+    id: 2,
+    title: "Business Valuation and Analysis",
+    school: "MAcc/MSF/MBA/PMBA, University of Utah (2024 – Present)",
+    rating: "Average instructor rating (out of 6.0): 5.2 (2024); 5.4 (2025)."
+  },
+  {
+    id: 3,
+    title: "Finance for the Non-Financial Leader",
+    school: "Executive Education, University of Utah (2023 – Present)",
+    rating: ""
+  },
+  {
+    id: 4,
+    title: "Accounting PhD Seminar",
+    school: "University of Utah (Fall 2024)",
+    rating: ""
+  },
+  {
+    id: 5,
+    title: "Business Fundamentals of Accounting",
+    school: "Undergraduate, University of Utah (2021 – 2022)",
+    rating: "Average instructor rating (out of 6.0): 5.4 (2021); 5.7 (2022)."
+  },
+  {
+    id: 6,
+    title: "Intermediate Accounting",
+    school: "MAcc Intensive and Undergraduate, University of Utah (2018 – 2020)",
+    rating: "Average instructor rating (out of 6.0): 5.7 (2018); 5.8 (2019 – 2020)."
+  },
+  {
+    id: 7,
+    title: "Financial Reporting Analysis",
+    school: "MAcc/MSF/MBA, University of Utah (2015 – 2017)",
+    rating: "Average instructor rating (out of 6.0): 5.3 (2015, 2016); 5.5 (2017)."
+  }
+];
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = parseInt(entry.target.dataset.index);
+
+          if (entry.isIntersecting) {
+            setVisiblePhases((prev) => {
+              if (!prev.includes(index)) {
+                return [...prev, index];
+              }
+              return prev;
+            });
+          } else {
+            setVisiblePhases((prev) => prev.filter((i) => i !== index));
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px'
+      }
+    );
+
+    phaseRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      phaseRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, []);
+
   return (
     <div className="website">
       <div id="about" className='HeroSection'>
@@ -611,7 +704,7 @@ export const Home = () => {
 
           </div>
           <div className='rightContainer'>
-            <img src="./Assets/hero_image.png" className='profileImage' alt="Profile" />
+            <img src="./Assets/user.jpeg" className='profileImage' alt="Profile" />
           </div>
         </div>
       </div>
@@ -722,7 +815,6 @@ export const Home = () => {
                         alt="accordion-button"
                       />
                     </button>
-                    <img src="./Assets/social-you-tube.svg" alt="you-tube" />
                   </div>
                 </div>
 
@@ -737,7 +829,7 @@ export const Home = () => {
             <div className="noPapers">No papers found.</div>
           )}
 
-          {totalPages > 1 && (
+          {totalPages >= 1 && (
             <div className="pagination">
               <div className="pagination-buttons">
                 <button className="btn-back" onClick={prevPage} disabled={currentTeaching === 0}>
@@ -767,45 +859,61 @@ export const Home = () => {
       </div>
 
       <div className="teachingSection" id="classes">
-
         <div className="teaching-header container">
           <div className='lineResHip'>
-            <div className="ResTitle">
+            <div className="lineRes">
               <div className="heading-title">
-                <p>Courses</p>
+                <p>Teaching Initiatives</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="courseList container">
-          <div className="course-tabs">
-            {courseList.map((item, index) => (
-              <div
-                className={`course-tab ${currentCourse.title === item.title ? "active" : ""
-                  }`}
-                onClick={() => handleTabClick(item)}
-                key={index}
-              >
-                {item.type}
-              </div>
-            ))}
-          </div>
+        {/* roadmap */}
+        <div className="roadmap-container">
+          <div className="roadmap-timeline">
+            <div className="timeline-path" />
 
-          <div className="course-card">
-            <div className="card-header">
-              <div className="course-name">{currentCourse.title}</div>
-            </div>
-            <div className="card-description">
-              {currentCourse.description}
-            </div>
-            <div className="card-download">
-              <button>
-                <img src="./Assets/pdf.svg" alt="pdf" /> Download Outline
-              </button>
-            </div>
+            {roadmapData.map((item, index) => {
+              const isVisible = visiblePhases.includes(index);
+              const isLeft = index % 2 === 0;
+
+              return (
+                <div
+                  key={item.id}
+                  ref={(el) => (phaseRefs.current[index] = el)}
+                  data-index={index}
+                  className={`phase-container ${isVisible ? 'visible' : ''}`}
+                >
+                  <div className={`phase-row ${isLeft ? 'left-side' : 'right-side'}`}>
+                    <div className="phase-content">
+                      <div  className={`phase-card ${isLeft ? 'from-left' : 'from-right'}`} >
+                        <div className="card-header-map">
+                          <h5 className="card-title">{item.title}</h5>
+                          <p className="phase-label">{item.school}</p>
+                        </div>
+                        <span className="date-badge-inline">
+                          {item.rating}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="timeline-node">
+                      {item.id}
+                    </div>
+
+                    <div className="phase-spacer">
+                      <div className={`date-badge ${isLeft ? 'text-right' : 'text-left'}`}>
+                        {item.title}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
+        {/* roadmap */}
 
       </div>
 
@@ -919,7 +1027,7 @@ export const Home = () => {
                         <div className="slide-card rounded p-4 text-center h-100 d-flex flex-column justify-content-center">
                           <div className="award-date d-flex align-items-center justify-content-center gap-1">
                             <img src="./Assets/award.svg" alt="award" />
-                           <p>{slide.date}</p>
+                            <p>{slide.date}</p>
                           </div>
                           <h5>{slide.name}</h5>
                           <h6>{slide.description}</h6>

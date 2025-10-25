@@ -1,5 +1,6 @@
 /* at the very top of your CSS file */
 @import url('https://fonts.googleapis.com/css2?family=Qwitcher+Grypen&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@300;400;500;600;700&display=swap');
 
 body {
     margin: 0;
