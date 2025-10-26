@@ -450,7 +450,7 @@ export const Home = () => {
   const [showMore, setShowMore] = useState(false);
   const [itemsPerView, setItemsPerView] = useState(3);
   const papersPerPage = 5; // Set how many items per page
-  const coursePerPage = 7;
+  const coursePerPage = 5;
   // const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
   const totalCourses = Math.ceil(conferences.length / coursePerPage);
 
@@ -689,11 +689,11 @@ const roadmapData = [
                   <h6>Contact </h6>
                   <p>atif.ellahie@eccles.utah.edu</p>
                   <ul className="social-icons">
-                    <li><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/twitter.svg" alt="twitter" /></Link></li>
-                    <li><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
                     <li><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><i className="fa-brands fa-google-scholar" aria-hidden="true"></i></Link></li>
                     <li><Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" target="_blank"><img src="./Assets/ssrn_logo.svg" alt="facebook" /></Link></li>
                     <li><Link to="https://orcid.org/0000-0002-5241-8578" target="_blank"><img src="./Assets/ORCID_iD.svg" alt="facebook" /></Link></li>
+                  <li><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
+                <li><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/twitter.svg" alt="twitter" /></Link></li>
                   </ul>
                 </div>
                 <div className='user-signature'>
@@ -1047,7 +1047,7 @@ const roadmapData = [
         <img className='dots_image_award' src="./Assets/dots_image.png" alt="dots" />
       </div>
 
-      <div className='initiatives'>
+      {/* <div className='initiatives'>
         <div className="initiativesList container">
           <div className="initiatives-tabs">
             <div className='lineRes'>
@@ -1083,7 +1083,7 @@ const roadmapData = [
           </div>
         </div>
         <img className='dots_image' src="./Assets/dots_image.png" alt="dots" />
-      </div>
+      </div> */}
 
       <footer className="FooterSection">
         <div className="FooterContainer">

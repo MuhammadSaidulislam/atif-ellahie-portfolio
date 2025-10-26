@@ -877,6 +877,7 @@
 
 .teachingSection {
   margin-bottom: 50px;
+  margin-top: 100px;
 }
 
 .courseSection {
@@ -908,10 +909,9 @@
 
 .description {
   max-width: 1200px;
-
-  font-family: 'Poppins', sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.2;
   letter-spacing: 0;
   color: #ffffff;
@@ -1004,6 +1004,9 @@
   margin: 0 auto;
   position: relative;
   z-index: 1;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .timeline-path {
