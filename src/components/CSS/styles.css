@@ -182,7 +182,7 @@
 
 .hero-description {
   color: #434343;
-  font-family: "Poppins", sans-serif;
+    font-family: "Rethink Sans", sans-serif;
   font-size: 18px;
   font-weight: 400;
   font-style: normal;
@@ -203,7 +203,7 @@
 }
 
 .hero-contact h6 {
-  font-family: "Poppins", sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 600;
   font-size: 20px;
   line-height: 1.2;
@@ -212,7 +212,7 @@
 }
 
 .hero-contact h5 {
-  font-family: "Poppins", sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 600;
   font-size: 25px;
   line-height: 1.2;
@@ -221,7 +221,7 @@
 }
 
 .hero-contact p {
-  font-family: "Poppins", sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.4;
@@ -287,7 +287,7 @@
 
 .heading-title {
   position: relative;
-  font-family: "Poppins", sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 600;
   font-style: normal;
   font-size: 36px;
@@ -349,7 +349,7 @@
 }
 
 .ResButton .label {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
   font-size: clamp(14px, 2vw, 18px);
   color: #434343;
 }
@@ -374,7 +374,7 @@
 }
 
 .PublicationItem .date {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
   font-size: clamp(12px, 1.5vw, 14px);
   color: #434343;
   margin-bottom: 6px;
@@ -382,14 +382,14 @@
 }
 
 .PublicationItem .title {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
   font-size: 20px;
   font-weight: 600;
   color: var(--color-primary);
 }
 
 .PublicationItem .author {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
   font-size: clamp(14px, 2vw, 18px);
   color: #434343;
   margin-top: 5px;
@@ -446,7 +446,7 @@
 
 .PubJournal {
   color: #434343;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
   font-weight: 400;
   font-size: clamp(14px, 2vw, 18px);
   line-height: 1.3;
@@ -506,7 +506,7 @@
 .pagination-buttons .page-btn {
   height: 31px;
   width: 31px;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
   font-weight: 500;
   font-style: Medium;
   font-size: 18px;
@@ -767,7 +767,7 @@
 }
 
 .slide-card h6 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
   font-weight: 400;
   /* semibold */
   font-size: 18px;
@@ -838,7 +838,7 @@
 }
 
 .initiatives-tabs .heading-title h6 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Rethink Sans', sans-serif;
   font-weight: 400;
   font-size: 18px;
   line-height: 1.2;
