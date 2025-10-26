@@ -307,16 +307,6 @@
   background: var(--primary-background);
 }
 
-
-
-.ResTitle {
-  font-family: 'Bayon', sans-serif;
-  font-size: clamp(25px, 10vw, 100px);
-  color: #472661;
-  text-transform: lowercase;
-  line-height: 1;
-}
-
 .ResButtons {
   display: flex;
   flex-wrap: wrap;

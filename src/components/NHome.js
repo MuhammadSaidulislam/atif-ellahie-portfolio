@@ -734,7 +734,7 @@ const roadmapData = [
         <div className="ResHeader container">
           <div className='lineRes'>
             <div className="heading-title">
-              <p>Publications and Scholarly Contributions</p>
+              <p>Publications and<br/> Scholarly Contributions</p>
             </div>
           </div>
 
