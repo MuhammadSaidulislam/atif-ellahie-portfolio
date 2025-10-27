@@ -182,7 +182,7 @@
 
 .hero-description {
   color: #434343;
-    font-family: "Rethink Sans", sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-size: 18px;
   font-weight: 400;
   font-style: normal;
@@ -792,7 +792,7 @@
 }
 
 .initiativesItems h2 {
-  font-family:"Rethink Sans", sans-serif;
+  font-family: "Rethink Sans", sans-serif;
   font-weight: 600;
   font-size: 20px;
   line-height: 1;
@@ -1305,6 +1305,45 @@
   50% {
     transform: translateY(-10px);
   }
+}
+
+.cvSection{
+  padding: 80px 0px;
+}
+
+.cvHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.cvHeading h1 {
+  font-size: 36px;
+  font-weight: 400;
+  font-style: normal;
+  word-wrap: break-word;
+  font-family: "Rethink Sans", sans-serif;
+}
+
+.cvHeading button {
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  font-family: "Rethink Sans", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  border: none;
+  background: var(--primary-background);
+  padding: 10px 15px !important;
+  color: #fff !important;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
 }
 
 /* Tablet */
