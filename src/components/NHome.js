@@ -8,20 +8,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import 'react-tabs/style/react-tabs.css';
 import 'quill/dist/quill.snow.css';
 import { Link } from 'react-router-dom';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 // social icons
 
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4'
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1
-  }
-});
+
 const courseList = [
   {
     type: "Publications",
@@ -672,7 +661,7 @@ const roadmapData = [
               <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
               <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Publications</Link>
               <Link className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</Link>
-              <Link to="/cv">CV</Link>
+              <Link target='_blank' to="/cv">CV</Link>
               <Link className="contact" >Contact</Link>
             </nav>
 
