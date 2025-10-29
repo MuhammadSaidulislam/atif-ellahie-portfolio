@@ -1093,10 +1093,11 @@ export const Home = () => {
             <span>Copyright © Thomas Cole Davis - 2025</span>
           </div>
           <div className="FooterRight">
-            <div className="SocialIcon"><i className="fa-brands fa-facebook"></i></div>
-            <div className="SocialIcon"><i className="fa-brands fa-twitter"></i></div>
-            <div className="SocialIcon"><i className="fa-brands fa-linkedin-in"></i></div>
-            <div className="SocialIcon"><i className="fa-brands fa-youtube"></i></div>
+            <div className="SocialIcon"><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><i className="fa-brands fa-google-scholar" aria-hidden="true"></i></Link></div>
+            <div className="SocialIcon"><Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" target="_blank"><img src="./Assets/footer_ssrn_logo.svg" alt="ssrn" /></Link></div>
+            <div className="SocialIcon"><Link to="https://orcid.org/0000-0002-5241-8578" target="_blank"><img src="./Assets/footer_ORCID_iD.svg" alt="orchid" /></Link></div>
+            <div className="SocialIcon"><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/footer_linkedin.svg" alt="linkedin" /></Link></div>
+            <div className="SocialIcon"><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/footer_twitter.svg" alt="twitter" /></Link></div>
           </div>
         </div>
       </footer>

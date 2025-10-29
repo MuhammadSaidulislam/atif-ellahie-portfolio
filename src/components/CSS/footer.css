@@ -52,7 +52,9 @@
   background: linear-gradient(213deg, var(--color-primary) 0%, #623F9F 100%);
 }
 
-
+.SocialIcon a img{
+  width: 100%;
+}
 /* Mobile */
 @media (max-width: 768px) {
 .FooterContainer{
