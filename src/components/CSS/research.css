@@ -132,3 +132,10 @@
   -ms-border-radius: 50px;
   -o-border-radius: 50px;
 }
+/* Mobile */
+@media (max-width: 768px) {
+ .conferenceBox{
+    padding: 40px 10px;
+    box-shadow: none;
+  }
+}

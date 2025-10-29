@@ -448,6 +448,7 @@ export const Home = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [showMore, setShowMore] = useState(false);
   const [itemsPerView, setItemsPerView] = useState(3);
+  const [openNavbar, setOpenNavbar] = useState(false);
   const papersPerPage = 5; // Set how many items per page
   const coursePerPage = 5;
   // const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
@@ -460,13 +461,15 @@ export const Home = () => {
   const toggleInPaper = (index) => {
     setOpenInIndex(openInIndex === index ? null : index);
   };
-
+  const handleNavbarToggle = () => {
+    setOpenNavbar(!openNavbar);
+  };
 
   // teaching pagination
   const filteredPapers = paginatedPaper.filter(
-  (paper) => paper.tag === currentPaperType
-);
- const totalPages =Math.ceil(filteredPapers.length / papersPerPage) || 1;
+    (paper) => paper.tag === currentPaperType
+  );
+  const totalPages = Math.ceil(filteredPapers.length / papersPerPage) || 1;
 
 
   const paginatedPapers = filteredPapers.slice(
@@ -566,54 +569,54 @@ export const Home = () => {
 
 
   // roadmap
- 
+
   const [visiblePhases, setVisiblePhases] = useState([]);
   const phaseRefs = useRef([]);
 
-const roadmapData = [
-  {
-    id: 1,
-    title: "Mergers & Acquisitions",
-    school: "MAcc/MSF/MBA/PMBA Elective, University of Utah (2023 – Present)",
-    rating: "Average instructor rating (out of 6.0): 5.7 (2023); 5.9 (2024); 5.8 (2025)."
-  },
-  {
-    id: 2,
-    title: "Business Valuation and Analysis",
-    school: "MAcc/MSF/MBA/PMBA, University of Utah (2024 – Present)",
-    rating: "Average instructor rating (out of 6.0): 5.2 (2024); 5.4 (2025)."
-  },
-  {
-    id: 3,
-    title: "Finance for the Non-Financial Leader",
-    school: "Executive Education, University of Utah (2023 – Present)",
-    rating: ""
-  },
-  {
-    id: 4,
-    title: "Accounting PhD Seminar",
-    school: "University of Utah (Fall 2024)",
-    rating: ""
-  },
-  {
-    id: 5,
-    title: "Business Fundamentals of Accounting",
-    school: "Undergraduate, University of Utah (2021 – 2022)",
-    rating: "Average instructor rating (out of 6.0): 5.4 (2021); 5.7 (2022)."
-  },
-  {
-    id: 6,
-    title: "Intermediate Accounting",
-    school: "MAcc Intensive and Undergraduate, University of Utah (2018 – 2020)",
-    rating: "Average instructor rating (out of 6.0): 5.7 (2018); 5.8 (2019 – 2020)."
-  },
-  {
-    id: 7,
-    title: "Financial Reporting Analysis",
-    school: "MAcc/MSF/MBA, University of Utah (2015 – 2017)",
-    rating: "Average instructor rating (out of 6.0): 5.3 (2015, 2016); 5.5 (2017)."
-  }
-];
+  const roadmapData = [
+    {
+      id: 1,
+      title: "Mergers & Acquisitions",
+      school: "MAcc/MSF/MBA/PMBA Elective, University of Utah (2023 – Present)",
+      rating: "Average instructor rating (out of 6.0): 5.7 (2023); 5.9 (2024); 5.8 (2025)."
+    },
+    {
+      id: 2,
+      title: "Business Valuation and Analysis",
+      school: "MAcc/MSF/MBA/PMBA, University of Utah (2024 – Present)",
+      rating: "Average instructor rating (out of 6.0): 5.2 (2024); 5.4 (2025)."
+    },
+    {
+      id: 3,
+      title: "Finance for the Non-Financial Leader",
+      school: "Executive Education, University of Utah (2023 – Present)",
+      rating: ""
+    },
+    {
+      id: 4,
+      title: "Accounting PhD Seminar",
+      school: "University of Utah (Fall 2024)",
+      rating: ""
+    },
+    {
+      id: 5,
+      title: "Business Fundamentals of Accounting",
+      school: "Undergraduate, University of Utah (2021 – 2022)",
+      rating: "Average instructor rating (out of 6.0): 5.4 (2021); 5.7 (2022)."
+    },
+    {
+      id: 6,
+      title: "Intermediate Accounting",
+      school: "MAcc Intensive and Undergraduate, University of Utah (2018 – 2020)",
+      rating: "Average instructor rating (out of 6.0): 5.7 (2018); 5.8 (2019 – 2020)."
+    },
+    {
+      id: 7,
+      title: "Financial Reporting Analysis",
+      school: "MAcc/MSF/MBA, University of Utah (2015 – 2017)",
+      rating: "Average instructor rating (out of 6.0): 5.3 (2015, 2016); 5.5 (2017)."
+    }
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -665,16 +668,7 @@ const roadmapData = [
               <Link className="contact" >Contact</Link>
             </nav>
 
-            <div className="navBottom">
-              <div className='navButton'><i className="fa-solid fa-bars"></i> </div>
-              <div className='FLoadNav'>
-                <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
-                <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Research</Link>
-                <Link className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</Link>
-                <Link className="conferences" onClick={() => document.querySelector("#conferences")?.scrollIntoView({ behavior: "smooth" })}>Conferences</Link>
-                <Link className="contact">Contact</Link>
-              </div>
-            </div>
+
             <div className="hero-container">
               <div className="hero-name">
                 Atif Ellahie
@@ -692,8 +686,8 @@ const roadmapData = [
                     <li><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><i className="fa-brands fa-google-scholar" aria-hidden="true"></i></Link></li>
                     <li><Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" target="_blank"><img src="./Assets/ssrn_logo.svg" alt="facebook" /></Link></li>
                     <li><Link to="https://orcid.org/0000-0002-5241-8578" target="_blank"><img src="./Assets/ORCID_iD.svg" alt="facebook" /></Link></li>
-                  <li><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
-                <li><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/twitter.svg" alt="twitter" /></Link></li>
+                    <li><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
+                    <li><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/twitter.svg" alt="twitter" /></Link></li>
                   </ul>
                 </div>
                 <div className='user-signature'>
@@ -704,6 +698,16 @@ const roadmapData = [
 
           </div>
           <div className='rightContainer'>
+            <div className="navBottom">
+              <div className='navButton'><i onClick={handleNavbarToggle} className="fa-solid fa-bars"></i> </div>
+              <div className={`FLoadNav ${openNavbar ? "open" : ""}`}>
+                <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
+                <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Research</Link>
+                <Link className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</Link>
+                <Link className="conferences" onClick={() => document.querySelector("#conferences")?.scrollIntoView({ behavior: "smooth" })}>Conferences</Link>
+                <Link className="contact">Contact</Link>
+              </div>
+            </div>
             <img src="./Assets/user.jpeg" className='profileImage' alt="Profile" />
           </div>
         </div>
@@ -734,7 +738,7 @@ const roadmapData = [
         <div className="ResHeader container">
           <div className='lineRes'>
             <div className="heading-title">
-              <p>Publications and<br/> Scholarly Contributions</p>
+              <p>Publications and<br /> Scholarly Contributions</p>
             </div>
           </div>
 
@@ -887,7 +891,7 @@ const roadmapData = [
                 >
                   <div className={`phase-row ${isLeft ? 'left-side' : 'right-side'}`}>
                     <div className="phase-content">
-                      <div  className={`phase-card ${isLeft ? 'from-left' : 'from-right'}`} >
+                      <div className={`phase-card ${isLeft ? 'from-left' : 'from-right'}`} >
                         <div className="card-header-map">
                           <h5 className="card-title">{item.title}</h5>
                           <p className="phase-label">{item.school}</p>

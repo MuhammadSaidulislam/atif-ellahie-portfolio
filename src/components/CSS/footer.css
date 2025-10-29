@@ -51,3 +51,14 @@
   position: absolute;
   background: linear-gradient(213deg, var(--color-primary) 0%, #623F9F 100%);
 }
+
+
+/* Mobile */
+@media (max-width: 768px) {
+.FooterContainer{
+  flex-direction: column;
+}
+.FooterRight{
+  margin-top: 15px;
+}
+}
