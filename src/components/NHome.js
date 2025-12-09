@@ -52,7 +52,7 @@ export class Home extends Component {
       currentPageTM: 0,
       studentsPerPage: 5,
       conferencePerPage: 6,
-      teachingPerPage: 3,
+      teachingPerPage: 30,
       currentPaperType: 'Publications',
       expandedIndexes: [],
       currentTeachingTitle: "",
@@ -921,115 +921,115 @@ export class Home extends Component {
 
 
   getPaginatedTeachingMaterials() {
-  const { s_query, currentPageTM, teachingPerPage, allTeachingMaterials } = this.state;
-  let filteredMaterials = allTeachingMaterials;
-  
-  // Replace "nan" with empty string
-  filteredMaterials.forEach(mat => {
-    for (var key in mat) {
-      if (mat[key] === 'nan') {
-        mat[key] = '';
+    const { s_query, currentPageTM, teachingPerPage, allTeachingMaterials } = this.state;
+    let filteredMaterials = allTeachingMaterials;
+
+    // Replace "nan" with empty string
+    filteredMaterials.forEach(mat => {
+      for (var key in mat) {
+        if (mat[key] === 'nan') {
+          mat[key] = '';
+        }
       }
-    }
-  });
-  
-  // Trim & remove leading/trailing commas
-  filteredMaterials.forEach(mat => {
-    for (const key in mat) {
-      mat[key] = String(mat[key]).trim();
-      if (mat[key].startsWith(',')) {
-        mat[key] = mat[key].substring(1).trim();
-      }
-      if (mat[key].endsWith(',')) {
-        mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
-      }
-    }
-  });
-  
-  // Search/filter logic
-  if (s_query && s_query.trim() !== "") {
-    filteredMaterials = filteredMaterials.filter(material => {
-      return Object.keys(material).some(key =>
-        String(material[key]).toLowerCase().includes(s_query.toLowerCase())
-      );
     });
-  }
-  
-  // Overlapping pagination: shift by (teachingPerPage - 1) instead of teachingPerPage
-  const shiftAmount = teachingPerPage - 1; // This will be 2 when teachingPerPage is 3
-  const startIndex = currentPageTM * shiftAmount;
-  const endIndex = startIndex + teachingPerPage;
-  const paginatedMaterials = filteredMaterials.slice(startIndex, endIndex);
-  
-  // Fill with placeholders if needed
-  while (paginatedMaterials.length < teachingPerPage) {
-    paginatedMaterials.push(null);
-  }
-  
-  return paginatedMaterials;
-}
 
-// Get filtered materials count
-getFilteredTeachingMaterialsCount() {
-  const { s_query, allTeachingMaterials } = this.state;
-  let filteredMaterials = allTeachingMaterials;
-  
-  // Replace "nan" with empty string
-  filteredMaterials.forEach(mat => {
-    for (var key in mat) {
-      if (mat[key] === 'nan') {
-        mat[key] = '';
+    // Trim & remove leading/trailing commas
+    filteredMaterials.forEach(mat => {
+      for (const key in mat) {
+        mat[key] = String(mat[key]).trim();
+        if (mat[key].startsWith(',')) {
+          mat[key] = mat[key].substring(1).trim();
+        }
+        if (mat[key].endsWith(',')) {
+          mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+        }
       }
-    }
-  });
-  
-  // Trim & remove leading/trailing commas
-  filteredMaterials.forEach(mat => {
-    for (const key in mat) {
-      mat[key] = String(mat[key]).trim();
-      if (mat[key].startsWith(',')) {
-        mat[key] = mat[key].substring(1).trim();
-      }
-      if (mat[key].endsWith(',')) {
-        mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
-      }
-    }
-  });
-  
-  // Search/filter logic
-  if (s_query && s_query.trim() !== "") {
-    filteredMaterials = filteredMaterials.filter(material => {
-      return Object.keys(material).some(key =>
-        String(material[key]).toLowerCase().includes(s_query.toLowerCase())
-      );
     });
-  }
-  
-  return filteredMaterials.length;
-}
 
-// Next page handler with overlapping logic
-nextPageTM = () => {
-  const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
-  const shiftAmount = this.state.teachingPerPage - 1;
-  const nextStartIndex = (this.state.currentPageTM + 1) * shiftAmount;
-  
-  // Check if there are enough items for the next page
-  if (nextStartIndex < totalFilteredCount) {
-    this.setState(prevState => ({
-      currentPageTM: prevState.currentPageTM + 1
-    }));
-  }
-};
+    // Search/filter logic
+    if (s_query && s_query.trim() !== "") {
+      filteredMaterials = filteredMaterials.filter(material => {
+        return Object.keys(material).some(key =>
+          String(material[key]).toLowerCase().includes(s_query.toLowerCase())
+        );
+      });
+    }
 
-// Previous page handler
-prevPageTM = () => {
-  if (this.state.currentPageTM > 0) {
-    this.setState(prevState => ({
-      currentPageTM: prevState.currentPageTM - 1
-    }));
+    // Overlapping pagination: shift by (teachingPerPage - 1) instead of teachingPerPage
+    const shiftAmount = teachingPerPage - 1; // This will be 2 when teachingPerPage is 3
+    const startIndex = currentPageTM * shiftAmount;
+    const endIndex = startIndex + teachingPerPage;
+    const paginatedMaterials = filteredMaterials.slice(startIndex, endIndex);
+
+    // Fill with placeholders if needed
+    while (paginatedMaterials.length < teachingPerPage) {
+      paginatedMaterials.push(null);
+    }
+
+    return paginatedMaterials;
   }
-};
+
+  // Get filtered materials count
+  getFilteredTeachingMaterialsCount() {
+    const { s_query, allTeachingMaterials } = this.state;
+    let filteredMaterials = allTeachingMaterials;
+
+    // Replace "nan" with empty string
+    filteredMaterials.forEach(mat => {
+      for (var key in mat) {
+        if (mat[key] === 'nan') {
+          mat[key] = '';
+        }
+      }
+    });
+
+    // Trim & remove leading/trailing commas
+    filteredMaterials.forEach(mat => {
+      for (const key in mat) {
+        mat[key] = String(mat[key]).trim();
+        if (mat[key].startsWith(',')) {
+          mat[key] = mat[key].substring(1).trim();
+        }
+        if (mat[key].endsWith(',')) {
+          mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+        }
+      }
+    });
+
+    // Search/filter logic
+    if (s_query && s_query.trim() !== "") {
+      filteredMaterials = filteredMaterials.filter(material => {
+        return Object.keys(material).some(key =>
+          String(material[key]).toLowerCase().includes(s_query.toLowerCase())
+        );
+      });
+    }
+
+    return filteredMaterials.length;
+  }
+
+  // Next page handler with overlapping logic
+  nextPageTM = () => {
+    const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
+    const shiftAmount = this.state.teachingPerPage - 1;
+    const nextStartIndex = (this.state.currentPageTM + 1) * shiftAmount;
+
+    // Check if there are enough items for the next page
+    if (nextStartIndex < totalFilteredCount) {
+      this.setState(prevState => ({
+        currentPageTM: prevState.currentPageTM + 1
+      }));
+    }
+  };
+
+  // Previous page handler
+  prevPageTM = () => {
+    if (this.state.currentPageTM > 0) {
+      this.setState(prevState => ({
+        currentPageTM: prevState.currentPageTM - 1
+      }));
+    }
+  };
 
 
 
@@ -1233,9 +1233,9 @@ prevPageTM = () => {
     const { teachingInputOpen, teachingSearchValue } = this.state;
     const { conferenceInputOpen, conferenceSearchValue } = this.state;
 
- const paginatedMaterials = this.getPaginatedTeachingMaterials();
-  const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
-  const totalPages = Math.ceil(totalFilteredCount / this.state.teachingPerPage);
+    const paginatedMaterials = this.getPaginatedTeachingMaterials();
+    const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
+    const totalPages = Math.ceil(totalFilteredCount / this.state.teachingPerPage);
 
 
     $(document).ready(function () {
@@ -1313,7 +1313,7 @@ prevPageTM = () => {
               </a>
 
               <div class="social-icons">
-                <Link href="#" class="social-icon"><img src="/Assets/dark_facebook.svg" alt="facebook" /></Link>
+                <Link href="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" class="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
                 <Link to="https://x.com/atifellahie" class="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
                 <Link to="https://www.linkedin.com/in/atifellahie/" class="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
                 <Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" class="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
@@ -1607,84 +1607,57 @@ prevPageTM = () => {
             </div>
           </div>
 
+<div className='teachingWrapper'>
 
-          <div className='container teachingSection'>
-            <div className='courseCarousel'>
+
+          <div className=' teachingSection scroll-transparent '>
+            <div className='courseCarousel container'>
               {paginatedMaterials.map((material, index) => {
-          if (material) {
-            return (
-               <div key={index} className='activityCourse'>
-                  <div className='courseNumber'>
-                    <h5>{index + 1}</h5>
-                    <p>Merges & <br /> Acquisitions</p>
-                  </div>
-                  <div className='courseBox'>
-                    <div className='courseHeading'>
-                      <p>{material.Title}</p>
-                      <p>2018</p>
+                if (material) {
+                  return (
+                    <div key={index} className='activityCourse'>
+                      <div className='courseNumber'>
+                        <h5>{index + 1}</h5>
+                        <p>Merges & <br /> Acquisitions</p>
+                      </div>
+                      <div className='courseBox'>
+                        <div className='courseHeading'>
+                          <p>{material.Title}</p>
+                          <p>2018</p>
+                        </div>
+                        <div className='courseHeading'>
+                          <p>University of Utah</p>
+                        </div>
+                        <div className='courseContent'>
+                          <p>Average instructor rating </p>
+                        </div>
+                        <div className='courseRating'>
+                          <ul>
+                            <li>5.7/6.0(2023)</li>
+                            <li>5.9/6.0(2024)</li>
+                            <li>5.7/6.0(2023)</li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
-                    <div className='courseHeading'>
-                      <p>University of Utah</p>
+                  );
+                } else {
+                  return (
+                    <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
+                      {/* Empty placeholder for consistent layout */}
                     </div>
-                    <div className='courseContent'>
-                      <p>Average instructor rating </p>
-                    </div>
-                    <div className='courseRating'>
-                      <ul>
-                        <li>5.7/6.0(2023)</li>
-                        <li>5.9/6.0(2024)</li>
-                        <li>5.7/6.0(2023)</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-            );
-          } else {
-            return (
-              <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
-                {/* Empty placeholder for consistent layout */}
-              </div>
-            );
-          }
-        })}
-        
-        {totalFilteredCount === 0 && (
-          <div className="noResults">No teaching materials found</div>
-        )}
-              
+                  );
+                }
+              })}
+
+              {totalFilteredCount === 0 && (
+                <div className="noResults">No teaching materials found</div>
+              )}
+
             </div>
           </div>
-           {/* Pagination Controls */}
-      {totalPages !== 1 ? (
-        <div className="conferencePagination">
-          <div className="paginationBackground">
-            <button
-              className="btn-back"
-              onClick={this.prevPageTM}
-              disabled={this.state.currentPageTM === 0}
-            >
-              <i className="fa-solid fa-chevron-down"></i>
-            </button>
-            
-            <div className="pageNumber">
-              <span>{this.state.currentPageTM + 1}</span>
-              <span>of</span>
-              <span>{totalPages}</span>
-            </div>
-            
-            <button
-              className="btn-back"
-              onClick={this.nextPageTM}
-              disabled={
-                (this.state.currentPageTM + 1) * this.state.teachingPerPage >= 
-                totalFilteredCount
-              }
-            >
-              <i className="fa-solid fa-chevron-up"></i>
-            </button>
           </div>
-        </div>
-      ) : null}
+       
 
 
 
@@ -1814,7 +1787,7 @@ prevPageTM = () => {
               : null
           }
         </div>
-        
+
         {
           this.state.allAwards.length > 0 ?
             <>
@@ -1932,7 +1905,7 @@ prevPageTM = () => {
               <span>Copyright © atifellahie - 2025</span>
             </div>
             <div className="FooterRight">
-              <Link to="" className="SocialIcon"> <img src="/Assets/facebook.svg" alt="facebook" /> </Link>
+              <Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="SocialIcon"> <img src="/Assets/scholars.svg" alt="facebook" /> </Link>
               <Link to="https://x.com/atifellahie" className="SocialIcon"> <img src="/Assets/x.svg" alt="facebook" /> </Link>
               <Link to="https://www.linkedin.com/in/atifellahie/" className="SocialIcon"> <img src="/Assets/linkedin.svg" alt="facebook" /> </Link>
               <Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="SocialIcon"> <img src="/Assets/ssrn.svg" alt="facebook" /> </Link>

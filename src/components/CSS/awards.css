@@ -191,8 +191,7 @@ display: flex;
    margin-top: 120px;
 }
 .teachingSection{
-  padding: 28px;
-  padding-bottom: 60px;
+position: relative;
    border-top: 1px solid rgba(234, 234, 234, 1);
   border-bottom: 1px solid rgba(234, 234, 234, 1);
   border-left: none;
@@ -202,30 +201,69 @@ display: flex;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
+  margin-top: 38px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+
 }
 .courseCarousel {
   position: relative;
   display: flex;
   gap: 20px;
   padding: 20px 0px;
-  overflow-x: hidden;
-  scroll-snap-type: x mandatory;
-
+  /* overflow-x: hidden;
+  scroll-snap-type: x mandatory; */
 }
-.courseCarousel:after {
+.teachingWrapper {
+  position: relative;
+}
+.teachingWrapper:after{
   content: "";
   position: absolute;
   top: 0;
   right: 0;
-  width: 150px;           /* how wide the fade area is */
+  width: 200px;
   height: 100%;
-  pointer-events: none;   /* don't block clicks */
+  pointer-events: none;
+  z-index: 999;
+ background: linear-gradient(90deg, rgba(255, 255, 255, 0) 10.7%, #FFFFFF 51.45%);
+}
+
+
+.scroll-transparent {
+    scrollbar-color: #0000 #0000;
+    scrollbar-width: thin
+}
+
+.scroll-transparent::-webkit-scrollbar {
+    height: 8px;
+    width: 8px
+}
+
+.scroll-transparent::-webkit-scrollbar-track {
+    background: #0000
+}
+
+.scroll-transparent::-webkit-scrollbar-thumb {
+    background-color: initial
+}
+
+
+/* .courseCarousel:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;           
+  height: 100%;
+  pointer-events: none;  
   background: linear-gradient(
     to right,
     rgba(255, 255, 255, 0) 0%,
     #ffffff 100%
   );
-}
+} */
 
 .activityCourse {
   min-width: 40%;       /* 2.5 items => 40% + 40% + 40% = 120% */
