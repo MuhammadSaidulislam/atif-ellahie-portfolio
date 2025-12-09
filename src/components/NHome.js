@@ -1,1109 +1,1980 @@
-
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Component, createRef } from 'react';
+import { firebaseConfig } from './firebase/creds'
+import $, { data } from "jquery";
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, onValue, update, child, get, set, remove } from "firebase/database";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getStorage, getDownloadURL, listAll } from "firebase/storage";
 import "./CSS/styles.css";
 import "./CSS/research.css";
 import "./CSS/awards.css";
 import "./CSS/footer.css";
+
 import toast, { Toaster } from 'react-hot-toast';
+import isEqual from 'lodash.isequal';
 import 'react-tabs/style/react-tabs.css';
 import 'quill/dist/quill.snow.css';
 import { Link } from 'react-router-dom';
-// social icons
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+var storage = getStorage(app);
+// Initialize Realtime Database and get a reference to the service
+const database = getDatabase(app);
 
-const courseList = [
-  {
-    type: "Publications",
-    title: "Sample Publication Title",
-    course: "Related Course (if any)",
-    description: "Short description about the publication or context."
-  },
-  {
-    type: "Working Papers",
-    title: "Sample Working Paper Title",
-    course: "Related Course (if any)",
-    description: "Short description about the content of the working paper."
-  },
-  {
-    type: "Cases",
-    title: "Sample Case Study Title",
-    course: "Course or Program where used",
-    description: "Brief explanation about the case."
-  },
-  {
-    type: "Work-in-Progress",
-    title: "Sample Work-in-Progress Title",
-    course: "Optional course/subject",
-    description: "Description of the current development work."
-  }
-];
-let teachingList = ["Publications", "Working Papers", "Book Chapters"]
+const api = process.env.REACT_APP_API;
+const video_api = process.env.REACT_APP_VIDEO_API;
 
+export class Home extends Component {
+  static displayName = Home.name;
 
-const paginatedPaper = [
-  {
-    title: "Are CEOs Rewarded for Luck? Evidence from Corporate Tax Windfalls",
-    publish_date: "2025",
-    journal: "Journal of Finance",
-    journal_title: "J. Finance",
-    authors: "Andreani, M., Ellahie, A., & Shivakumar, L.",
-    description: "Study examining whether CEOs are rewarded for luck arising from corporate tax windfalls.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "Measuring the Quality of Mergers and Acquisitions",
-    publish_date: "2025",
-    journal: "Management Science",
-    journal_title: "Manage. Sci.",
-    authors: "Ellahie, A., Hshieh, S., & Zhang, F.",
-    description: "Framework for assessing the long-term quality and effectiveness of M&A transactions.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "Accounting for Bubbles: A Discussion of Arif and Sul (2024)",
-    publish_date: "2024",
-    journal: "Journal of Accounting and Economics",
-    journal_title: "JAE",
-    authors: "Ellahie, A.",
-    description: "Invited discussion on accounting implications of market bubbles, presented at 2023 JAE Conference.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "Disclosure in Initial Coin Offerings",
-    publish_date: "2024",
-    journal: "The Palgrave Encyclopedia of Private Equity",
-    journal_title: "",
-    authors: "Ellahie, A.",
-    description: "Book chapter in Palgrave Encyclopedia of Private Equity, edited by Cumming, D., Hammer, B.",
-    paper_link: "",
-    tag: "Book Chapters"
-  },
-  {
-    title: "Growth Matters: Disclosure and Risk Premium",
-    publish_date: "2022",
-    journal: "The Accounting Review",
-    journal_title: "Acc. Rev.",
-    authors: "Ellahie, A., Hayes, R., & Plumlee, M.",
-    description: "Investigates how disclosure growth affects risk premiums in public markets.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "The Role of Disclosure and Information Intermediaries in an Unregulated Capital Market: Evidence from Initial Coin Offerings",
-    publish_date: "2022",
-    journal: "Journal of Accounting Research",
-    journal_title: "JAR",
-    authors: "Bourveau, T., De George, E., Ellahie, A., & Macciocchi, D.",
-    description: "Analysis of disclosure and information intermediary impacts in ICO markets.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "Show Me the Money! Dividend Policy in Countries with Weak Institutions",
-    publish_date: "2021",
-    journal: "Journal of Accounting Research",
-    journal_title: "JAR",
-    authors: "Ellahie, A., & Kaplan, Z.",
-    description: "Explores dividend policies in countries with weak governance and institutional frameworks.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "Management Forecasts of Volatility",
-    publish_date: "2021",
-    journal: "Review of Accounting Studies",
-    journal_title: "RAS",
-    authors: "Ellahie, A., & Peng, X.",
-    description: "Examines how managers forecast firms’ volatility and its impact on capital markets.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "Earnings Beta",
-    publish_date: "2021",
-    journal: "Review of Accounting Studies",
-    journal_title: "RAS",
-    authors: "Ellahie, A.",
-    description: "Sole-authored paper based on PhD dissertation on how earnings respond to aggregate economic factors.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "Risky Value",
-    publish_date: "2020",
-    journal: "",
-    journal_title: "",
-    authors: "Ellahie, A., Katz, M., & Richardson, S.",
-    description: "Covered in UBS Academic Research Monitor.",
-    paper_link: "",
-    tag: "Working Papers"
-  },
-  {
-    title: "Information Content of Mandated Bank Stress Test Disclosures",
-    publish_date: "2018",
-    journal: "",
-    journal_title: "",
-    authors: "Ellahie, A.",
-    description: "Presented at 2012 JAR/FRBNY Conference as Capital Market Consequences of EU Bank Stress Tests.",
-    paper_link: "",
-    tag: "Working Papers"
-  },
-  {
-    title: "Do Common Inherited Beliefs and Values Influence CEO Pay?",
-    publish_date: "2017",
-    journal: "Journal of Accounting and Economics",
-    journal_title: "JAE",
-    authors: "Ellahie, A., Tahoun, A., & Tuna, İ.",
-    description: "Investigates how inherited beliefs and values influence compensation structures for CEOs.",
-    paper_link: "",
-    tag: "Publications"
-  },
-  {
-    title: "Government Purchases Reloaded: Informational Insufficiency and Heterogeneity in Fiscal VARs",
-    publish_date: "2017",
-    journal: "Journal of Monetary Economics",
-    journal_title: "JME",
-    authors: "Ellahie, A., & Ricco, G.",
-    description: "Analyzes government purchases using fiscal VAR techniques, with a focus on informational heterogeneity.",
-    paper_link: "",
-    tag: "Publications"
-  }
-];
-
-
-
-const awardsList = [
-  {
-    "id": 1,
-    "date": "1996",
-    "name": "Dean’s Honor Roll",
-    "description": "Lahore University of Management Sciences"
-  },
-  {
-    "id": 2,
-    "date": "1997",
-    "name": "Askari Bank Gold Medal for Best Student in Banking",
-    "description": "Lahore University of Management Sciences"
-  },
-  {
-    "id": 3,
-    "date": "1997",
-    "name": "Dean’s Honor Roll",
-    "description": "Lahore University of Management Sciences"
-  },
-  {
-    "id": 4,
-    "date": "1999",
-    "name": "Distinction Awarded for MSc Degree",
-    "description": "London School of Economics"
-  },
-  {
-    "id": 5,
-    "date": "2006",
-    "name": "Performance Award for Leadership in Recruiting and Training",
-    "description": "UBS Investment Bank"
-  },
-  {
-    "id": 6,
-    "date": "2007",
-    "name": "Performance Award for Leadership in Recruiting and Training",
-    "description": "UBS Investment Bank"
-  },
-  {
-    "id": 7,
-    "date": "2010",
-    "name": "PhD Program Financial Award",
-    "description": "London Business School"
-  },
-  {
-    "id": 8,
-    "date": "2012",
-    "name": "Best Paper Prize for Young Economists",
-    "description": "Warsaw International Economic Meeting"
-  },
-  {
-    "id": 9,
-    "date": "2015",
-    "name": "PhD Program Financial Award",
-    "description": "London Business School"
-  },
-  {
-    "id": 10,
-    "date": "2017",
-    "name": "AAA FARS Excellence in Reviewing Award",
-    "description": "American Accounting Association"
-  },
-  {
-    "id": 11,
-    "date": "2018",
-    "name": "H. James Griggs-FIA Fellow Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 12,
-    "date": "2019",
-    "name": "H. James Griggs-FIA Fellow Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 13,
-    "date": "2020",
-    "name": "David Eccles Emerging Scholar Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 14,
-    "date": "2020",
-    "name": "Kenneth J. Hanni Teaching Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 15,
-    "date": "2020",
-    "name": "AAA FARS Excellence in Reviewing Award",
-    "description": "American Accounting Association"
-  },
-  {
-    "id": 16,
-    "date": "2021",
-    "name": "David Eccles Emerging Scholar Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 17,
-    "date": "2021",
-    "name": "AAA FARS Excellence in Reviewing Award",
-    "description": "American Accounting Association"
-  },
-  {
-    "id": 18,
-    "date": "2022",
-    "name": "David Eccles Faculty Fellow Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 19,
-    "date": "2023",
-    "name": "Excellence in Refereeing Award",
-    "description": "Journal of Accounting Research"
-  },
-  {
-    "id": 20,
-    "date": "2023",
-    "name": "Daniels Fund Leadership in Ethics Education Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 21,
-    "date": "2023",
-    "name": "Dr. Rodney H. Brady Faculty Superior Teaching Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 22,
-    "date": "2023",
-    "name": "David Eccles Faculty Fellow Award",
-    "description": "University of Utah"
-  },
-  {
-    "id": 23,
-    "date": "2023",
-    "name": "AAA FARS Excellence in Reviewing Award",
-    "description": "American Accounting Association"
-  },
-  {
-    "id": 24,
-    "date": "2024",
-    "name": "Excellence in Refereeing Award",
-    "description": "Journal of Accounting Research"
-  },
-  {
-    "id": 25,
-    "date": "2024",
-    "name": "Top Referee Award",
-    "description": "Review of Accounting Studies"
-  },
-  {
-    "id": 26,
-    "date": "2024",
-    "name": "Outstanding Reviewer Award",
-    "description": "The Accounting Review"
-  },
-  {
-    "id": 27,
-    "date": "2024",
-    "name": "AAA FARS Outstanding Service Award",
-    "description": "American Accounting Association"
-  },
-  {
-    "id": 28,
-    "date": "2024",
-    "name": "David Eccles Faculty Fellow Award",
-    "description": "University of Utah"
-  }
-];
-
-
-const conferences = [
-  // 2015
-  { title: "LBS Accounting Symposium", date: "2015", role: "Presenter" },
-  { title: "RAST Conference", date: "2015", role: "Presenter" },
-
-  // 2016
-  { title: "CAR Conference", date: "2016", role: "Presenter" },
-  { title: "CARE Conference", date: "2016", role: "Presenter" },
-  { title: "LBS Accounting Symposium", date: "2016", role: "Presenter" },
-  { title: "Utah Winter Accounting Conference (UWAC)", date: "2016", role: "Presenter" },
-
-  // 2017
-  { title: "Contemporary Accounting Research (CAR) Conference", date: "2017", role: "Presenter" },
-  { title: "Columbia Burton Conference", date: "2017", role: "Presenter" },
-  { title: "LBS Accounting Symposium", date: "2017", role: "Presenter" },
-  { title: "Utah Winter Accounting Conference (UWAC)", date: "2017", role: "Presenter" },
-
-  // 2018
-  { title: "LBS Accounting Symposium", date: "2018", role: "Presenter" },
-  { title: "RAST Conference", date: "2018", role: "Presenter" },
-  { title: "Utah Winter Accounting Conference (UWAC)", date: "2018", role: "Presenter" },
-  { title: "WashU Dopuch Accounting Conference", date: "2018", role: "Presenter" },
-
-  // 2019
-  { title: "Columbia Burton Conference", date: "2019", role: "Presenter" },
-  { title: "LBS Accounting Symposium", date: "2019", role: "Presenter" },
-  { title: "Michigan Kapnick Conference", date: "2019", role: "Presenter" },
-  { title: "Utah Winter Accounting Conference (UWAC)", date: "2019", role: "Presenter" },
-
-  // 2020
-  { title: "RAST Conference", date: "2020", role: "Virtual Presenter" },
-  { title: "Utah Winter Accounting Conference (UWAC)", date: "2020", role: "Presenter" },
-
-  // 2021
-  { title: "JAR Conference", date: "2021", role: "Presenter" },
-  { title: "Miami Winter Warm-up Conference", date: "2021", role: "Presenter" },
-  { title: "RAST Conference", date: "2021", role: "Presenter" },
-
-  // 2022
-  { title: "Carbon Disclosures Conference (Stanford)", date: "2022", role: "Presenter" },
-  { title: "LAG Conference", date: "2022", role: "Presenter" },
-  { title: "LBS Accounting Symposium", date: "2022", role: "Presenter" },
-  { title: "Miami Winter Warm-up Conference", date: "2022", role: "Presenter" },
-  { title: "JAR Conference", date: "2022", role: "Presenter" },
-  { title: "RAST Conference", date: "2022", role: "Presenter" },
-  { title: "Utah Winter Accounting Conference (UWAC)", date: "2022", role: "Presenter" },
-
-  // 2023
-  { title: "Bocconi Accounting Conference", date: "2023", role: "Presenter" },
-  { title: "Columbia Burton Conference", date: "2023", role: "Presenter" },
-  { title: "LBS Accounting Symposium", date: "2023", role: "Presenter" },
-  { title: "Michigan Kapnick Conference", date: "2023", role: "Presenter" },
-  { title: "RAST Conference", date: "2023", role: "Presenter" },
-  { title: "Utah Winter Accounting Conference (UWAC)", date: "2023", role: "Presenter" },
-  { title: "WashU Dopuch Conference", date: "2023", role: "Presenter" },
-
-  // 2024
-  { title: "Bocconi Accounting Conference", date: "2024", role: "Presenter" },
-  { title: "LBS Accounting Symposium", date: "2024", role: "Presenter" },
-  { title: "Minnesota Empirical Accounting Conference", date: "2024", role: "Presenter" },
-  { title: "Review of Accounting Studies Conference (RAST)", date: "2024", role: "Presenter" },
-
-  // 2025
-  { title: "INSEAD Accounting Symposium", date: "2025", role: "Presenter" },
-  { title: "Kelley Accounting Research Symposium", date: "2025", role: "Scheduled" },
-  { title: "LSE Economics of Accounting Conference", date: "2025", role: "Presenter" },
-  { title: "NYU Big Apple Accounting Conference", date: "2025", role: "Presenter" },
-  { title: "University of Illinois Young Scholars Research Symposium", date: "2025", role: "Presenter" },
-  { title: "Utah Winter Accounting Conference (UWAC)", date: "2025", role: "Presenter" },
-  { title: "UTD-SMU Cowtown Accounting Conference", date: "2025", role: "Scheduled" }
-];
-
-const Initiatives = [
-  {
-    "title": "Introduction to React",
-    "description": "Learn the basics of React, including components, state, and props."
-  },
-  {
-    "title": "Advanced JavaScript",
-    "description": "Deep dive into JavaScript concepts like closures, async/await, and event loops."
-  },
-  {
-    "title": "UI/UX Design Principles",
-    "description": "Understand the fundamentals of user interface and user experience design."
-  }
-]
-
-
-
-export const Home = () => {
-  const [currentPaperType, setCurrentPaperType] = useState(teachingList[0]);
-  const [currentPaperPage, setCurrentPaperPage] = useState(0);
-  const [openIndex, setOpenIndex] = useState(null);
-  const [openInIndex, setOpenInIndex] = useState(null);
-  const [currentTeaching, setCurrentTeaching] = useState(0);
-  const [coursePage, setCoursePage] = useState(0);
-  const [currentCourse, setCurrentCourse] = useState(courseList[0]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
-  const [showMore, setShowMore] = useState(false);
-  const [itemsPerView, setItemsPerView] = useState(3);
-  const [openNavbar, setOpenNavbar] = useState(false);
-  const papersPerPage = 5; // Set how many items per page
-  const coursePerPage = 5;
-  // const totalPages = Math.ceil(paginatedPaper.length / papersPerPage);
-  const totalCourses = Math.ceil(conferences.length / coursePerPage);
-
-  const togglePaper = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
-  const toggleInPaper = (index) => {
-    setOpenInIndex(openInIndex === index ? null : index);
-  };
-  const handleNavbarToggle = () => {
-    setOpenNavbar(!openNavbar);
-  };
-
-  // teaching pagination
-  const filteredPapers = paginatedPaper.filter(
-    (paper) => paper.tag === currentPaperType
-  );
-  const totalPages = Math.ceil(filteredPapers.length / papersPerPage) || 1;
-
-
-  const paginatedPapers = filteredPapers.slice(
-    currentTeaching * papersPerPage,
-    currentTeaching * papersPerPage + papersPerPage
-  );
-
-  const prevPage = () => {
-    if (currentTeaching > 0) setCurrentTeaching(currentTeaching - 1);
-  };
-
-  const nextPage = () => {
-    if (currentTeaching < totalPages - 1) setCurrentTeaching(currentTeaching + 1);
-  };
-
-  // course pagination
-  const paginatedCourses = conferences.slice(
-    coursePage * coursePerPage,
-    coursePage * coursePerPage + coursePerPage
-  );
-
-  const prevCoursePage = () => {
-    if (coursePage > 0) setCoursePage(coursePage - 1);
-  };
-
-  const nextCoursePage = () => {
-    if (coursePage < totalPages - 1) setCoursePage(coursePage + 1);
-  };
-
-
-  // course list
-
-  const handleTabClick = (item) => {
-    setCurrentCourse(item);
-  };
-
-
-  // award carousel
-
-  const maxIndex = awardsList.length - itemsPerView;
-
-  // Handle responsive items per view
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setItemsPerView(1);
-      } else if (window.innerWidth < 1024) {
-        setItemsPerView(2);
-      } else {
-        setItemsPerView(3);
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: process.env.REACT_APP_TOKEN,
+      currentProfile: process.env.REACT_APP_TOKEN,
+      currentProfileData: {},
+      socialMedia: {},
+      allPapers: [],
+      allVideos: [],
+      allTeachingVideos: [],
+      allTeachingMaterials: [],
+      allBooks: [],
+      allConfarences: [],
+      languages: [],
+      interests: [],
+      researches: [],
+      allClasses: [],
+      s_query: '',
+      currentPage: 0,
+      currentPage2: 0,
+      currentPageTM: 0,
+      studentsPerPage: 5,
+      conferencePerPage: 6,
+      teachingPerPage: 3,
+      currentPaperType: 'Publications',
+      expandedIndexes: [],
+      currentTeachingTitle: "",
+      currentTeachingCls: "",
+      currentPos2: 1,
+      allAwards: [],
+      open: false,
+      teachingOpen: false,
+      conferenceOpen: false,
+      selected: "",
+      inputOpen: false,
+      teachingSelected: "",
+      teachingInputOpen: false,
+      conferenceSelected: "",
+      conferenceInputOpen: false,
+      searchValue: "",
+      teachingSearchValue: "",
+      conferenceSearchValue: "",
+      sidebarOpen: false,
+      screenWidth: document.documentElement.clientWidth,
+      visiblePapers: [],   // items currently shown
+      loadCount: 10,       // how many to load per scroll
+      isFetching: false,
+      openIndex: null,
+      expanded: false,
+      height: 300,
     };
+    this.boxRef = createRef();
+  }
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  componentDidMount() {
+    this.clearStateOnce("adeorrev3");
+    this.loadState();
+    this.loadDataForCurrentProfile(this.state.currentProfile);
+    window.addEventListener("resize", this.handleResize);
 
-  // Reset currentIndex if it exceeds maxIndex
-  useEffect(() => {
-    if (currentIndex > maxIndex) {
-      setCurrentIndex(maxIndex);
-    }
-  }, [itemsPerView, currentIndex, maxIndex]);
-
-  // Auto-play functionality
-  useEffect(() => {
-    if (!isAutoPlay) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === maxIndex ? 0 : prevIndex + 1
-      );
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlay, maxIndex]);
-
-  const goToPrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? maxIndex : prevIndex - 1
-    );
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === maxIndex ? 0 : prevIndex + 1
-    );
-  };
-
-  const goToSlide = (index) => {
-    setCurrentIndex(index);
-  };
-
-  const totalDots = maxIndex + 1;
-
-
-
-  // roadmap
-
-  const [visiblePhases, setVisiblePhases] = useState([]);
-  const phaseRefs = useRef([]);
-
-  const roadmapData = [
-    {
-      id: 1,
-      title: "Mergers & Acquisitions",
-      school: "MAcc/MSF/MBA/PMBA Elective, University of Utah (2023 – Present)",
-      rating: "Average instructor rating (out of 6.0): 5.7 (2023); 5.9 (2024); 5.8 (2025)."
-    },
-    {
-      id: 2,
-      title: "Business Valuation and Analysis",
-      school: "MAcc/MSF/MBA/PMBA, University of Utah (2024 – Present)",
-      rating: "Average instructor rating (out of 6.0): 5.2 (2024); 5.4 (2025)."
-    },
-    {
-      id: 3,
-      title: "Finance for the Non-Financial Leader",
-      school: "Executive Education, University of Utah (2023 – Present)",
-      rating: ""
-    },
-    {
-      id: 4,
-      title: "Accounting PhD Seminar",
-      school: "University of Utah (Fall 2024)",
-      rating: ""
-    },
-    {
-      id: 5,
-      title: "Business Fundamentals of Accounting",
-      school: "Undergraduate, University of Utah (2021 – 2022)",
-      rating: "Average instructor rating (out of 6.0): 5.4 (2021); 5.7 (2022)."
-    },
-    {
-      id: 6,
-      title: "Intermediate Accounting",
-      school: "MAcc Intensive and Undergraduate, University of Utah (2018 – 2020)",
-      rating: "Average instructor rating (out of 6.0): 5.7 (2018); 5.8 (2019 – 2020)."
-    },
-    {
-      id: 7,
-      title: "Financial Reporting Analysis",
-      school: "MAcc/MSF/MBA, University of Utah (2015 – 2017)",
-      rating: "Average instructor rating (out of 6.0): 5.3 (2015, 2016); 5.5 (2017)."
-    }
-  ];
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = parseInt(entry.target.dataset.index);
-
-          if (entry.isIntersecting) {
-            setVisiblePhases((prev) => {
-              if (!prev.includes(index)) {
-                return [...prev, index];
-              }
-              return prev;
-            });
-          } else {
-            setVisiblePhases((prev) => prev.filter((i) => i !== index));
-          }
-        });
-      },
-      {
-        threshold: 0.2,
-        rootMargin: '0px'
-      }
-    );
-
-    phaseRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
+    // Load first items
+    const papers = this.getPaginatedPaperDetails(); // your function
+    this.setState({
+      allPapers: papers,
+      visiblePapers: papers.slice(0, this.state.studentsPerPage)
     });
 
-    return () => {
-      phaseRefs.current.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
+    // Attach scroll listener
+    const box = document.getElementById("publicationsBox");
+    if (box) {
+      box.addEventListener("scroll", this.handleScroll);
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleResize);
+
+    const box = document.getElementById("publicationsBox");
+    if (box) {
+      box.removeEventListener("scroll", this.handleScroll);
+    }
+  }
+
+  clearStateOnce = (uid) => {
+    var loader = localStorage.getItem('loader') || '';
+    if (loader !== uid) {
+      localStorage.removeItem('thisState');
+      localStorage.setItem('loader', uid);
+    }
+  }
+
+  loadState = () => {
+    const savedState = localStorage.getItem('thisState');
+
+    if (!savedState) return;
+
+    const parsed = JSON.parse(savedState);
+
+    // Remove selected so it resets on refresh
+    delete parsed.selected;
+    delete parsed.teachingSelected;
+    delete parsed.conferenceSelected;
+
+    delete parsed.open;
+    delete parsed.teachingOpen;
+    delete parsed.conferenceOpen;
+
+    delete parsed.inputOpen;
+    delete parsed.teachingInputOpen;
+    delete parsed.conferenceInputOpen;
+
+    delete parsed.searchValue;
+    delete parsed.teachingSearchValue;
+    delete parsed.conferenceSearchValue;
+
+    this.setState(parsed);
+
+    const checkProfileInterval = setInterval(() => {
+      if (this.state.currentProfile !== '') {
+        clearInterval(checkProfileInterval);
+        this.loadDataForCurrentProfile(this.state.currentProfile);
+      }
+    }, 1000);
+  };
+
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!isEqual(prevState, this.state)) {
+      const stateToSave = { ...this.state };
+
+      // delete stateToSave.expandedIndexes;
+      localStorage.setItem('thisState', JSON.stringify(stateToSave));
+    }
+
+    if (
+      prevState.allPapers !== this.state.allPapers &&
+      this.state.allPapers.length > 0 &&
+      this.state.visiblePapers.length === 0
+    ) {
+      const firstBatch = this.state.allPapers.slice(0, this.state.loadCount);
+      this.setState({ visiblePapers: firstBatch });
+    }
+  }
+
+
+  loadProfileData = (uid) => {
+    var userRef = ref(database, 'profile/' + uid);
+    get(userRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          var profiles = [];
+          profiles.push({
+            key: snapshot.key,
+            ...data
+          });
+          document.title = data.firstName + ' ' + data.lastName + ' | Academic Blog';
+          this.setState({ profiles: profiles, currentProfileData: profiles[0] });
+        } else {
+          // console.log("No data available for this user.");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    };
-  }, []);
 
-  return (
-    <div className="website">
-      <div id="about" className='HeroSection'>
-        <div className='HeroImage'></div>
-        <div className='HeroContent container'>
-          <div className='leftContainer'>
+  }
 
-            <nav className="navbar">
-              <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
-              <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Publications</Link>
-              <Link className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</Link>
-              <Link target='_blank' to="/cv">CV</Link>
-              <Link className="contact" >Contact</Link>
-            </nav>
+  loadDashboard = (uid, username, type) => {
+    if (type === 'user') {
+      this.loadProfileData(uid);
+    }
+  }
+
+  showAlert = (message, typeClass = 'alert-error') => {
+    if (typeClass === 'alert-error') {
+      toast.error(message, {
+        duration: 4000,
+        position: 'top-center',
+
+        // Styling
+        style: {},
+        className: 'alert-error',
+
+        // Change colors of success/error/loading icon
+        iconTheme: {
+          primary: 'red',
+          secondary: '#fff',
+        },
+
+        // Aria
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+    } else {
+      toast.success(message, {
+        duration: 4000,
+        position: 'top-center',
+
+        // Styling
+        style: {},
+        className: 'alert-success',
+
+        // Change colors of success/error/loading icon
+        iconTheme: {
+          primary: 'green',
+          secondary: '#fff',
+        },
+
+        // Aria
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+    }
+  }
+
+  loadProfileState = (uid) => {
+    this.setState({ currentProfile: uid });
+
+    var key = uid;
+    // get {} from this.state.profiles where key = key and set it as currentProfileData
+    var currentProfileData = this.state.profiles.find(profile => profile.key === key);
+    this.setState({ currentProfileData: currentProfileData });
+  }
+
+  loadSocialMedia = (uid) => {
+    var userRef = ref(database, 'social-media/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        var metaTitle = data.metaTitle;
+        var metaDescription = data.metaDesc;
+
+        this.setState({ socialMedia: data });
+
+        // TODO: Set meta tags
+      } else {
+        // console.log("No data available for this user.");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  loadPapers = (uid) => {
+    var userRef = ref(database, 'papers/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        if (data !== null && typeof data !== 'undefined') {
+          var papers = [];
+          for (var key in data) {
+            var paper = data[key];
+            papers.push({
+              key: key,
+              ...paper
+            });
+          }
+          this.setState({ allPapers: papers });
+        } else {
+          this.setState({ allPapers: [] });
+        }
+      } else {
+        // console.log("No data available for this user.");
+        this.setState({ allPapers: [] });
+      }
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ allPapers: [] });
+    });
+  }
+
+  loadVideos = (uid) => {
+    var userRef = ref(database, 'videos/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        if (data !== null && typeof data !== 'undefined') {
+          var videos = [];
+          for (var key in data) {
+            var video = data[key];
+            videos.push({
+              key: key,
+              ...video
+            });
+          }
+          this.setState({ allVideos: videos });
+        } else {
+          this.setState({ allVideos: [] });
+        }
+      } else {
+        // console.log("No data available for this user.");
+        this.setState({ allVideos: [] });
+      }
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ allVideos: [] });
+    });
+  }
+
+  loadTeachingVideos = (uid) => {
+    var userRef = ref(database, 'teaching-videos/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        if (data !== null && typeof data !== 'undefined') {
+          var videos = [];
+          for (var key in data) {
+            var video = data[key];
+            videos.push({
+              key: key,
+              ...video
+            });
+          }
+          this.setState({ allTeachingVideos: videos });
+        } else {
+          this.setState({ allTeachingVideos: [] });
+        }
+      } else {
+        // console.log("No data available for this user.");
+        this.setState({ allTeachingVideos: [] });
+      }
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ allTeachingVideos: [] });
+    });
+  }
+
+  loadTeachingMaterials = (uid) => {
+    var userRef = ref(database, 'teaching-materials/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        if (data !== null && typeof data !== 'undefined') {
+          var materials = [];
+          for (var key in data) {
+            var material = data[key];
+            materials.push({
+              key: key,
+              ...material
+            });
+          }
+          this.setState({ allTeachingMaterials: materials, currentTeachingTitle: materials[0]?.Title || "", currentTeachingCls: materials[0]?.Course || "" });
+        } else {
+          this.setState({ allTeachingMaterials: [] });
+        }
+      } else {
+        // console.log("No data available for this user.");
+        this.setState({ allTeachingMaterials: [] });
+      }
+    }).catch((error) => {
+      console.error(error);
+      this.setState({ allTeachingMaterials: [] });
+    });
+  }
+
+  loadBooks = (uid) => {
+    var userRef = ref(database, 'books/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        if (data !== null && typeof data !== 'undefined') {
+          var books = [];
+          for (var key in data) {
+            var book = data[key];
+            books.push({
+              key: key,
+              ...book
+            });
+          }
+          this.setState({ allBooks: books });
+        } else {
+          this.setState({ allBooks: [] });
+        }
+      } else {
+        this.setState({ allBooks: [] });
+        // console.log("No data available for this user.");
+      }
+    }).catch((error) => {
+      this.setState({ allBooks: [] });
+      console.error(error);
+    });
+  }
+
+  loadConfarences = (uid) => {
+    var userRef = ref(database, 'confarences/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        if (data !== null && typeof data !== 'undefined') {
+          var confarences = [];
+          for (var key in data) {
+            var conf = data[key];
+            confarences.push({
+              key: key,
+              ...conf
+            });
+          }
+          var awards = confarences.filter(cf => cf.CRN === 'Award' || cf.CRN === 'Award');
+          awards.forEach(award => {
+            if (award.Year && award.Year.includes('-')) {
+              const parts = award.Year.split('-');
+              award.year = parts[parts.length - 1].trim();
+            } else {
+              award.year = award.Year ? award.Year.trim() : '';
+            }
+
+            if (award.year && award.year.includes('.')) {
+              award.year = award.year.split('.')[0];
+            }
+
+            if (isNaN(award.year)) {
+              award.year = 0;
+            } else {
+              award.year = parseInt(award.year);
+            }
+          });
+
+          // sort by year (descending)
+          awards.sort((a, b) => b.year - a.year);
+
+          // get unique awards based on Title and Year
+          const uniqueAwards = [];
+          const titlesYears = new Set();
+          awards.forEach(award => {
+            const titleYear = `${award.Title}-${award.year}`;
+            if (!titlesYears.has(titleYear)) {
+              titlesYears.add(titleYear);
+              uniqueAwards.push(award);
+            }
+          });
+          awards = uniqueAwards;
+
+          this.setState({ allAwards: awards });
+          var conferences_r = confarences.filter(cf => cf.CRN !== 'Award' && cf.CRN !== 'Award');
+          this.setState({ allConfarences: conferences_r });
+        } else {
+          this.setState({ allConfarences: [] });
+        }
+      } else {
+        this.setState({ allConfarences: [] });
+        // console.log("No data available for this user.");
+      }
+    }).catch((error) => {
+      this.setState({ allConfarences: [] });
+      console.error(error);
+    });
+  }
+
+  loadLanguages = (uid) => {
+    var userRef = ref(database, 'languages/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val().languages;
+        this.setState({ languages: data });
+      } else {
+        // console.log("No data available for this user.");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  loadInterests = (uid) => {
+    var userRef = ref(database, 'interests/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val().interests;
+        this.setState({ interests: data });
+      } else {
+        // console.log("No data available for this user.");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  loadResearches = (uid) => {
+    var userRef = ref(database, 'researches/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val().researches;
+        this.setState({ researches: data });
+      } else {
+        // console.log("No data available for this user.");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  loadClasses = (uid) => {
+    var userRef = ref(database, 'classes/' + uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        if (data !== null && typeof data !== 'undefined') {
+          var classes = [];
+          for (var key in data) {
+            var cls = data[key];
+            classes.push({
+              key: key,
+              ...cls
+            });
+          }
+          this.setState({ allClasses: classes });
+        } else {
+          this.setState({ allClasses: [] });
+        }
+      } else {
+        this.setState({ allClasses: [] });
+        // console.log("No data available for this user.");
+      }
+    }).catch((error) => {
+      this.setState({ allClasses: [] });
+      console.error(error);
+    });
+  }
+
+  loadDataForCurrentProfile = (currentProfile) => {
+    var userType = "user";
+    var uid = this.state.data;
+
+    this.loadSocialMedia(currentProfile);
+    this.loadPapers(currentProfile);
+    this.loadVideos(currentProfile);
+    this.loadTeachingVideos(currentProfile);
+    this.loadTeachingMaterials(currentProfile);
+    this.loadBooks(currentProfile);
+    this.loadConfarences(currentProfile);
+    this.loadLanguages(currentProfile);
+    this.loadInterests(currentProfile);
+    this.loadResearches(currentProfile);
+    this.loadClasses(currentProfile);
+
+    if (userType === 'user') {
+      this.loadProfileData(uid);
+    }
+  }
+
+  resetAllSelectionForNewProfile = () => {
+    this.setState({
+      currentProfileData: {},
+      socialMedia: {},
+      allPapers: [],
+      allVideos: [],
+      allTeachingVideos: [],
+      allTeachingMaterials: [],
+      allBooks: [],
+      allConfarences: [],
+      allAwards: [],
+      languages: [],
+      interests: [],
+      researches: [],
+      allClasses: [],
+      s_query: '',
+      currentPage: 0,
+      studentsPerPage: 10
+    });
+  }
 
 
-            <div className="hero-container">
-              <div className="hero-name">
-                Atif Ellahie
-              </div>
-              <div className="hero-description">
-                Associate Professor of Accounting, <br /> David Eccles School of Business,The University of Utah <br />  Director, Accounting Ph.D. Program
-              </div>
-              <div className='userInfo'>
-                <div className='hero-contact'>
-                  <h6>Academic Focus</h6>
-                  <p>Asset pricing, Disclosure, M&A, Compensation</p>
-                  <h6>Contact </h6>
-                  <p>atif.ellahie@eccles.utah.edu</p>
-                  <ul className="social-icons">
-                    <li><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><i className="fa-brands fa-google-scholar" aria-hidden="true"></i></Link></li>
-                    <li><Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" target="_blank"><img src="./Assets/ssrn_logo.svg" alt="facebook" /></Link></li>
-                    <li><Link to="https://orcid.org/0000-0002-5241-8578" target="_blank"><img src="./Assets/ORCID_iD.svg" alt="facebook" /></Link></li>
-                    <li><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/linkedin.svg" alt="facebook" /></Link></li>
-                    <li><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/twitter.svg" alt="twitter" /></Link></li>
-                  </ul>
-                </div>
-                <div className='user-signature'>
-                  <p>Atif Ellahie</p>
-                </div>
-              </div>
+  getPaginatedPaper() {
+    const { s_query, currentPage, studentsPerPage, allPapers, currentPaperType } = this.state;
+    let filteredStudents = allPapers;
+
+    // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
+
+    allPapers.forEach(paper => {
+      if (!paper.hasOwnProperty('Paper Type') || paper['Paper Type'] === '') {
+        paper['Paper Type'] = 'Publications';
+      }
+    });
+
+    // filter based on paper type now
+    filteredStudents = allPapers.filter(paper => paper['Paper Type'] === currentPaperType);
+
+    // in any field if the content is "nan" then make it empty
+    filteredStudents.forEach(paper => {
+      for (var key in paper) {
+        if (paper[key] === 'nan') {
+          paper[key] = '';
+        }
+      }
+    });
+
+    filteredStudents.forEach(paper => {
+      for (const key in paper) {
+        // Trim the value first to avoid extra spaces affecting checks
+        paper[key] = paper[key].trim();
+
+        // Remove leading comma
+        if (paper[key].startsWith(',')) {
+          paper[key] = paper[key].substring(1).trim();
+        }
+
+        // Remove trailing comma
+        if (paper[key].endsWith(',')) {
+          paper[key] = paper[key].substring(0, paper[key].length - 1).trim();
+        }
+      }
+    });
+
+    // publishing year can be year or date or empty we need to sort this based on year and date if available, papers with no year/date will go at bottom
+
+    filteredStudents.forEach(paper => {
+      // check if date is like 2020.0 then make it 2020
+      if (paper['Publishing Year'].includes('.')) {
+        paper['Publishing Year'] = paper['Publishing Year'].split('.')[0];
+      }
+    });
+
+    filteredStudents.sort((a, b) => {
+      if (a['Publishing Year'] === '' && b['Publishing Year'] === '') {
+        return 0;
+      } else if (a['Publishing Year'] === '') {
+        return 1;
+      } else if (b['Publishing Year'] === '') {
+        return -1;
+      } else {
+        return new Date(b['Publishing Year']) - new Date(a['Publishing Year']);
+      }
+    });
+
+    if (s_query && s_query.trim() !== "") {
+      filteredStudents = filteredStudents.filter(student => {
+        // Check if any key in the student matches the s_query (case-insensitive)
+        return Object.keys(student).some(key =>
+          String(student[key]).toLowerCase().includes(s_query.toLowerCase())
+        );
+      });
+    }
+
+    // Now paginate the filtered students
+    const startIndex = currentPage * studentsPerPage;
+    const endIndex = startIndex + studentsPerPage;
+    const paginatedStudents = filteredStudents.slice(startIndex, endIndex);
+
+    // Ensure we always have `studentsPerPage` items by adding empty placeholders if needed
+    while (paginatedStudents.length < studentsPerPage) {
+      paginatedStudents.push(null);  // Add `null` or an empty object `{}` as placeholder
+    }
+
+    return paginatedStudents;
+  }
+
+  getPaginatedPaperDetails() {
+    const { s_query, allPapers, currentPaperType } = this.state;
+    let filteredStudents = allPapers;
+
+
+    // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
+
+    allPapers.forEach(paper => {
+      if (!paper.hasOwnProperty('Paper Type') || paper['Paper Type'] === '') {
+        paper['Paper Type'] = 'Publications';
+      }
+    });
+
+    // filter based on paper type now
+    filteredStudents = allPapers.filter(paper => paper['Paper Type'] === currentPaperType);
+
+    // in any field if the content is "nan" then make it empty
+    filteredStudents.forEach(paper => {
+      for (var key in paper) {
+        if (paper[key] === 'nan') {
+          paper[key] = '';
+        }
+      }
+    });
+
+    filteredStudents.forEach(paper => {
+      for (const key in paper) {
+        // Trim the value first to avoid extra spaces affecting checks
+        paper[key] = paper[key].trim();
+
+        // Remove leading comma
+        if (paper[key].startsWith(',')) {
+          paper[key] = paper[key].substring(1).trim();
+        }
+
+        // Remove trailing comma
+        if (paper[key].endsWith(',')) {
+          paper[key] = paper[key].substring(0, paper[key].length - 1).trim();
+        }
+      }
+    });
+
+
+    if (s_query && s_query.trim() !== "") {
+      filteredStudents = filteredStudents.filter(student => {
+        // Check if any key in the student matches the s_query (case-insensitive)
+        return Object.keys(student).some(key =>
+          String(student[key]).toLowerCase().includes(s_query.toLowerCase())
+        );
+      });
+    }
+
+    return filteredStudents;
+  }
+
+  // Handle next and previous page
+  nextPage = () => {
+    var dim_paper = this.getPaginatedPaperDetails();
+
+    if ((this.state.currentPage + 1) * this.state.studentsPerPage < dim_paper.length) {
+      this.setState((prevState) => ({ currentPage: prevState.currentPage + 1 }));
+    }
+  };
+
+  prevPage = () => {
+    if (this.state.currentPage > 0) {
+      this.setState((prevState) => ({ currentPage: prevState.currentPage - 1 }));
+    }
+  };
+
+  handleInputChangeUni = (event) => {
+    this.setState({ uniVal: event.target.value });
+  };
+
+  searchPaper = (e) => {
+    var searchTerm = e.target.value;  // Get the value from the input field
+
+    searchTerm = searchTerm.toLowerCase();  // Convert the search term to lowercase
+
+    this.setState({ s_query: searchTerm, currentPage: 0 });  // Update the search query state
+  };
+
+  toggleAccordion = (index) => {
+    this.setState((prevState) => {
+      const expandedIndexes = [...prevState.expandedIndexes];
+      if (expandedIndexes.includes(index)) {
+        // Collapse the accordion if it's already expanded
+        const newExpandedIndexes = expandedIndexes.filter((i) => i !== index);
+        return { expandedIndexes: newExpandedIndexes };
+      } else {
+        // Expand the accordion
+        expandedIndexes.push(index);
+        return { expandedIndexes };
+      }
+    });
+  };
+
+  getPublishDate = (date) => {
+    // check if data is only year like 2011, 2012 etc then return as it is
+    if (date.includes('.')) {
+      date = date.split('.')[0];
+    }
+
+    if (date.length === 4) {
+      return date;
+    }
+
+    // else check if it is a valid date format
+    var d = new Date(date);
+    if (d instanceof Date && !isNaN(d)) {
+      // return as September 19, 2023 also handel if it is January 1, 2023 make it January 01, 2023
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' });
+    }
+  }
+
+  getPaginatedCF() {
+    const { s_query, currentPage2, conferencePerPage, allConfarences } = this.state;
+    var currentPage = currentPage2;
+    let filteredStudents = allConfarences;
+
+    // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
+
+    // in any field if the content is "nan" then make it empty
+    filteredStudents.forEach(paper => {
+      for (var key in paper) {
+        if (paper[key] === 'nan') {
+          paper[key] = '';
+        }
+      }
+    });
+
+    filteredStudents.forEach(paper => {
+      for (const key in paper) {
+        // Trim the value first to avoid extra spaces affecting checks
+        paper[key] = paper[key].trim();
+
+        // Remove leading comma
+        if (paper[key].startsWith(',')) {
+          paper[key] = paper[key].substring(1).trim();
+        }
+
+        // Remove trailing comma
+        if (paper[key].endsWith(',')) {
+          paper[key] = paper[key].substring(0, paper[key].length - 1).trim();
+        }
+      }
+    });
+
+    // publishing year can be year or date or empty we need to sort this based on year and date if available, papers with no year/date will go at bottom
+    filteredStudents.sort((a, b) => {
+      if (a['Year'] === '' && b['Year'] === '') {
+        return 0;
+      } else if (a['Year'] === '') {
+        return 1;
+      } else if (b['Year'] === '') {
+        return -1;
+      } else {
+        return new Date(b['Year']) - new Date(a['Year']);
+      }
+    });
+
+    if (s_query && s_query.trim() !== "") {
+      filteredStudents = filteredStudents.filter(student => {
+        // Check if any key in the student matches the s_query (case-insensitive)
+        return Object.keys(student).some(key =>
+          String(student[key]).toLowerCase().includes(s_query.toLowerCase())
+        );
+      });
+    }
+
+    // Now paginate the filtered students
+    const startIndex = currentPage * conferencePerPage;
+    const endIndex = startIndex + conferencePerPage;
+    const paginatedStudents = filteredStudents.slice(startIndex, endIndex);
+
+    // Ensure we always have `conferencePerPage` items by adding empty placeholders if needed
+    while (paginatedStudents.length < conferencePerPage) {
+      paginatedStudents.push(null);  // Add `null` or an empty object `{}` as placeholder
+    }
+
+    return paginatedStudents;
+  }
+
+  getPaginatedCFDetails() {
+    const { s_query, allConfarences } = this.state;
+    let filteredStudents = allConfarences;
+
+
+    // in any field if the content is "nan" then make it empty
+    filteredStudents.forEach(paper => {
+      for (var key in paper) {
+        if (paper[key] === 'nan') {
+          paper[key] = '';
+        }
+      }
+    });
+
+    filteredStudents.forEach(paper => {
+      for (const key in paper) {
+        // Trim the value first to avoid extra spaces affecting checks
+        paper[key] = paper[key].trim();
+
+        // Remove leading comma
+        if (paper[key].startsWith(',')) {
+          paper[key] = paper[key].substring(1).trim();
+        }
+
+        // Remove trailing comma
+        if (paper[key].endsWith(',')) {
+          paper[key] = paper[key].substring(0, paper[key].length - 1).trim();
+        }
+      }
+    });
+
+
+    if (s_query && s_query.trim() !== "") {
+      filteredStudents = filteredStudents.filter(student => {
+        // Check if any key in the student matches the s_query (case-insensitive)
+        return Object.keys(student).some(key =>
+          String(student[key]).toLowerCase().includes(s_query.toLowerCase())
+        );
+      });
+    }
+
+    return filteredStudents;
+  }
+
+  // Handle next and previous page
+  nextPageCF = () => {
+    var dim_paper = this.getPaginatedCFDetails();
+    if ((this.state.currentPage2 + 1) * this.state.conferencePerPage < dim_paper.length) {
+      this.setState((prevState) => ({ currentPage2: prevState.currentPage2 + 1 }));
+    }
+  };
+
+  prevPageCF = () => {
+    if (this.state.currentPage2 > 0) {
+      this.setState((prevState) => ({ currentPage2: prevState.currentPage2 - 1 }));
+    }
+  };
+
+
+  getPaginatedTeachingMaterials() {
+  const { s_query, currentPageTM, teachingPerPage, allTeachingMaterials } = this.state;
+  let filteredMaterials = allTeachingMaterials;
+  
+  // Replace "nan" with empty string
+  filteredMaterials.forEach(mat => {
+    for (var key in mat) {
+      if (mat[key] === 'nan') {
+        mat[key] = '';
+      }
+    }
+  });
+  
+  // Trim & remove leading/trailing commas
+  filteredMaterials.forEach(mat => {
+    for (const key in mat) {
+      mat[key] = String(mat[key]).trim();
+      if (mat[key].startsWith(',')) {
+        mat[key] = mat[key].substring(1).trim();
+      }
+      if (mat[key].endsWith(',')) {
+        mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+      }
+    }
+  });
+  
+  // Search/filter logic
+  if (s_query && s_query.trim() !== "") {
+    filteredMaterials = filteredMaterials.filter(material => {
+      return Object.keys(material).some(key =>
+        String(material[key]).toLowerCase().includes(s_query.toLowerCase())
+      );
+    });
+  }
+  
+  // Overlapping pagination: shift by (teachingPerPage - 1) instead of teachingPerPage
+  const shiftAmount = teachingPerPage - 1; // This will be 2 when teachingPerPage is 3
+  const startIndex = currentPageTM * shiftAmount;
+  const endIndex = startIndex + teachingPerPage;
+  const paginatedMaterials = filteredMaterials.slice(startIndex, endIndex);
+  
+  // Fill with placeholders if needed
+  while (paginatedMaterials.length < teachingPerPage) {
+    paginatedMaterials.push(null);
+  }
+  
+  return paginatedMaterials;
+}
+
+// Get filtered materials count
+getFilteredTeachingMaterialsCount() {
+  const { s_query, allTeachingMaterials } = this.state;
+  let filteredMaterials = allTeachingMaterials;
+  
+  // Replace "nan" with empty string
+  filteredMaterials.forEach(mat => {
+    for (var key in mat) {
+      if (mat[key] === 'nan') {
+        mat[key] = '';
+      }
+    }
+  });
+  
+  // Trim & remove leading/trailing commas
+  filteredMaterials.forEach(mat => {
+    for (const key in mat) {
+      mat[key] = String(mat[key]).trim();
+      if (mat[key].startsWith(',')) {
+        mat[key] = mat[key].substring(1).trim();
+      }
+      if (mat[key].endsWith(',')) {
+        mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+      }
+    }
+  });
+  
+  // Search/filter logic
+  if (s_query && s_query.trim() !== "") {
+    filteredMaterials = filteredMaterials.filter(material => {
+      return Object.keys(material).some(key =>
+        String(material[key]).toLowerCase().includes(s_query.toLowerCase())
+      );
+    });
+  }
+  
+  return filteredMaterials.length;
+}
+
+// Next page handler with overlapping logic
+nextPageTM = () => {
+  const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
+  const shiftAmount = this.state.teachingPerPage - 1;
+  const nextStartIndex = (this.state.currentPageTM + 1) * shiftAmount;
+  
+  // Check if there are enough items for the next page
+  if (nextStartIndex < totalFilteredCount) {
+    this.setState(prevState => ({
+      currentPageTM: prevState.currentPageTM + 1
+    }));
+  }
+};
+
+// Previous page handler
+prevPageTM = () => {
+  if (this.state.currentPageTM > 0) {
+    this.setState(prevState => ({
+      currentPageTM: prevState.currentPageTM - 1
+    }));
+  }
+};
+
+
+
+  awardFinder = () => {
+    const { allAwards, currentPos2, screenWidth } = this.state;
+
+    const books = allAwards;
+    const currentPos = currentPos2 - 1;
+
+    // Decide how many items to show
+    const itemsToShow = screenWidth <= 768 ? 2 : 3;
+    // mobile 2 items, desktop 3 items
+
+    const result = [];
+
+    for (let i = 0; i < itemsToShow; i++) {
+      const pos = currentPos + i;
+      if (pos >= 0 && pos < books.length) {
+        result.push(books[pos]);
+      }
+    }
+
+    return result;
+  };
+
+  // Four box awards example
+  //   awardFinder = () => {
+  //   const { allAwards, currentPos2 } = this.state;
+
+  //   const books = allAwards;
+  //   const currentPos = currentPos2 - 1;
+  //   const nextPos = currentPos + 1;
+  //   const trdPos = currentPos + 2;
+  //   const fourthPos = currentPos + 3; // NEW
+
+  //   const validBooks = [];
+
+  //   if (currentPos >= 0 && currentPos < books.length) validBooks.push(books[currentPos]);
+  //   if (nextPos >= 0 && nextPos < books.length) validBooks.push(books[nextPos]);
+  //   if (trdPos >= 0 && trdPos < books.length) validBooks.push(books[trdPos]);
+  //   if (fourthPos >= 0 && fourthPos < books.length) validBooks.push(books[fourthPos]); // NEW
+
+  //   return validBooks;
+  // };
+
+
+  togglePublication = (index) => {
+    this.setState({
+      openIndex: this.state.openIndex === index ? null : index
+    });
+  };
+
+
+  // publications
+  toggleDropdown = () => {
+    this.setState({ open: !this.state.open });
+  };
+  selectOption = (option) => {
+    this.setState({ selected: option, open: false });
+  };
+  toggleInput = () => {
+    this.setState({ inputOpen: !this.state.inputOpen });
+  };
+
+  handleSearchChange = (e) => {
+    this.setState({ searchValue: e.target.value });
+  };
+
+  // Teaching
+  toggleTeachingDropdown = () => {
+    this.setState({ teachingOpen: !this.state.teachingOpen });
+  };
+  teachingSelectOption = (option) => {
+    this.setState({ teachingSelected: option, teachingOpen: false });
+  };
+  toggleTeachingInput = () => {
+    this.setState({ teachingInputOpen: !this.state.teachingInputOpen });
+  };
+  handleTeachingChange = (e) => {
+    this.setState({ teachingSearchValue: e.target.value });
+  };
+
+  // Conference
+  toggleConferenceDropdown = () => {
+    this.setState({ conferenceOpen: !this.state.conferenceOpen });
+  };
+  conferenceSelectOption = (option) => {
+    this.setState({ conferenceSelected: option, conferenceOpen: false });
+  };
+  toggleConferenceInput = () => {
+    this.setState({ conferenceInputOpen: !this.state.conferenceInputOpen });
+  };
+  handleConferenceChange = (e) => {
+    this.setState({ conferenceSearchValue: e.target.value });
+  };
+
+
+  // toggle sidebar
+  openSidebar = () => {
+    this.setState({ sidebarOpen: true });
+  };
+
+  closeSidebar = () => {
+    this.setState({ sidebarOpen: false });
+  };
+
+  handleResize = () => {
+    this.setState({
+      screenWidth: document.documentElement.clientWidth
+    });
+  };
+
+  // scroll data load
+  handleScroll = () => {
+    const box = document.getElementById("publicationsBox");
+    if (!box) return;
+
+    if (box.scrollTop + box.clientHeight >= box.scrollHeight - 20) {
+      this.loadMore();
+    }
+  };
+
+  loadMore = () => {
+    const { isFetching, visiblePapers, allPapers, loadCount } = this.state;
+
+    if (isFetching) return;
+
+    if (visiblePapers.length >= allPapers.length) return;
+
+    this.setState({ isFetching: true });
+
+    setTimeout(() => {
+      const nextBatch = allPapers.slice(
+        visiblePapers.length,
+        visiblePapers.length + loadCount
+      );
+
+      const newVisible = [...visiblePapers, ...nextBatch];
+
+      this.setState({
+        visiblePapers: newVisible,
+        currentPage: Math.ceil(newVisible.length / this.state.studentsPerPage),
+        isFetching: false
+      });
+    }, 200);
+  };
+
+
+  // new next button for scroll
+  prevPageScroll = () => {
+    const { currentPage, studentsPerPage, allPapers } = this.state;
+
+    if (currentPage === 1) return;
+
+    const newPage = currentPage - 1;
+    const end = newPage * studentsPerPage;
+
+    const newVisible = allPapers.slice(0, end);
+
+    this.setState({
+      visiblePapers: newVisible,
+      currentPage: newPage
+    });
+  };
+
+  nextPageScroll = () => {
+    const { currentPage, studentsPerPage, allPapers } = this.state;
+
+    const totalPages = Math.ceil(allPapers.length / studentsPerPage);
+    if (currentPage >= totalPages) return;
+
+    const newPage = currentPage + 1;
+    const end = newPage * studentsPerPage;
+
+    const newVisible = allPapers.slice(0, end);
+
+    this.setState({
+      visiblePapers: newVisible,
+      currentPage: newPage
+    });
+  };
+
+  // about collapse
+
+  toggleExpand = () => {
+    const fullHeight = this.boxRef.current.scrollHeight;
+
+    this.setState((prev) => ({
+      expanded: !prev.expanded,
+      height: prev.expanded ? 300 : fullHeight
+    }));
+  };
+
+
+  render() {
+    const options = ["Title", "Authors", "Journal", "Publishing Year", "Citations"];
+    const { open, selected } = this.state;
+    const { teachingOpen, teachingSelected } = this.state;
+    const { conferenceOpen, conferenceSelected } = this.state;
+    const { inputOpen, searchValue } = this.state;
+    const { teachingInputOpen, teachingSearchValue } = this.state;
+    const { conferenceInputOpen, conferenceSearchValue } = this.state;
+
+ const paginatedMaterials = this.getPaginatedTeachingMaterials();
+  const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
+  const totalPages = Math.ceil(totalFilteredCount / this.state.teachingPerPage);
+
+
+    $(document).ready(function () {
+    });
+    return (
+      <div className="website">
+
+        <nav>
+          <div className="container d-flex justify-content-between align-items-center">
+            <div className="nav-left">
+              <div className="logo">Atif Ellahie</div>
             </div>
 
+            {/* Desktop links */}
+            <ul className="nav-links">
+              <li><a href="#about">About</a></li>
+              <li><a href="#publications">Publications</a></li>
+              <li><a href="#teaching">Teaching</a></li>
+              <li><a href="#conferences">Conferences</a></li>
+              <li><a href="#cv">CV</a></li>
+              <div className="contact-links">
+                <a href="#about">Contact</a>
+              </div>
+            </ul>
+
+            {/* Mobile toggle */}
+            <button className="menu-toggle" onClick={this.openSidebar}>
+              <i className="fa-solid fa-bars"></i>
+            </button>
           </div>
-          <div className='rightContainer'>
-            <div className="navBottom">
-              <div className='navButton'><i onClick={handleNavbarToggle} className="fa-solid fa-bars"></i> </div>
-              <div className={`FLoadNav ${openNavbar ? "open" : ""}`}>
-                <Link className="about" onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}>About</Link>
-                <Link className="research" onClick={() => document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" })}>Research</Link>
-                <Link className="about" onClick={() => document.querySelector("#classes")?.scrollIntoView({ behavior: "smooth" })}>Teaching</Link>
-                <Link className="conferences" onClick={() => document.querySelector("#conferences")?.scrollIntoView({ behavior: "smooth" })}>Conferences</Link>
-                <Link className="contact">Contact</Link>
+
+
+        </nav>
+
+        {/* Mobile Sidebar */}
+        <div className={`mobile-sidebar ${this.state.sidebarOpen ? "open" : ""}`}>
+          <button className="close-btn" onClick={this.closeSidebar}><i className="fa-solid fa-xmark"></i></button>
+
+          <ul className="mobile-nav-links">
+            <li><a onClick={this.closeSidebar} href="#about">About</a></li>
+            <li><a onClick={this.closeSidebar} href="#publications">Publications</a></li>
+            <li><a onClick={this.closeSidebar} href="#teaching">Teaching</a></li>
+            <li><a onClick={this.closeSidebar} href="#conferences">Conferences</a></li>
+            <li><a onClick={this.closeSidebar} href="#cv">CV</a></li>
+            <li><a onClick={this.closeSidebar} href="#about">Contact</a></li>
+          </ul>
+        </div>
+
+
+        <div class="container userInfo">
+
+          <div class="left-content">
+            <div>
+              <h1>Atif Ellahie</h1>
+              <p class="subtitle">Associate Professor of Accounting</p>
+              <div class="affiliation">
+                <p>David Eccles School of Business, University of Utah</p>
+                <p>Director, Accounting Ph.D. Program.</p>
+              </div>
+
+              <div class="button-group">
+                <a href="#about" class="btn btn-about">About me</a>
+                <a href="#research" class="btn btn-research">View research</a>
               </div>
             </div>
-            <img src="./Assets/user.jpeg" className='profileImage' alt="Profile" />
+
+            <div class="contact-section">
+              <h3>Contact</h3>
+              <a href="mailto:atif.ellahie@eccles.utah.edu" class="email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M22 7L13.03 12.7C12.4 13.1 11.6 13.1 10.97 12.7L2 7" />
+                </svg>
+                atif.ellahie@eccles.utah.edu
+              </a>
+
+              <div class="social-icons">
+                <Link href="#" class="social-icon"><img src="/Assets/dark_facebook.svg" alt="facebook" /></Link>
+                <Link to="https://x.com/atifellahie" class="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
+                <Link to="https://www.linkedin.com/in/atifellahie/" class="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
+                <Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" class="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
+                <Link to="https://orcid.org/0000-0002-5241-8578" class="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
+              </div>
+            </div>
+          </div>
+
+          <div class="right-image">
+            <img src="/Assets/Man.png" alt="Atif Ellahie" />
           </div>
         </div>
-      </div>
-      <div className='descriptionSection'>
-        <div className='ResSection description'>
-          <p>I am an Associate Professor at the David <Link to="">Eccles School of Business</Link> at <Link to="">The University of Utah</Link> . I teach graduate-level courses on business valuation and analysis, and mergers and acquisitions, as well as executive-level courses in accounting and finance. My teaching has received the Kenneth J. Hanni Teaching Award and the Brady Faculty Superior Teaching Award. My research focuses on two primary areas at the intersection of financial economics and accounting:</p>
 
-          {showMore && (
-            <>
-              <ul>
-                <li><p>1. Examining ‘risk’ by incorporating the interaction of firm-level and macroeconomic information (e.g., <Link to="">earnings beta</Link>, <Link to="">volatility forecasting</Link>, <Link to="">growth risk</Link>).</p></li>
-                <li><p>2. Examining how firms and individuals respond to their institutional environment (e.g., <Link to="">disclosure</Link>, <Link to="">institutional quality</Link>, <Link to="">culture</Link>, <Link to="">policy intervention</Link>).</p></li>
-              </ul>
-              <p>My research has been published in several leading academic business journals, including Journal of Accounting Research, Journal of Accounting and Economics, Journal of Finance, Review of Accounting Studies, The Accounting Review, Management Science and Journal of Monetary Economics. I am an editorial board member at <Link to="">The Accounting Review</Link> and <Link to="">Review of Accounting Studies</Link>, and a frequent reviewer for other top journals in my field.</p>
-              <p>I earned a PhD from <Link to="">London Business School</Link>, an MSc in International Accounting and Finance (with distinction) from <Link to="">London School of Economics</Link>, and an MBA from <Link to="">Lahore University of Management Sciences</Link>. I have also held the professional designation of <Link to="">Chartered Financial Analyst</Link> since 2003.</p>
-              <p>Prior to academia, I worked for ten years (1999-2009) in investment banking in New York and London. Most recently, I was an Executive Director at <Link to="">UBS Investment Bank</Link> advising technology, software, and services companies on corporate finance strategy, capital raisings, and mergers and acquisitions. My clients included IBM, Xerox, Motorola, Infosys and BAE Systems, among others.</p>
-              <p>In my free time, I enjoy traveling with family, cooking, cricket, cars, and long walks.</p>
-            </>
-          )}
-          {/* Read More / Read Less Button */}
-          <button className="read-more-btn" onClick={() => setShowMore(!showMore)}  >
-            {showMore ? "Read Less" : "Read More"}
-          </button>
+        {/* About section */}
+        <div id="about" className='aboutSection'>
+          <div class="container aboutBox">
+
+            <div class="profile-photo"></div>
+
+            <div class="content aboutContent" ref={this.boxRef} style={{
+              height: this.state.height,
+              overflow: 'hidden',
+              transition: "height 0.5s ease"
+            }}>
+              <div class="section">
+                <div class="timeline-section">
+                  <div class="timeline-dots"></div>
+                  <div class="timeline-line"></div>
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-label">Academic<br />Focus</div>
+                </div>
+                <div className='aboutContent'>
+                  <h1>About Me</h1>
+                  <p>Associate Professor, David Eccles School of Business, The University of Utah</p>
+                  <p>I am an Associate Professor at the David Eccles School of Business at The University of Utah . I teach graduate-level courses on business valuation and analysis, and mergers and acquisitions, as well as executive-level courses in accounting and finance. My teaching has received the Kenneth J. Hanni Teaching Award and the Brady Faculty Superior Teaching Award. My research focuses on two primary areas at the intersection of financial economics and accounting:</p>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="timeline-section">
+                  <div class="timeline-line"></div>
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-label">Research<br />Focus</div>
+                </div>
+                <div className='aboutContent'>
+                  <h2>Academic Focus</h2>
+                  <p>Asset pricing  •  Disclosure  •  M&A  •  Compensation</p>
+
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="timeline-section">
+
+                  <div class="timeline-line"></div>
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-label">Education & <br /> Credentials</div>
+                </div>
+                <div className='aboutContent'>
+                  <h2 >Research Focus</h2>
+                  <div class="research-items">
+                    <div class="research-item">
+                      Examining 'risk' by incorporating the interaction of firm-level and macroeconomic information (e.g., earnings beta, volatility forecasting, growth risk).
+                    </div>
+                    <div class="research-item">
+                      Examining how firms and individuals respond to their institutional environment (e.g., <a href="#">disclosure</a>, <a href="#">institutional quality</a>, <a href="#">culture</a>, <a href="#">policy intervention</a>).
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="timeline-section">
+
+                  <div class="timeline-line"></div>
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-label">Professional <br />Experience</div>
+                </div>
+                <div className='aboutContent'>
+                  <h2>Education & Credentials</h2>
+                  <p>I earned a PhD from London Business School, an MSc in International Accounting and Finance (with distinction) from London School of Economics, and an MBA from Lahore University of Management Sciences. I have also held the professional designation of Chartered Financial Analyst since 2003.</p>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="timeline-section">
+
+                  <div class="timeline-line"></div>
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-label">Personal <br />Interests</div>
+                </div>
+                <div className='aboutContent'>
+                  <h2>Professional Experience</h2>
+                  <p>Prior to academia, I worked for ten years (1999-2009) in investment banking in New York and London. Most recently, I was an Executive Director at UBS Investment Bank advising technology, software, and services companies on corporate finance strategy, capital raisings, and mergers and acquisitions. My clients included IBM, Xerox, Motorola, Infosys and BAE Systems, among others.</p>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="timeline-section">
+                  <div class="timeline-line"></div>
+                  <div class="timeline-dot"></div>
+                  {/* <div class="timeline-label">Academic<br />Focus</div> */}
+                </div>
+                <div className='aboutContent'>
+                  <h2>Personal Interests</h2>
+                  <p>In my free time, I enjoy traveling with family, cooking, cricket, cars, and long walks.</p>
+                </div>
+              </div>
+
+
+            </div>
+
+            <div className='aboutBtn'>
+              <button onClick={this.toggleExpand} class="readMore">{this.state.expanded ? "Read Less" : "Read More"}</button>
+              <button class="download-btn">
+                Download my CV <img src="/Assets/document-download.svg" alt="document-download" />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="ResSection" id="research">
-        <div className="ResHeader container">
-          <div className='lineRes'>
-            <div className="heading-title">
-              <p>Publications and<br /> Scholarly Contributions</p>
+
+
+        {/* Publications  */}
+        <div className="ResSection pubSection" id="publications">
+          <div className='publicationsBox'>
+            <div className="ResHeader container mb-0">
+              <div className='lineResHip'>
+                <h1 className="ResTitle">Publications and Scholarly Contributions</h1>
+                <p>Contributions to research and academic discourse.</p>
+              </div>
+
+              <div className="filterBox">
+                <ul>
+                  {["Publications", "Working Papers", "Book Chapters"].map((type) => (
+                    <li key={type}
+                      onClick={() => this.setState({ currentPaperType: type, currentPage: 0 })}
+                    >
+                      <button className={this.state.currentPaperType === type ? 'active' : ''}>{type}</button>
+                    </li>
+                  ))}
+                </ul>
+                <div className='searchFilter'>
+                  <div className="toggle-input-wrapper">
+                    <button className={`toggle-btn  ${inputOpen ? "open" : ""}`} onClick={this.toggleInput}>
+                      <img src="/Assets/search-normal.svg" alt="search" />
+                      {/* <i className="fa-solid fa-search"></i> */}
+                    </button>
+
+
+                  </div>
+                  <div className={`custom-dropdown ${open ? "open" : ""}`}>
+                    <button className="dropdown-btn" onClick={this.toggleDropdown}>
+                      {selected ? selected : <img src="/Assets/Filter.svg" alt="search" />}
+                    </button>
+                    <ul className="dropdown-menu">
+                      {options.map((opt, index) => (
+                        <li key={index} onClick={() => this.selectOption(opt)}>
+                          {opt}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div className={`input-container  container ${inputOpen ? "open" : ""}`}>
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchValue}
+                onChange={this.handleSearchChange}
+              />
+              <i onClick={this.toggleInput} className="fa-solid fa-xmark"></i>
             </div>
           </div>
 
-          <div className="ResButtons">
-            {teachingList.map((type) => (
-              <div
-                key={type}
-                className={`ResButton ${currentPaperType === type ? 'page_active' : ''}`}
-                onClick={() => {
-                  setCurrentPaperType(type);
-                  setCurrentPaperPage(0);
-                }}
-              >
-                <div className="picon">
-                  <i className={type === "Publications" ? "fa-solid fa-paperclip" : type === "Working Papers" ? "fa-solid fa-paper-plane" : "fa-solid fa-bookmark"}  ></i>
+          <div className='publicationsWrapper container'>
+            <div id="publicationsBox" className="PublicationsList  scrollBox">
+              {this.state.visiblePapers.length > 0 ? (
+                this.state.visiblePapers.map((Paper, index) => (
+                  Paper ? (
+                    <div
+                      className={
+                        this.state.openIndex === index ? "enclosePublicAdd" : "enclosePublic"
+                      }
+                      key={index}
+                    >
+                      <div className="PublicationItem ">
+                        <div className="PubContent">
+                          <div className="title">
+                            {Paper["Paper Link"] ? (
+                              <a href={Paper["Paper Link"]} target="_blank" className="title">
+                                {Paper.Title}
+                              </a>
+                            ) : (
+                              <span className="title">{Paper.Title}</span>
+                            )}
+                            {Paper["Publishing Year"] && <div className="date">{this.getPublishDate(Paper["Publishing Year"])}</div>}
+                          </div>
+                          <div className="PubJournal">
+                            {Paper.Conference || Paper.Journal ? (
+                              <div>
+                                {Paper.Conference && Paper.Conference !== "nan" ? (
+                                  <a href={Paper.Conference} target="_blank">{Paper.Journal || "See Journal/Conference"}</a>
+                                ) : (
+                                  <span>{Paper.Journal}</span>
+                                )}
+                                {Paper["Publishing Year"] && <span>, {this.getPublishDate(Paper["Publishing Year"])}</span>}
+                              </div>
+                            ) : null}
+                            <div className='journalCarousel' onClick={() => this.togglePublication(index)}>
+
+                              {this.state.openIndex === index && (<i className="fa-solid fa-chevron-up"></i>)}
+                              {this.state.openIndex !== index && (<i className="fa-solid fa-chevron-down"></i>)}
+                            </div>
+                          </div>
+                          {Paper.Authors && <div className="author">{Paper.Authors}</div>}
+                        </div>
+                        {this.state.openIndex === index && (
+                          <div className='publicationContent'>
+                            <p>
+                              Study examining whether CEOs are rewarded for luck arising from corporate tax windfalls
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : null
+                ))
+              ) : (
+                <div className="noPapers">No papers found.</div>
+              )}
+
+              {this.state.isFetching && (
+                <div className="loading">Loading more...</div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="teaching-section" id="teaching">
+          <div className='publicationsBox mb-0'>
+            <div className="teaching-header container conferenceFilter">
+
+              <div className='lineResHip'>
+                <h1 className="ResTitle">Teaching Initiatives</h1>
+                <p>Educational activities and courses</p>
+              </div>
+              <div className='filterBox'>
+                <ul>
+                  <li><button className='active'>All</button></li>
+                  <li><button>MAcc/MSF/MBA/PMBA</button></li>
+                  <li><button>Undergraduate</button></li>
+                  <li><button>Executive Education</button></li>
+                  <li><button>PhD</button></li>
+                </ul>
+                <div className='searchFilter'>
+                  <div className="toggle-input-wrapper">
+                    <button className={`toggle-btn  ${teachingInputOpen ? "open" : ""}`} onClick={this.toggleTeachingInput}>
+                      <img src="/Assets/search-normal.svg" alt="search" />
+                      {/* <i className="fa-solid fa-search"></i> */}
+                    </button>
+                  </div>
+                  <div className={`custom-dropdown ${teachingOpen ? "open" : ""}`}>
+                    <button className="dropdown-btn" onClick={this.toggleTeachingDropdown}>
+                      {teachingSelected ? teachingSelected : <img src="/Assets/Filter.svg" alt="search" />}
+                    </button>
+                    <ul className="dropdown-menu">
+                      {options.map((opt, index) => (
+                        <li key={index} onClick={() => this.teachingSelectOption(opt)}>
+                          {opt}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div className="label">{type}</div>
+              </div>
+
+            </div>
+
+            <div className={`input-container   container ${teachingInputOpen ? "open mb-5" : ""}`}>
+              <input
+                type="text"
+                placeholder="Search"
+                value={teachingSearchValue}
+                onChange={this.handleTeachingChange}
+              />
+              <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
+            </div>
+          </div>
+
+
+          <div className='container teachingSection'>
+            <div className='courseCarousel'>
+              {paginatedMaterials.map((material, index) => {
+          if (material) {
+            return (
+               <div key={index} className='activityCourse'>
+                  <div className='courseNumber'>
+                    <h5>{index + 1}</h5>
+                    <p>Merges & <br /> Acquisitions</p>
+                  </div>
+                  <div className='courseBox'>
+                    <div className='courseHeading'>
+                      <p>{material.Title}</p>
+                      <p>2018</p>
+                    </div>
+                    <div className='courseHeading'>
+                      <p>University of Utah</p>
+                    </div>
+                    <div className='courseContent'>
+                      <p>Average instructor rating </p>
+                    </div>
+                    <div className='courseRating'>
+                      <ul>
+                        <li>5.7/6.0(2023)</li>
+                        <li>5.9/6.0(2024)</li>
+                        <li>5.7/6.0(2023)</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            );
+          } else {
+            return (
+              <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
+                {/* Empty placeholder for consistent layout */}
+              </div>
+            );
+          }
+        })}
+        
+        {totalFilteredCount === 0 && (
+          <div className="noResults">No teaching materials found</div>
+        )}
+              
+            </div>
+          </div>
+           {/* Pagination Controls */}
+      {totalPages !== 1 ? (
+        <div className="conferencePagination">
+          <div className="paginationBackground">
+            <button
+              className="btn-back"
+              onClick={this.prevPageTM}
+              disabled={this.state.currentPageTM === 0}
+            >
+              <i className="fa-solid fa-chevron-down"></i>
+            </button>
+            
+            <div className="pageNumber">
+              <span>{this.state.currentPageTM + 1}</span>
+              <span>of</span>
+              <span>{totalPages}</span>
+            </div>
+            
+            <button
+              className="btn-back"
+              onClick={this.nextPageTM}
+              disabled={
+                (this.state.currentPageTM + 1) * this.state.teachingPerPage >= 
+                totalFilteredCount
+              }
+            >
+              <i className="fa-solid fa-chevron-up"></i>
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+
+
+          {/*   <div className="course-tabs container">
+            {this.state.allTeachingMaterials.map((cls, index) => (
+              <div className={"course-tab " + (this.state.currentTeachingTitle === cls.Title ? "active" : "")} onClick={() => this.setState({ currentTeachingTitle: cls.Title, currentTeachingCls: cls.Course })} key={index}>
+                Course {index + 1}
               </div>
             ))}
           </div>
+
+         <div className="course-card container">
+            <div className="card-header">
+              <div className="course-name">{this.state.currentTeachingTitle}</div>
+            </div>
+            <div className="card-description">
+              {this.state.currentTeachingCls}
+            </div>
+          </div> */}
+
         </div>
 
-        <div className="PublicationsList">
-          {paginatedPapers.length > 0 ? (
-            paginatedPapers.map((Paper, index) => (
-              <div className="enclosePublic" key={index}>
-                <div
-                  className={
-                    openIndex === index
-                      ? "PublicationItem container w-full active"
-                      : "PublicationItem container w-full"
-                  }
-                >
-                  <div className="d-flex align-items-center">
-                    <div className="ResLogo">
-                      <img
-                        src={
-                          openIndex === index
-                            ? "/Assets/article_icon_active.svg"
-                            : "/Assets/article_icon.svg"
-                        }
-                        alt="journal"
-                      />
-                    </div>
-
-                    <div className="PubContent">
-                      {Paper.publish_date && (
-                        <div className="date">{Paper.publish_date}</div>
-                      )}
-
-                      <div className="title">
-                        {Paper.paper_link ? (
-                          <a href={Paper.paper_link} target="_blank" rel="noreferrer" className="title">
-                            {Paper.title}
-                          </a>
-                        ) : (
-                          <span className="title">{Paper.title}</span>
-                        )}
-                      </div>
-
-                      <div className="PubJournal">
-                        {Paper.journal && <span>{Paper.journal}</span>}
-                        {Paper.publish_date && <span>, {Paper.publish_date}</span>}
-                      </div>
-
-                      {Paper.authors && <div className="author">{Paper.authors}</div>}
-                    </div>
-                  </div>
-
-                  <div className="arrow-item d-flex">
-                    <button onClick={() => togglePaper(index)}>
-                      <img
-                        src={
-                          openIndex === index
-                            ? "./Assets/arrow-up-circle.svg"
-                            : "./Assets/arrow-down-circle.svg"
-                        }
-                        alt="accordion-button"
-                      />
-                    </button>
-                  </div>
+        <div className="ResSection container conferences" id="conferences">
+          <div className='publicationsBox'>
+            <div className="ResHeader ">
+              <div className="teaching-header  conferenceFilter mb-0">
+                <div className='lineResHip'>
+                  <h1 className="ResTitle">Conferences</h1>
+                  <p>Academic conferences and presentations</p>
                 </div>
-
-                {openIndex === index && (
-                  <div className="accordion-content container">
-                    <p>{Paper.description}</p>
-                  </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <div className="noPapers">No papers found.</div>
-          )}
-
-          {totalPages >= 1 && (
-            <div className="pagination">
-              <div className="pagination-buttons">
-                <button className="btn-back" onClick={prevPage} disabled={currentTeaching === 0}>
-                  <i className="fa-solid fa-chevron-left"></i>
-                </button>
-                {/* PAGE NUMBER BUTTONS */}
-                {[...Array(totalPages)].map((_, index) => (
-                  <button
-                    key={index}
-                    className={`page-btn ${currentTeaching === index ? 'active' : ''}`}
-                    onClick={() => setCurrentTeaching(index)}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-                <button
-                  className="btn-back"
-                  onClick={nextPage}
-                  disabled={currentTeaching === totalPages - 1}
-                >
-                  <i className="fa-solid fa-chevron-right"></i>
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="teachingSection" id="classes">
-        <div className="teaching-header container">
-          <div className='lineResHip'>
-            <div className="lineRes">
-              <div className="heading-title">
-                <p>Teaching Initiatives</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* roadmap */}
-        <div className="roadmap-container">
-          <div className="roadmap-timeline">
-            <div className="timeline-path" />
-
-            {roadmapData.map((item, index) => {
-              const isVisible = visiblePhases.includes(index);
-              const isLeft = index % 2 === 0;
-
-              return (
-                <div
-                  key={item.id}
-                  ref={(el) => (phaseRefs.current[index] = el)}
-                  data-index={index}
-                  className={`phase-container ${isVisible ? 'visible' : ''}`}
-                >
-                  <div className={`phase-row ${isLeft ? 'left-side' : 'right-side'}`}>
-                    <div className="phase-content">
-                      <div className={`phase-card ${isLeft ? 'from-left' : 'from-right'}`} >
-                        <div className="card-header-map">
-                          <h5 className="card-title">{item.title}</h5>
-                          <p className="phase-label">{item.school}</p>
-                        </div>
-                        <span className="date-badge-inline">
-                          {item.rating}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="timeline-node">
-                      {item.id}
-                    </div>
-
-                    <div className="phase-spacer">
-                      <div className={`date-badge ${isLeft ? 'text-right' : 'text-left'}`}>
-                        {item.title}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        {/* roadmap */}
-
-      </div>
-
-      <div className="courseSection" id="conferences">
-        <div className="ResHeader container">
-          <div className="teaching-header container">
-            <div className='lineResHip'>
-              <div className="ResTitle">
-                <div className="heading-title">
-                  <p>Conferences</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="PublicationsList conferenceBox container">
-          {paginatedCourses.length > 0 ? (
-            paginatedCourses.map((conf, index) => (
-              <div className='enclosePublic' key={index}>
-                <div className="PublicationItem container justify-content-start">
-                  <div className="ResLogo">
-                    <img src="/Assets/presentation.svg" alt="conference" />
-                  </div>
-                  <div className="PubContent">
-                    {/* date */}
-                    <div className="date">{conf.date}</div>
-
-                    {/* title */}
-                    <div className="title">
-                      <span className="title">{conf.title}</span>
-                    </div>
-
-                    {/* role */}
-                    <div className="author">
-                      <span>{conf.role}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="noPapers">No conferences found.</div>
-          )}
-
-          {totalCourses > 1 && (
-            <div className="pagination">
-              <div className="pagination-buttons">
-                <button className="btn-back" onClick={prevCoursePage} disabled={coursePage === 0}>
-                  <i className="fa-solid fa-chevron-left"></i>
-                </button>
-                {/* PAGE NUMBER BUTTONS */}
-                {[...Array(totalCourses)].map((_, index) => (
-                  <button
-                    key={index}
-                    className={`page-btn ${coursePage === index ? 'active' : ''}`}
-                    onClick={() => setCoursePage(index)}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-                <button
-                  className="btn-back"
-                  onClick={nextCoursePage}
-                  disabled={coursePage === totalCourses - 1}
-                >
-                  <i className="fa-solid fa-chevron-right"></i>
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <img className='curveImage' src="./Assets/curve_image.png" alt="conference" />
-      </div>
-
-
-
-      <div className="ResSection" id="conferences">
-        <div className="ResHeader container">
-          <div className="teaching-header container">
-            <div className='lineResHip'>
-              <div className="ResTitle">
-                <div className="heading-title">
-                  <p>Awards</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='container maxer AwardTitle' id="awards">
-          <div className="d-flex align-items-center justify-content-center carousel-bg">
-            <div className="w-100" style={{ maxWidth: "1200px" }}>
-              <div className="d-flex align-items-center gap-3">
-                <button onClick={goToPrevious} className="carousel-btn rounded-circle">
-                  <i className="fa-solid fa-chevron-left"></i>
-                </button>
-                <div className="position-relative flex-grow-1 overflow-hidden rounded">
-                  <div
-                    className="d-flex transition-transform"
-                    style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
-                  >
-                    {awardsList.map((slide) => (
-                      <div
-                        key={slide.id}
-                        className="flex-shrink-0 p-2"
-                        style={{ width: `${100 / itemsPerView}%` }}
-                      >
-                        <div className="slide-card rounded p-4 text-center h-100 d-flex flex-column justify-content-center">
-                          <div className="award-date d-flex align-items-center justify-content-center gap-1">
-                            <img src="./Assets/award.svg" alt="award" />
-                            <p>{slide.date}</p>
-                          </div>
-                          <h5>{slide.name}</h5>
-                          <h6>{slide.description}</h6>
-                        </div>
-                      </div>
-                    ))}
-
-                  </div>
-                </div>
-                <button onClick={goToNext} className="carousel-btn rounded-circle">
-                  <i className="fa-solid fa-chevron-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <img className='dots_image_award' src="./Assets/dots_image.png" alt="dots" />
-      </div>
-
-      {/* <div className='initiatives'>
-        <div className="initiativesList container">
-          <div className="initiatives-tabs">
-            <div className='lineRes'>
-              <div className="heading-title">
-                <p>Other <br /> Initiatives</p>
-                <h6>Financial Reporting and Control (Harvard <br /> Business School MBA) -2021, 2022, 2023</h6>
-              </div>
-            </div>
-          </div>
-          <div className="initiatives-card">
-            {Initiatives.length > 0 ? (
-              Initiatives.map((Paper, index) => (
-                <div className="initiativesPublic" key={index}>
-                  <div className="initiativesItems d-flex justify-content-between align-items-center">
-                    <h2 className="title">{Paper.title}</h2>
-                    <div className="arrow-item d-flex">
-                      <button onClick={() => toggleInPaper(index)}>
-                        {openInIndex === index ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}
+                <div className='filterBox'>
+                  <ul>
+                    <li><button className='active'>All</button></li>
+                    <li><button>Conferences</button></li>
+                    <li><button>Symposia</button></li>
+                    <li><button>Workshops</button></li>
+                    <li><button>Panels</button></li>
+                  </ul>
+                  <div className='searchFilter'>
+                    <div className="toggle-input-wrapper">
+                      <button className={`toggle-btn  ${conferenceInputOpen ? "open" : ""}`} onClick={this.toggleConferenceInput}>
+                        <img src="/Assets/search-normal.svg" alt="search" />
+                        {/* <i className="fa-solid fa-search"></i> */}
                       </button>
+
+
+                    </div>
+                    <div className={`custom-dropdown ${conferenceOpen ? "open" : ""}`}>
+                      <button className="dropdown-btn" onClick={this.toggleConferenceDropdown}>
+                        {conferenceSelected ? conferenceSelected : <img src="/Assets/Filter.svg" alt="search" />}
+                      </button>
+                      <ul className="dropdown-menu">
+                        {options.map((opt, index) => (
+                          <li key={index} onClick={() => this.conferenceSelectOption(opt)}>
+                            {opt}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-
-                  {openInIndex === index && (
-                    <div className="initiativesContent">
-                      <p>{Paper.description}</p>
-                    </div>
-                  )}
                 </div>
+              </div>
+            </div>
+            <div className={`input-container  container ${conferenceInputOpen ? "open" : ""}`}>
+              <input
+                type="text"
+                placeholder="Search"
+                value={conferenceSearchValue}
+                onChange={this.handleConferenceChange}
+              />
+              <i onClick={this.toggleConferenceInput} className="fa-solid fa-xmark"></i>
+            </div>
+          </div>
+          <div className="conferenceList">
+            {this.getPaginatedCF().length > 0 ? (
+              this.getPaginatedCF().map((Paper, index) => (
+                Paper ? (
+                  <div className='enclosePublic' key={index}>
+                    <div className="conferenceItem">
+                      <div className="conferenceLogo">
+                        <img src="/Assets/conference_icon.svg" alt="journal" />
+                      </div>
+                      <div className="PubContent">
+                        {Paper["CRN"] && <div className="date">{Paper["CRN"]}</div>}
+
+                        <div className="">
+                          {Paper["Paper Link"] ? (
+                            <a href={Paper["Paper Link"]} target="_blank" className="title">
+                              {Paper.Title}
+                            </a>
+                          ) : (
+                            <span className="title">{Paper.Title}</span>
+                          )}
+                          <p className='presenter'>Presenter</p>
+                        </div>
+
+                        <div className="author">
+                          {Paper["Year"] && <span>{this.getPublishDate(Paper["Year"])}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null
               ))
             ) : (
               <div className="noPapers">No papers found.</div>
             )}
           </div>
+
+          {
+            Math.ceil(this.getPaginatedCFDetails().length / this.state.conferencePerPage) !== 1 ?
+              <div className="conferencePagination">
+                <div className='paginationBackground'>
+                  <button className="btn-back" onClick={this.prevPageCF} disabled={this.state.currentPage2 === 0}>
+                    <i className="fa-solid fa-chevron-down"></i>
+                  </button>
+                  <div className="pageNumber">
+                    <span>{this.state.currentPage2 + 1}</span> <span>of</span> <span>{Math.ceil(this.getPaginatedCFDetails().length / this.state.conferencePerPage)}</span>
+                  </div>
+                  <button className="btn-back"
+                    onClick={this.nextPageCF}
+                    disabled={(this.state.currentPage2 + 1) * this.state.conferencePerPage >= this.state.allConfarences.length}>
+                    <i className="fa-solid fa-chevron-up"></i>
+                  </button>
+                </div>
+              </div>
+              : null
+          }
         </div>
-        <img className='dots_image' src="./Assets/dots_image.png" alt="dots" />
-      </div> */}
+        
+        {
+          this.state.allAwards.length > 0 ?
+            <>
+              <div className="ResSection awardsSection" id="conferences">
+                <div className="ResHeader container">
+                  <div className="teaching-header container">
+                    <div className='lineResHip'>
+                      <h1 className="ResTitle">Awards </h1>
+                      <p>Notable awards and academic recognition.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='container maxer AwardTitle' id="awards">
+                  <div className='AwardCaser'>
 
-      <footer className="FooterSection">
-        <div className="FooterContainer">
-          <div className="FooterLeft">
-            <span>Copyright © Thomas Cole Davis - 2025</span>
+                    <div className='awardCase'>
+                      {
+                        this.awardFinder().map((award, index) => {
+                          return (
+                            <div className='award'>
+                              <img src="/Assets/award.svg" alt="award" />
+                              <div className='awardDTitle paper_link_gtm' id="Awards">{award.Title}</div>
+                              <div className='awardD'>
+                                {award.Course}
+                              </div>
+                            </div>
+                          );
+                        }
+                        )
+                      }
+                    </div>
+
+                  </div>
+                  <div className='awardsItems'>
+                    <div className='bookButtonCont'>
+                      {(() => {
+                        const totalSteps = Math.ceil(this.state.allAwards.length / 3);
+
+                        // convert odd numbers (1,3,5...) → 0,1,2...
+                        const stepNumber = (this.state.currentPos2 - 1) / 2;
+
+                        // percent from 0% to ~100%
+                        const progressPercent =
+                          totalSteps > 1 ? (stepNumber / (totalSteps - 1)) * 100 : 0;
+
+                        return (
+                          <div className="progress-container">
+                            <div
+                              className="progress-fill"
+                              style={{ width: `${progressPercent}%` }}
+                            ></div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                    <div className='bookButtonCont'>
+
+                      {/* LEFT BUTTON */}
+                      <div
+                        className='awardNav'
+                        onClick={() => {
+                          const totalSteps = Math.ceil(this.state.allAwards.length / 3);
+                          const maxPos = totalSteps * 2;
+                          let newPos = this.state.currentPos2 - 2;
+
+                          if (newPos < 1) {
+                            newPos = maxPos - 1; // go to last
+                          }
+
+                          this.setState({ currentPos2: newPos });
+                        }}
+                      >
+                        <i className="fa-solid fa-chevron-left"></i>
+                      </div>
+                      {/* RIGHT BUTTON */}
+                      <div
+                        className='awardNav'
+                        onClick={() => {
+                          const totalSteps = Math.ceil(this.state.allAwards.length / 3);
+                          const maxPos = totalSteps * 2;
+                          let newPos = this.state.currentPos2 + 2;
+
+                          if (newPos > maxPos - 1) {
+                            newPos = 1; // go to first
+                          }
+
+                          this.setState({ currentPos2: newPos });
+                        }}
+                      >
+                        <i className="fa-solid fa-chevron-right"></i>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+
+              </div>
+            </> : null
+
+        }
+
+        <div className='cvDownload' id="cv">
+          <button onClick={() => {
+            const link = document.createElement("a");
+            link.href = "/Atif-Ellahie-CV.pdf"; // your file path
+            link.download = "Atif-Ellahie-CV.pdf";    // file name
+            link.click();
+          }}>Download my cv <img src="/Assets/download.svg" alt="download" /> </button>
+        </div>
+
+        <footer className="FooterSection">
+          <div className="footerContent container">
+            <div className="FooterLeft">
+              <span>Copyright © atifellahie - 2025</span>
+            </div>
+            <div className="FooterRight">
+              <Link to="" className="SocialIcon"> <img src="/Assets/facebook.svg" alt="facebook" /> </Link>
+              <Link to="https://x.com/atifellahie" className="SocialIcon"> <img src="/Assets/x.svg" alt="facebook" /> </Link>
+              <Link to="https://www.linkedin.com/in/atifellahie/" className="SocialIcon"> <img src="/Assets/linkedin.svg" alt="facebook" /> </Link>
+              <Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="SocialIcon"> <img src="/Assets/ssrn.svg" alt="facebook" /> </Link>
+              <Link to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
+            </div>
           </div>
-          <div className="FooterRight">
-            <div className="SocialIcon"><Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" target="_blank"><i className="fa-brands fa-google-scholar" aria-hidden="true"></i></Link></div>
-            <div className="SocialIcon"><Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" target="_blank"><img src="./Assets/footer_ssrn_logo.svg" alt="ssrn" /></Link></div>
-            <div className="SocialIcon"><Link to="https://orcid.org/0000-0002-5241-8578" target="_blank"><img src="./Assets/footer_ORCID_iD.svg" alt="orchid" /></Link></div>
-            <div className="SocialIcon"><Link to="https://www.linkedin.com/in/atifellahie/" target="_blank"><img src="./Assets/footer_linkedin.svg" alt="linkedin" /></Link></div>
-            <div className="SocialIcon"><Link to="https://x.com/atifellahie" target="_blank"><img src="./Assets/footer_twitter.svg" alt="twitter" /></Link></div>
+        </footer>
+
+        <div className='contactMe'>
+          <div className="card">
+            <div className="card-title">{this.state.currentProfileData.firstName} {this.state.currentProfileData.lastName}</div>
+            <div className="card-subtitle">
+              {this.state.currentProfileData.designation}<br />
+              {this.state.currentProfileData.university}<br />
+            </div>
+            <div className="card-details">
+              E-mail: {this.state.currentProfileData.email}<br />
+              {
+                this.state.currentProfileData.phone ?
+                  <>Tel: {this.state.currentProfileData.phone}<br /></>
+                  : null
+              }
+
+            </div>
+            <div className='xmarkTip' onClick={() => document.querySelector('.contactMe').style.display = 'none'}>
+              <i className="fa-solid fa-xmark"></i>
+            </div>
           </div>
         </div>
-      </footer>
 
-
-    </div>
-  );
-}
-
+        <div className='aboutMore' id="aboutMore">
+          <div className='xmarkTip' onClick={() => { $("#aboutMore").css("left", "100%") }}>
+            <i className="fa-solid fa-xmark"></i>
+          </div>
+          <div className="cardBlock"
+            dangerouslySetInnerHTML={{
+              __html: this.state.socialMedia.about || ""
+            }} style={{ zoom: "1" }}
+          >
+          </div>
+        </div>
+      </div>
+    );
+  }
+} 

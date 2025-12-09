@@ -1,3 +1,6 @@
+.awardsSection{
+  margin-top: 150px;
+}
 .awardTitle {
   color: var(--color-primary);
   font-size: 36px;
@@ -10,25 +13,39 @@
   min-height: 150px;
   padding: 10px;
   padding-bottom: 10px;
-  position: relative;
-  z-index: 999;
 }
 
 .awardCase {
   display: flex;
   justify-content: center;
   align-items: stretch;
+  gap: 40px;
 }
 
 .award {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  flex: 1;
-  padding: 50px 20px;
-  border-radius: 12px;
-  margin: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    padding: 23px 40px;
+    box-shadow: 0px 11.22px 8.98px 0px rgba(0, 0, 0, 0.22);
+
+box-shadow: 0px 14.21px 28.42px 0px rgba(0, 0, 0, 0.3);
+
+    background-color:  var(--color-primary);
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.award img{
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  z-index: 9999;
 }
 
 .awardImage {
@@ -44,23 +61,45 @@
 }
 
 .awardDTitle {
-  color: var(--color-primary);
-  font-size: 18px;
-  font-family: var(--font);
-  font-weight: 700;
-  word-wrap: break-word;
-  text-align: center;
-  margin: 15px 0;
-}
-
-.awardD {
-  color: black;
   font-size: 14px;
-  font-family: Poppins;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   word-wrap: break-word;
   text-align: center;
+  margin: 15px 0;
+  color: #ffffff;
+}
+
+.awardD {
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  word-wrap: break-word;
+  text-align: center;
   flex: 1;
+}
+.progress-container {
+    width: 100%;
+   height: 3px;
+    background: #d1d1d1;
+    overflow: hidden;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #000;
+  width: 0;
+  transition: width 0.3s ease;
+  -webkit-transition: width 0.3s ease;
+  -moz-transition: width 0.3s ease;
+  -ms-transition: width 0.3s ease;
+  -o-transition: width 0.3s ease;
 }
 
 @media screen and (max-width: 1000px) {
@@ -75,7 +114,9 @@
 
 @media screen and (max-width: 768px) {
   .awardCase {
-    flex-direction: column;
+   overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
   }
 }
 
@@ -100,19 +141,198 @@
 }
 
 .awardNav{
-    width: 100px;
-    cursor: pointer;
+
+   margin-top: 12px;
+   width: 46px;
+   height: 46px;
+   font-size: 20px;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+  border: 2.35px solid rgba(41, 45, 50, 1);
+   border-radius: 50%;
+   -webkit-border-radius: 50%;
+   -moz-border-radius: 50%;
+   -ms-border-radius: 50%;
+   -o-border-radius: 50%;
 }
 
-.awardNav > img{
-    width: 100%;
-    object-fit: contain;
-}
 
 .bookButtonCont {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  margin: 40px 0;
+  min-width: 540px;
+  /* margin: 40px 0; */
+}
+.cvDownload{
+  text-align: center;
+  margin-top: 80px;
+  margin-bottom: 100px;
+}
+.cvDownload button{
+  border: none;
+  font-family: var(--font-poppins);
+font-weight: 500;
+font-style: Medium;
+font-size: 18px;
+line-height: 100%;
+letter-spacing: 0%;
+background-color: #fff;
+}
+
+.awardsItems{
+display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+   margin-top: 120px;
+}
+.teachingSection{
+  padding: 28px;
+  padding-bottom: 60px;
+   border-top: 1px solid rgba(234, 234, 234, 1);
+  border-bottom: 1px solid rgba(234, 234, 234, 1);
+  border-left: none;
+  border-right: none;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+.courseCarousel {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  padding: 20px 0px;
+  overflow-x: hidden;
+  scroll-snap-type: x mandatory;
+
+}
+.courseCarousel:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;           /* how wide the fade area is */
+  height: 100%;
+  pointer-events: none;   /* don't block clicks */
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    #ffffff 100%
+  );
+}
+
+.activityCourse {
+  min-width: 40%;       /* 2.5 items => 40% + 40% + 40% = 120% */
+  scroll-snap-align: start;
+}
+
+.courseBox{
+  border: 1px solid rgba(0, 0, 0, 1);
+  padding: 13px 16px;
+ box-shadow: 0px 2px 5px 1px rgba(60, 64, 67, 0.35);
+
+  min-height: 190px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+.courseNumber{
+  display: flex;
+  justify-content: left;
+  gap: 5px;
+  align-items: end;
+}
+.courseNumber h5{
+  font-family: 'Poppins', sans-serif;
+font-weight: 900;
+color: rgba(0, 0, 0, 0.1);
+font-size: 90px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: left;
+margin-bottom: 0px;
+}
+.courseNumber p{
+ font-family: 'Poppins', sans-serif;
+font-weight: 600;
+font-size: 16px;
+line-height: 120%;
+letter-spacing: 0%;
+color: #000;
+border-bottom: 2px solid rgba(14, 20, 34, 1);
+margin-bottom: 14px;
+}
+.courseHeading{
+  display: flex;
+  justify-content: space-between;
+}
+.courseHeading p{
+  font-family: 'Poppins', sans-serif;
+font-weight: 400;
+font-size: 14px;
+line-height: 120%;
+letter-spacing: 0%;
+color: #000;
+}
+.courseContent p{
+  font-family: 'Poppins', sans-serif;
+font-weight: 400;
+font-style: italic;
+font-size: 14px;
+line-height: 120%;
+letter-spacing: 0%;
+color: rgba(87, 87, 87, 1);
+
+}
+
+.courseRating ul{
+  display: flex;
+  list-style: none;
+  padding-left: 0px;
+  gap: 5px;
+}
+
+.courseRating ul li{
+  background-color: #000000;
+  padding: 6px 7px;
+ font-family: 'Poppins', sans-serif;
+font-weight: 400;
+font-size: 14px;
+line-height: 120%;
+letter-spacing: 0%;
+text-align: center;
+color: #ffffff;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+.paginationBackground{
+  padding: 20px 56px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(13, 133, 253, 0.05);
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  -ms-border-radius: 50px;
+  -o-border-radius: 50px;
+}
+
+@media (max-width: 768px) {
+.bookButtonCont{
+  min-width: 82%;
+}
+.cvDownload{
+  margin: 35px 0px;
+}
 }

@@ -1,11 +1,9 @@
-/* at the very top of your CSS file */
-@import url('https://fonts.googleapis.com/css2?family=Qwitcher+Grypen&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Qwitcher+Grypen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 body {
     margin: 0;
     line-height: normal;
-    background-color: #FFFBF7;
 }
 
 a{
@@ -17,7 +15,7 @@ a{
     /* fonts */
     --font-def: 'Bayon', sans-serif;
     --font-sec: "Rethink Sans", sans-serif;
-
+    --font-poppins: "Poppins", sans-serif;
     /* font sizes */
     --font-size-base: 16px;
     --font-size-lg: 18px;
@@ -31,11 +29,10 @@ a{
     --font-size-21xl: 40px;
     --font-size-11xl: 30px;
 
-    --primary-background: linear-gradient(250.58deg, #D1A976 13.03%, #D19A54 89.02%);
-
+    --primary-background: linear-gradient(217deg, #462362 21.32%, #623F9F 79.02%);
     /* Colors */
     --white: #fff;
-    --color-primary: #444444;
+    --color-primary: #000000;
     --color-ghostwhite: #ebebf6;
     --color-gray: #7e7e7e;
     --color-darkslateblue: #623F9F;

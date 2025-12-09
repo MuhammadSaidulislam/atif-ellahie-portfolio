@@ -1,10 +1,14 @@
 .FooterSection {
   width: 100%;
   position: relative;
-   background: var(--primary-background);
+  background: var(--color-primary);
   overflow: hidden;
-  padding: 60px 0;
+  padding: 20px 0;
   box-sizing: border-box;
+}
+.FooterSection .footerContent{
+  display: flex;
+  justify-content: space-between;
 }
 
 .FooterContainer {
@@ -30,37 +34,28 @@
 }
 
 .SocialIcon {
-    width: 36px;
-    height: 36px;
-    padding: 4px;
-    background: #ffffff;
-    color: #D19A54;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 4px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .IconShape {
   position: absolute;
   background: linear-gradient(213deg, var(--color-primary) 0%, #623F9F 100%);
 }
-
-.SocialIcon a img{
-  width: 100%;
-}
-/* Mobile */
 @media (max-width: 768px) {
-.FooterContainer{
-  flex-direction: column;
-}
-.FooterRight{
-  margin-top: 15px;
-}
+.FooterSection .footerContent{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .FooterRight{
+    margin-top: 10px;
+  }
 }
