@@ -74,7 +74,7 @@ export class Home extends Component {
       sidebarOpen: false,
       screenWidth: document.documentElement.clientWidth,
       visiblePapers: [],   // items currently shown
-      loadCount: 10,       // how many to load per scroll
+      loadCount: 6,       // how many to load per scroll
       isFetching: false,
       openIndex: null,
       expanded: false,
