@@ -1255,7 +1255,7 @@ export class Home extends Component {
               <li><a href="#publications">Publications</a></li>
               <li><a href="#teaching">Teaching</a></li>
               <li><a href="#conferences">Conferences</a></li>
-              <li><a href="#cv">CV</a></li>
+              <li><a target='_blank' href="/cv">CV</a></li>
               <div className="contact-links">
                 <a href="#about">Contact</a>
               </div>
@@ -1313,7 +1313,7 @@ export class Home extends Component {
               </a>
 
               <div class="social-icons">
-                <Link href="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" class="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
+                <Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" class="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
                 <Link to="https://x.com/atifellahie" class="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
                 <Link to="https://www.linkedin.com/in/atifellahie/" class="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
                 <Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" class="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
