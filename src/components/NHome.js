@@ -1313,11 +1313,11 @@ export class Home extends Component {
               </a>
 
               <div class="social-icons">
-                <Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" class="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
-                <Link to="https://x.com/atifellahie" class="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
-                <Link to="https://www.linkedin.com/in/atifellahie/" class="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
-                <Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" class="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
-                <Link to="https://orcid.org/0000-0002-5241-8578" class="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" class="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://x.com/atifellahie" class="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" class="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" class="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" class="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
               </div>
             </div>
           </div>
@@ -1905,11 +1905,11 @@ export class Home extends Component {
               <span>Copyright © atifellahie - 2025</span>
             </div>
             <div className="FooterRight">
-              <Link to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="SocialIcon"> <img src="/Assets/scholars.svg" alt="facebook" /> </Link>
-              <Link to="https://x.com/atifellahie" className="SocialIcon"> <img src="/Assets/x.svg" alt="facebook" /> </Link>
-              <Link to="https://www.linkedin.com/in/atifellahie/" className="SocialIcon"> <img src="/Assets/linkedin.svg" alt="facebook" /> </Link>
-              <Link to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="SocialIcon"> <img src="/Assets/ssrn.svg" alt="facebook" /> </Link>
-              <Link to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
+              <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="SocialIcon"> <img src="/Assets/scholars.svg" alt="facebook" /> </Link>
+              <Link target='_blank' to="https://x.com/atifellahie" className="SocialIcon"> <img src="/Assets/x.svg" alt="facebook" /> </Link>
+              <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="SocialIcon"> <img src="/Assets/linkedin.svg" alt="facebook" /> </Link>
+              <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="SocialIcon"> <img src="/Assets/ssrn.svg" alt="facebook" /> </Link>
+              <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
             </div>
           </div>
         </footer>
