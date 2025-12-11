@@ -16,6 +16,239 @@ import 'react-tabs/style/react-tabs.css';
 import 'quill/dist/quill.snow.css';
 import { Link } from 'react-router-dom';
 
+const paginatedPaper = [
+  {
+    "key": "pub-2025-001",
+    "Title": "Are CEOs Rewarded for Luck? Evidence from Corporate Tax Windfalls",
+    "Authors": "Andreani, M., Ellahie, A., & Shivakumar, L.",
+    "Publishing Year": "2025",
+    "Journal": "Journal of Finance, 80(4), 2255–2302",
+    "Conference": "nan",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2025-002",
+    "Title": "Measuring the Quality of Mergers and Acquisitions",
+    "Authors": "Ellahie, A., Hshieh, S., & Zhang, F.",
+    "Publishing Year": "2025",
+    "Journal": "Management Science, 71(1), 779–802",
+    "Conference": "nan",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2024-001",
+    "Title": "Accounting for Bubbles: A Discussion of Arif and Sul (2024)",
+    "Authors": "Ellahie, A.",
+    "Publishing Year": "2024",
+    "Journal": "Journal of Accounting and Economics, 78(2–3), 101717",
+    "Conference": "2023 JAE Conference",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2022-001",
+    "Title": "Growth Matters: Disclosure and Risk Premium",
+    "Authors": "Ellahie, A., Hayes, R., & Plumlee, M.",
+    "Publishing Year": "2022",
+    "Journal": "The Accounting Review, 97(4), 259–286",
+    "Conference": "nan",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2022-002",
+    "Title": "The Role of Disclosure and Information Intermediaries in an Unregulated Capital Market: Evidence from Initial Coin Offerings",
+    "Authors": "Bourveau, T., De George, E., Ellahie, A., & Macciocchi, D.",
+    "Publishing Year": "2022",
+    "Journal": "Journal of Accounting Research, 60(1), 129–167",
+    "Conference": "nan",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2021-001",
+    "Title": "Show Me the Money! Dividend Policy in Countries with Weak Institutions",
+    "Authors": "Ellahie, A., & Kaplan, Z.",
+    "Publishing Year": "2021",
+    "Journal": "Journal of Accounting Research, 59(2), 613–655",
+    "Conference": "nan",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2021-002",
+    "Title": "Management Forecasts of Volatility",
+    "Authors": "Ellahie, A., & Peng, X.",
+    "Publishing Year": "2021",
+    "Journal": "Review of Accounting Studies, 26(2), 620–655",
+    "Conference": "nan",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2021-003",
+    "Title": "Earnings Beta",
+    "Authors": "Ellahie, A.",
+    "Publishing Year": "2021",
+    "Journal": "Review of Accounting Studies, 26(1), 81–122",
+    "Conference": "nan",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2017-001",
+    "Title": "Do Common Inherited Beliefs and Values Influence CEO Pay?",
+    "Authors": "Ellahie, A., Tahoun, A., & Tuna, İ.",
+    "Publishing Year": "2017",
+    "Journal": "Journal of Accounting and Economics, 64(2–3), 346–367",
+    "Conference": "2016 JAE Conference",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "pub-2017-002",
+    "Title": "Government Purchases Reloaded: Informational Insufficiency and Heterogeneity in Fiscal VARs",
+    "Authors": "Ellahie, A., & Ricco, G.",
+    "Publishing Year": "2017",
+    "Journal": "Journal of Monetary Economics, 90, 13–27",
+    "Conference": "Warsaw International Economic Meeting (2012)",
+    "Paper Type": "Publications",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+
+  // ---------- BOOK CHAPTER ----------
+  {
+    "key": "book-2024-001",
+    "Title": "Disclosure in Initial Coin Offerings",
+    "Authors": "Ellahie, A.",
+    "Publishing Year": "2024",
+    "Journal": "The Palgrave Encyclopedia of Private Equity",
+    "Conference": "nan",
+    "Paper Type": "Book Chapters",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+
+  // ---------- WORKING PAPERS ----------
+  {
+    "key": "wp-001",
+    "Title": "Uncertain Earnings Betas",
+    "Authors": "Breuer, M., Ellahie, A., & Schütt, H.",
+    "Publishing Year": "nan",
+    "Journal": "nan",
+    "Conference": "nan",
+    "Paper Type": "Working Papers",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "wp-002",
+    "Title": "Technically, Technical Analysis is Fundamental Analysis",
+    "Authors": "Ellahie, A., Kaplan, Z., & Potter, C.",
+    "Publishing Year": "nan",
+    "Journal": "nan",
+    "Conference": "nan",
+    "Paper Type": "Working Papers",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "wp-003",
+    "Title": "Levering Up! Short-horizon Option Availability and the Gamification of the Stock Market",
+    "Authors": "Ellahie, A., Kaplan, Z., & Potter, C.",
+    "Publishing Year": "nan",
+    "Journal": "nan",
+    "Conference": "nan",
+    "Paper Type": "Working Papers",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "wp-004",
+    "Title": "Signaling in the Twilight Zone: Disclosure and Credibility in the OTC Market",
+    "Authors": "Bourveau, T., De George, E., Ellahie, A., Gaulin, M., & Wang, D.",
+    "Publishing Year": "nan",
+    "Journal": "nan",
+    "Conference": "nan",
+    "Paper Type": "Working Papers",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  },
+  {
+    "key": "wp-005",
+    "Title": "Are Disclosed Merger Synergies Realized?",
+    "Authors": "Ellahie, A., Huang, X., Tuna, İ., & Vincenzi, R.",
+    "Publishing Year": "nan",
+    "Journal": "nan",
+    "Conference": "nan",
+    "Paper Type": "Working Papers",
+    "Abstract": "nan",
+    "Citations": "nan",
+    "Paper Link": "nan",
+    "Slides": "nan",
+    "Video": "nan"
+  }
+]
+
+
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
@@ -595,19 +828,20 @@ export class Home extends Component {
 
 
   getPaginatedPaper() {
-    const { s_query, currentPage, studentsPerPage, allPapers, currentPaperType } = this.state;
-    let filteredStudents = allPapers;
+    const { s_query, currentPage, studentsPerPage, currentPaperType } = this.state;
+    let filteredStudents = paginatedPaper;
+console.log('allPapers',paginatedPaper);
 
     // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
 
-    allPapers.forEach(paper => {
+    paginatedPaper.forEach(paper => {
       if (!paper.hasOwnProperty('Paper Type') || paper['Paper Type'] === '') {
         paper['Paper Type'] = 'Publications';
       }
     });
 
     // filter based on paper type now
-    filteredStudents = allPapers.filter(paper => paper['Paper Type'] === currentPaperType);
+    filteredStudents = paginatedPaper.filter(paper => paper['Paper Type'] === currentPaperType);
 
     // in any field if the content is "nan" then make it empty
     filteredStudents.forEach(paper => {
@@ -1265,65 +1499,65 @@ export class Home extends Component {
         </div>
 
 
-        <div class="container userInfo">
+        <div className="container userInfo">
 
-          <div class="left-content">
+          <div className="left-content">
             <div>
               <h1>Atif Ellahie</h1>
-              <p class="subtitle">Associate Professor of Accounting</p>
-              <div class="affiliation">
+              <p className="subtitle">Associate Professor of Accounting</p>
+              <div className="affiliation">
                 <p>David Eccles School of Business, University of Utah</p>
                 <p>Director, Accounting Ph.D. Program.</p>
               </div>
 
-              <div class="button-group">
-                <a href="#about" class="btn btn-about">About me</a>
-                <a href="#research" class="btn btn-research">View research</a>
+              <div className="button-group">
+                <a href="#about" className="btn btn-about">About me</a>
+                <a href="#research" className="btn btn-research">View research</a>
               </div>
             </div>
 
-            <div class="contact-section">
+            <div className="contact-section">
               <h3>Contact</h3>
-              <a href="mailto:atif.ellahie@eccles.utah.edu" class="email">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <a href="mailto:atif.ellahie@eccles.utah.edu" className="email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="2" y="4" width="20" height="16" rx="2" />
                   <path d="M22 7L13.03 12.7C12.4 13.1 11.6 13.1 10.97 12.7L2 7" />
                 </svg>
                 atif.ellahie@eccles.utah.edu
               </a>
 
-              <div class="social-icons">
-                <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" class="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://x.com/atifellahie" class="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" class="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" class="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" class="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
+              <div className="social-icons">
+                <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://x.com/atifellahie" className="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
               </div>
             </div>
           </div>
 
-          <div class="right-image">
+          <div className="right-image">
             <img src="/Assets/Man.png" alt="Atif Ellahie" />
           </div>
         </div>
 
         {/* About section */}
         <div id="about" className='aboutSection'>
-          <div class="container aboutBox">
+          <div className="container aboutBox">
 
-            <div class="profile-photo"></div>
+            <div className="profile-photo"></div>
 
-            <div class="content aboutContent" ref={this.boxRef} style={{
+            <div className="content aboutContent" ref={this.boxRef} style={{
               height: this.state.height,
               overflow: 'hidden',
               transition: "height 0.5s ease"
             }}>
-              <div class="section">
-                <div class="timeline-section">
-                  <div class="timeline-dots"></div>
-                  <div class="timeline-line"></div>
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-label">Academic<br />Focus</div>
+              <div className="section">
+                <div className="timeline-section">
+                  <div className="timeline-dots"></div>
+                  <div className="timeline-line"></div>
+                  <div className="timeline-dot"></div>
+                  <div className="timeline-label">Academic<br />Focus</div>
                 </div>
                 <div className='aboutContent'>
                   <h1>About Me</h1>
@@ -1332,11 +1566,11 @@ export class Home extends Component {
                 </div>
               </div>
 
-              <div class="section">
-                <div class="timeline-section">
-                  <div class="timeline-line"></div>
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-label">Research<br />Focus</div>
+              <div className="section">
+                <div className="timeline-section">
+                  <div className="timeline-line"></div>
+                  <div className="timeline-dot"></div>
+                  <div className="timeline-label">Research<br />Focus</div>
                 </div>
                 <div className='aboutContent'>
                   <h2>Academic Focus</h2>
@@ -1345,20 +1579,20 @@ export class Home extends Component {
                 </div>
               </div>
 
-              <div class="section">
-                <div class="timeline-section">
+              <div className="section">
+                <div className="timeline-section">
 
-                  <div class="timeline-line"></div>
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-label">Education & <br /> Credentials</div>
+                  <div className="timeline-line"></div>
+                  <div className="timeline-dot"></div>
+                  <div className="timeline-label">Education & <br /> Credentials</div>
                 </div>
                 <div className='aboutContent'>
                   <h2 >Research Focus</h2>
-                  <div class="research-items">
-                    <div class="research-item">
+                  <div className="research-items">
+                    <div className="research-item">
                       Examining 'risk' by incorporating the interaction of firm-level and macroeconomic information (e.g., earnings beta, volatility forecasting, growth risk).
                     </div>
-                    <div class="research-item">
+                    <div className="research-item">
                       Examining how firms and individuals respond to their institutional environment (e.g., <a href="#">disclosure</a>, <a href="#">institutional quality</a>, <a href="#">culture</a>, <a href="#">policy intervention</a>).
                     </div>
                   </div>
@@ -1366,12 +1600,12 @@ export class Home extends Component {
                 </div>
               </div>
 
-              <div class="section">
-                <div class="timeline-section">
+              <div className="section">
+                <div className="timeline-section">
 
-                  <div class="timeline-line"></div>
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-label">Professional <br />Experience</div>
+                  <div className="timeline-line"></div>
+                  <div className="timeline-dot"></div>
+                  <div className="timeline-label">Professional <br />Experience</div>
                 </div>
                 <div className='aboutContent'>
                   <h2>Education & Credentials</h2>
@@ -1379,12 +1613,12 @@ export class Home extends Component {
                 </div>
               </div>
 
-              <div class="section">
-                <div class="timeline-section">
+              <div className="section">
+                <div className="timeline-section">
 
-                  <div class="timeline-line"></div>
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-label">Personal <br />Interests</div>
+                  <div className="timeline-line"></div>
+                  <div className="timeline-dot"></div>
+                  <div className="timeline-label">Personal <br />Interests</div>
                 </div>
                 <div className='aboutContent'>
                   <h2>Professional Experience</h2>
@@ -1392,11 +1626,11 @@ export class Home extends Component {
                 </div>
               </div>
 
-              <div class="section">
-                <div class="timeline-section">
-                  <div class="timeline-line"></div>
-                  <div class="timeline-dot"></div>
-                  {/* <div class="timeline-label">Academic<br />Focus</div> */}
+              <div className="section">
+                <div className="timeline-section">
+                  <div className="timeline-line"></div>
+                  <div className="timeline-dot"></div>
+                  {/* <div className="timeline-label">Academic<br />Focus</div> */}
                 </div>
                 <div className='aboutContent'>
                   <h2>Personal Interests</h2>
@@ -1408,8 +1642,8 @@ export class Home extends Component {
             </div>
 
             <div className='aboutBtn'>
-              <button onClick={this.toggleExpand} class="readMore">{this.state.expanded ? "Read Less" : "Read More"}</button>
-              <button class="download-btn">
+              <button onClick={this.toggleExpand} className="readMore">{this.state.expanded ? "Read Less" : "Read More"}</button>
+              <button className="download-btn">
                 Download my CV <img src="/Assets/document-download.svg" alt="document-download" />
               </button>
             </div>
@@ -1804,7 +2038,7 @@ export class Home extends Component {
                       {
                         this.awardFinder().map((award, index) => {
                           return (
-                            <div className='award'>
+                            <div className='award' key={index}>
                               <img src="/Assets/award.svg" alt="award" />
                               <div className='awardDTitle paper_link_gtm' id="Awards">{award.Title}</div>
                               <div className='awardD'>
