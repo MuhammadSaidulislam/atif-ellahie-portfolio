@@ -1497,7 +1497,7 @@ export class Home extends Component {
               {this.state.visiblePapers.length > 0 ? (
                 this.state.visiblePapers.map((Paper, index) => (
                   Paper ? (
-                    <div
+                    <div data-title={Paper.Title} data-type={Paper.type} id="Paper"
                       className={
                         this.state.openIndex === index ? "enclosePublicAdd" : "enclosePublic"
                       }
