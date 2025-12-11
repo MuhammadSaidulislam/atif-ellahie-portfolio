@@ -1142,40 +1142,7 @@ export class Home extends Component {
     });
   };
 
-  // scroll data load
-  handleScroll = () => {
-    const box = document.getElementById("publicationsBox");
-    if (!box) return;
 
-    if (box.scrollTop + box.clientHeight >= box.scrollHeight - 20) {
-      this.loadMore();
-    }
-  };
-
-  loadMore = () => {
-    const { isFetching, visiblePapers, allPapers, loadCount } = this.state;
-
-    if (isFetching) return;
-
-    if (visiblePapers.length >= allPapers.length) return;
-
-    this.setState({ isFetching: true });
-
-    setTimeout(() => {
-      const nextBatch = allPapers.slice(
-        visiblePapers.length,
-        visiblePapers.length + loadCount
-      );
-
-      const newVisible = [...visiblePapers, ...nextBatch];
-
-      this.setState({
-        visiblePapers: newVisible,
-        currentPage: Math.ceil(newVisible.length / this.state.studentsPerPage),
-        isFetching: false
-      });
-    }, 200);
-  };
 
 
   // new next button for scroll
@@ -1246,7 +1213,7 @@ export class Home extends Component {
         <nav>
           <div className="container d-flex justify-content-between align-items-center">
             <div className="nav-left">
-              <div className="logo">Atif Ellahie</div>
+              {/* <div className="logo">Atif Ellahie</div> */}
             </div>
 
             {/* Desktop links */}
@@ -1255,9 +1222,22 @@ export class Home extends Component {
               <li><a href="#publications">Publications</a></li>
               <li><a href="#teaching">Teaching</a></li>
               <li><a href="#conferences">Conferences</a></li>
-              <li><a target='_blank' href="/cv">CV</a></li>
-              <div className="contact-links">
-                <a href="#about">Contact</a>
+              <li><button onClick={() => {
+    const filePath = "/Atif-Ellahie-CV.pdf"; // your file path
+
+    // Open in new tab
+    window.open(filePath, "_blank");
+
+    // Trigger download
+    const link = document.createElement("a");
+    link.href = filePath;
+    link.download = "Atif-Ellahie-CV.pdf"; // file name
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }}>CV</button></li>
+              <div className="contact-links" onClick={() => { $('.contactMe').css('display', 'flex') }}>
+                <button >Contact</button>
               </div>
             </ul>
 
@@ -1494,8 +1474,8 @@ export class Home extends Component {
 
           <div className='publicationsWrapper container'>
             <div id="publicationsBox" className="PublicationsList  scrollBox">
-              {this.state.visiblePapers.length > 0 ? (
-                this.state.visiblePapers.map((Paper, index) => (
+             {this.getPaginatedPaper().length > 0 ? (
+              this.getPaginatedPaper().map((Paper, index) => (
                   Paper ? (
                     <div data-title={Paper.Title} data-type={Paper.type} id="Paper"
                       className={
@@ -1549,12 +1529,29 @@ export class Home extends Component {
                 <div className="noPapers">No papers found.</div>
               )}
 
-              {this.state.isFetching && (
-                <div className="loading">Loading more...</div>
-              )}
             </div>
           </div>
         </div>
+
+         {
+            Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage) !== 1 ?
+              <div className="conferencePagination">
+                <div className='paginationBackground'>
+                  <button className="btn-back" onClick={this.prevPage} disabled={this.state.currentPage === 0}>
+                    <i className="fa-solid fa-chevron-left"></i>
+                  </button>
+                  <div className="pageNumber">
+                    <span>{this.state.currentPage + 1}</span> <span>of</span> <span>{Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage)}</span>
+                  </div>
+                  <button className="btn-back"
+                    onClick={this.nextPage}
+                    disabled={(this.state.currentPage + 1) * this.state.studentsPerPage >= this.state.allPapers.length}>
+                    <i className="fa-solid fa-chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+              : null
+          }
 
         <div className="teaching-section" id="teaching">
           <div className='publicationsBox mb-0'>
@@ -1892,11 +1889,19 @@ export class Home extends Component {
 
         <div className='cvDownload' id="cv">
           <button onClick={() => {
-            const link = document.createElement("a");
-            link.href = "/Atif-Ellahie-CV.pdf"; // your file path
-            link.download = "Atif-Ellahie-CV.pdf";    // file name
-            link.click();
-          }}>Download my cv <img src="/Assets/download.svg" alt="download" /> </button>
+    const filePath = "/Atif-Ellahie-CV.pdf"; // your file path
+
+    // Open in new tab
+    window.open(filePath, "_blank");
+
+    // Trigger download
+    const link = document.createElement("a");
+    link.href = filePath;
+    link.download = "Atif-Ellahie-CV.pdf"; // file name
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }}>Download my cv <img src="/Assets/download.svg" alt="download" /> </button>
         </div>
 
         <footer className="FooterSection">
