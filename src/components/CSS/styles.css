@@ -299,7 +299,7 @@ z-index: 99999; */
 }
 
 .card {
-  width: 400px;
+  width: 440px;
   padding: 30px;
   background: white;
   border-radius: 8px;
@@ -505,7 +505,7 @@ z-index: 99999; */
 
 .PubContent {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   height: 100%;
   justify-content: space-between;
   width: 100%;
@@ -735,7 +735,7 @@ nav {
 .left-content {
   flex: 1;
 padding-top: 120px;
-padding-bottom: 45px;
+padding-bottom: 55px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -864,8 +864,8 @@ padding-bottom: 45px;
 }
 
 .social-icon {
-width: 30px;
-height: 30px;
+width: 35px;
+height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;

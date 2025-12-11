@@ -830,7 +830,7 @@ export class Home extends Component {
   getPaginatedPaper() {
     const { s_query, currentPage, studentsPerPage, currentPaperType } = this.state;
     let filteredStudents = paginatedPaper;
-console.log('allPapers',paginatedPaper);
+    console.log('allPapers', paginatedPaper);
 
     // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
 
@@ -1457,19 +1457,19 @@ console.log('allPapers',paginatedPaper);
               <li><a href="#teaching">Teaching</a></li>
               <li><a href="#conferences">Conferences</a></li>
               <li><button onClick={() => {
-    const filePath = "/Atif-Ellahie-CV.pdf"; // your file path
+                const filePath = "/Atif-Ellahie-CV.pdf"; // your file path
 
-    // Open in new tab
-    window.open(filePath, "_blank");
+                // Open in new tab
+                window.open(filePath, "_blank");
 
-    // Trigger download
-    const link = document.createElement("a");
-    link.href = filePath;
-    link.download = "Atif-Ellahie-CV.pdf"; // file name
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }}>CV</button></li>
+                // Trigger download
+                const link = document.createElement("a");
+                link.href = filePath;
+                link.download = "Atif-Ellahie-CV.pdf"; // file name
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}>CV</button></li>
               <div className="contact-links" onClick={() => { $('.contactMe').css('display', 'flex') }}>
                 <button >Contact</button>
               </div>
@@ -1517,14 +1517,14 @@ console.log('allPapers',paginatedPaper);
             </div>
 
             <div className="contact-section">
-              <h3>Contact</h3>
+              {/* <h3>Contact</h3>
               <a href="mailto:atif.ellahie@eccles.utah.edu" className="email">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="2" y="4" width="20" height="16" rx="2" />
                   <path d="M22 7L13.03 12.7C12.4 13.1 11.6 13.1 10.97 12.7L2 7" />
                 </svg>
                 atif.ellahie@eccles.utah.edu
-              </a>
+              </a> */}
 
               <div className="social-icons">
                 <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
@@ -1708,8 +1708,8 @@ console.log('allPapers',paginatedPaper);
 
           <div className='publicationsWrapper container'>
             <div id="publicationsBox" className="PublicationsList  scrollBox">
-             {this.getPaginatedPaper().length > 0 ? (
-              this.getPaginatedPaper().map((Paper, index) => (
+              {this.getPaginatedPaper().length > 0 ? (
+                this.getPaginatedPaper().map((Paper, index) => (
                   Paper ? (
                     <div data-title={Paper.Title} data-type={Paper.type} id="Paper"
                       className={
@@ -1719,17 +1719,18 @@ console.log('allPapers',paginatedPaper);
                     >
                       <div className="PublicationItem ">
                         <div className="PubContent">
-                          <div className="title">
-                            {Paper["Paper Link"] ? (
-                              <a href={Paper["Paper Link"]} target="_blank" className="title">
-                                {Paper.Title}
-                              </a>
-                            ) : (
-                              <span className="title">{Paper.Title}</span>
-                            )}
-                            {Paper["Publishing Year"] && <div className="date">{this.getPublishDate(Paper["Publishing Year"])}</div>}
-                          </div>
-                          <div className="PubJournal">
+                          <div>
+                            <div className="title">
+                              {Paper["Paper Link"] ? (
+                                <a href={Paper["Paper Link"]} target="_blank" className="title">
+                                  {Paper.Title}
+                                </a>
+                              ) : (
+                                <span className="title">{Paper.Title}</span>
+                              )}
+
+                            </div>
+                             <div className="PubJournal">
                             {Paper.Conference || Paper.Journal ? (
                               <div>
                                 {Paper.Conference && Paper.Conference !== "nan" ? (
@@ -1740,13 +1741,19 @@ console.log('allPapers',paginatedPaper);
                                 {Paper["Publishing Year"] && <span>, {this.getPublishDate(Paper["Publishing Year"])}</span>}
                               </div>
                             ) : null}
-                            <div className='journalCarousel' onClick={() => this.togglePublication(index)}>
 
+                          </div>
+                          {Paper.Authors && <div className="author">{Paper.Authors}</div>}
+                          </div>
+                          <div className='d-flex flex-column align-items-end'>
+                            {Paper["Publishing Year"] && <div className="date">{this.getPublishDate(Paper["Publishing Year"])}</div>}
+                            <div className='journalCarousel mt-1' onClick={() => this.togglePublication(index)}>
                               {this.state.openIndex === index && (<i className="fa-solid fa-chevron-up"></i>)}
                               {this.state.openIndex !== index && (<i className="fa-solid fa-chevron-down"></i>)}
                             </div>
                           </div>
-                          {Paper.Authors && <div className="author">{Paper.Authors}</div>}
+
+                         
                         </div>
                         {this.state.openIndex === index && (
                           <div className='publicationContent'>
@@ -1767,25 +1774,25 @@ console.log('allPapers',paginatedPaper);
           </div>
         </div>
 
-         {
-            Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage) !== 1 ?
-              <div className="conferencePagination">
-                <div className='paginationBackground'>
-                  <button className="btn-back" onClick={this.prevPage} disabled={this.state.currentPage === 0}>
-                    <i className="fa-solid fa-chevron-left"></i>
-                  </button>
-                  <div className="pageNumber">
-                    <span>{this.state.currentPage + 1}</span> <span>of</span> <span>{Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage)}</span>
-                  </div>
-                  <button className="btn-back"
-                    onClick={this.nextPage}
-                    disabled={(this.state.currentPage + 1) * this.state.studentsPerPage >= this.state.allPapers.length}>
-                    <i className="fa-solid fa-chevron-right"></i>
-                  </button>
+        {
+          Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage) !== 1 ?
+            <div className="conferencePagination">
+              <div className='paginationBackground'>
+                <button className="btn-back" onClick={this.prevPage} disabled={this.state.currentPage === 0}>
+                  <i className="fa-solid fa-chevron-left"></i>
+                </button>
+                <div className="pageNumber">
+                  <span>{this.state.currentPage + 1}</span> <span>of</span> <span>{Math.ceil(this.getPaginatedPaperDetails().length / this.state.studentsPerPage)}</span>
                 </div>
+                <button className="btn-back"
+                  onClick={this.nextPage}
+                  disabled={(this.state.currentPage + 1) * this.state.studentsPerPage >= this.state.allPapers.length}>
+                  <i className="fa-solid fa-chevron-right"></i>
+                </button>
               </div>
-              : null
-          }
+            </div>
+            : null
+        }
 
         <div className="teaching-section" id="teaching">
           <div className='publicationsBox mb-0'>
@@ -1838,57 +1845,57 @@ console.log('allPapers',paginatedPaper);
             </div>
           </div>
 
-<div className='teachingWrapper'>
+          <div className='teachingWrapper'>
 
 
-          <div className=' teachingSection scroll-transparent '>
-            <div className='courseCarousel container'>
-              {paginatedMaterials.map((material, index) => {
-                if (material) {
-                  return (
-                    <div key={index} className='activityCourse'>
-                      <div className='courseNumber'>
-                        <h5>{index + 1}</h5>
-                        <p>Merges & <br /> Acquisitions</p>
+            <div className=' teachingSection scroll-transparent '>
+              <div className='courseCarousel container'>
+                {paginatedMaterials.map((material, index) => {
+                  if (material) {
+                    return (
+                      <div key={index} className='activityCourse'>
+                        <div className='courseNumber'>
+                          <h5>{index + 1}</h5>
+                          <p>Merges & <br /> Acquisitions</p>
+                        </div>
+                        <div className='courseBox'>
+                          <div className='courseHeading'>
+                            <p>{material.Title}</p>
+                            <p>2018</p>
+                          </div>
+                          <div className='courseHeading'>
+                            <p>University of Utah</p>
+                          </div>
+                          <div className='courseContent'>
+                            <p>Average instructor rating </p>
+                          </div>
+                          <div className='courseRating'>
+                            <ul>
+                              <li>5.7/6.0(2023)</li>
+                              <li>5.9/6.0(2024)</li>
+                              <li>5.7/6.0(2023)</li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
-                      <div className='courseBox'>
-                        <div className='courseHeading'>
-                          <p>{material.Title}</p>
-                          <p>2018</p>
-                        </div>
-                        <div className='courseHeading'>
-                          <p>University of Utah</p>
-                        </div>
-                        <div className='courseContent'>
-                          <p>Average instructor rating </p>
-                        </div>
-                        <div className='courseRating'>
-                          <ul>
-                            <li>5.7/6.0(2023)</li>
-                            <li>5.9/6.0(2024)</li>
-                            <li>5.7/6.0(2023)</li>
-                          </ul>
-                        </div>
+                    );
+                  } else {
+                    return (
+                      <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
+                        {/* Empty placeholder for consistent layout */}
                       </div>
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
-                      {/* Empty placeholder for consistent layout */}
-                    </div>
-                  );
-                }
-              })}
+                    );
+                  }
+                })}
 
-              {totalFilteredCount === 0 && (
-                <div className="noResults">No teaching materials found</div>
-              )}
+                {totalFilteredCount === 0 && (
+                  <div className="noResults">No teaching materials found</div>
+                )}
 
+              </div>
             </div>
           </div>
-          </div>
-       
+
 
 
 
@@ -2123,19 +2130,19 @@ console.log('allPapers',paginatedPaper);
 
         <div className='cvDownload' id="cv">
           <button onClick={() => {
-    const filePath = "/Atif-Ellahie-CV.pdf"; // your file path
+            const filePath = "/Atif-Ellahie-CV.pdf"; // your file path
 
-    // Open in new tab
-    window.open(filePath, "_blank");
+            // Open in new tab
+            window.open(filePath, "_blank");
 
-    // Trigger download
-    const link = document.createElement("a");
-    link.href = filePath;
-    link.download = "Atif-Ellahie-CV.pdf"; // file name
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }}>Download my cv <img src="/Assets/download.svg" alt="download" /> </button>
+            // Trigger download
+            const link = document.createElement("a");
+            link.href = filePath;
+            link.download = "Atif-Ellahie-CV.pdf"; // file name
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}>Download my cv <img src="/Assets/download.svg" alt="download" /> </button>
         </div>
 
         <footer className="FooterSection">
@@ -2155,16 +2162,16 @@ console.log('allPapers',paginatedPaper);
 
         <div className='contactMe'>
           <div className="card">
-            <div className="card-title">{this.state.currentProfileData.firstName} {this.state.currentProfileData.lastName}</div>
+            <div className="card-title">Atif Ellahie</div>
             <div className="card-subtitle">
-              {this.state.currentProfileData.designation}<br />
-              {this.state.currentProfileData.university}<br />
+              Associate Professor<br />
+              David Eccles School of Business, University of Utah<br />
             </div>
             <div className="card-details">
-              E-mail: {this.state.currentProfileData.email}<br />
+              E-mail:   atif.ellahie@eccles.utah.edu<br />
               {
                 this.state.currentProfileData.phone ?
-                  <>Tel: {this.state.currentProfileData.phone}<br /></>
+                  <>Tel: +1 (801) 600 2522<br /></>
                   : null
               }
 
