@@ -27,7 +27,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "CEOs with weak oversight were rewarded for windfall tax gains from the 2017 Tax Cuts and Jobs Act but not penalized for losses, suggesting pay reflects rent extraction rather than performance.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://onlinelibrary.wiley.com/doi/10.1111/jofi.13448",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -41,7 +41,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "High-IRI M&As, requiring large post-acquisition ROE gains, tend to underperform due to overestimated synergies and CEO overconfidence.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://pubsonline.informs.org/doi/10.1287/mnsc.2023.01225",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -55,7 +55,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "Arif and Sul (2024) show that industry-level NOA accruals predict future crashes and lower returns, highlighting sentiment-driven overinvestment as a signal of asset pricing bubbles.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://www.sciencedirect.com/science/article/abs/pii/S0165410124000478?via%3Dihub",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -69,7 +69,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "The association between disclosure and risk premium depends on firm growth: it is negative for low-growth firms but less negative or even positive for high-growth firms.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://publications.aaahq.org/accounting-review/article-abstract/97/4/259/315/Growth-Matters-Disclosure-and-Risk-Premium?redirectedFrom=fulltext",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -83,7 +83,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "Higher voluntary disclosure and credible information intermediaries help ICO ventures raise more capital, highlighting their role in supporting the unregulated crypto-token market.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://onlinelibrary.wiley.com/doi/10.1111/1475-679X.12404",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -97,7 +97,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "In weak-institution countries, firms use faster-adjusting, early dividend policies to signal lower agency conflicts and improve their ability to raise external capital.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://onlinelibrary.wiley.com/doi/10.1111/1475-679X.12363",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -111,7 +111,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "Management forecasts of expected volatility reveal private information and predict future stock and earnings volatility, but less so when earnings-management incentives are strong.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://link.springer.com/article/10.1007/s11142-020-09567-4",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -125,7 +125,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "An earnings beta based on price-scaled expectation shocks reliably measures systematic risk and explains cross-sectional returns, offering a simple and valid tool for future research.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://link.springer.com/article/10.1007/s11142-020-09561-w",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -139,7 +139,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "CEO ethnicity affects pay and firing sensitivity, with larger changes when replaced by a CEO of a different ethnicity.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://www.sciencedirect.com/science/article/abs/pii/S0165410117300575?via%3Dihub",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -153,7 +153,7 @@ const paginatedPaper = [
     "Paper Type": "Publications",
     "Abstract": "Government investment, particularly in education and health, strongly boosts output, unlike aggregate purchases.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "linkinghub.elsevier.com/retrieve/pii/S0304393217300624",
     "Slides": "nan",
     "Video": "nan"
   },
@@ -169,7 +169,7 @@ const paginatedPaper = [
     "Paper Type": "Book Chapters",
     "Abstract": "An ICO lets a blockchain start-up raise funds by selling tokens, which can serve as a medium of exchange, store of value, utility, investment, or DeFi tool.",
     "Citations": "nan",
-    "Paper Link": "nan",
+    "Paper Link": "https://link.springer.com/rwe/10.1007/978-3-030-38738-9_217-1",
     "Slides": "nan",
     "Video": "nan"
   },
