@@ -247,6 +247,77 @@ const paginatedPaper = [
   }
 ]
 
+const teachingList = [
+  {
+    "category": "MAcc/MSF/MBA/PMBA",
+    "title": "Mergers & Acquisitions",
+    "university": "University of Utah",
+    "years": "2023 – Present",
+    "ratings": [
+      { "year": 2023, "rating": "5.7/6.0" },
+      { "year": 2024, "rating": "5.9/6.0" },
+      { "year": 2025, "rating": "5.8/6.0" }
+    ]
+  },
+  {
+    "category": "MAcc/MSF/MBA/PMBA",
+    "title": "Business Valuation and Analysis",
+    "university": "University of Utah",
+    "years": "2024 – Present",
+    "ratings": [
+      { "year": 2024, "rating": "5.2/6.0" },
+      { "year": 2025, "rating": "5.4/6.0" }
+    ]
+  },
+  {
+    "category": "Executive Education",
+    "title": "Finance for the Non-Financial Leader",
+    "university": "University of Utah",
+    "years": "2023 – Present",
+    "ratings": []
+  },
+  {
+    "category": "PhD",
+    "title": "Accounting PhD Seminar",
+    "university": "University of Utah",
+    "years": "Fall 2024",
+    "ratings": []
+  },
+  {
+    "category": "Undergraduate",
+    "title": "Business Fundamentals of Accounting",
+    "university": "University of Utah",
+    "years": "2021 – 2022",
+    "ratings": [
+      { "year": 2021, "rating": "5.4/6.0" },
+      { "year": 2022, "rating": "5.7/6.0" }
+    ]
+  },
+  {
+    "category": "Undergraduate",
+    "title": "Intermediate Accounting",
+    "university": "University of Utah",
+    "years": "2018 – 2020",
+    "ratings": [
+      { "year": 2018, "rating": "5.7/6.0" },
+      { "year": 2019, "rating": "5.8/6.0" },
+      { "year": 2020, "rating": "5.8/6.0" }
+    ]
+  },
+  {
+    "category": "MAcc/MSF/MBA/PMBA",
+    "title": "Financial Reporting Analysis",
+    "university": "University of Utah",
+    "years": "2015 – 2017",
+    "ratings": [
+      { "year": 2015, "rating": "5.3/6.0" },
+      { "year": 2016, "rating": "5.3/6.0" },
+      { "year": 2017, "rating": "5.5/6.0" }
+    ]
+  }
+]
+
+
 
 
 // Initialize Firebase
@@ -1155,53 +1226,71 @@ export class Home extends Component {
 
 
   getPaginatedTeachingMaterials() {
-    const { s_query, currentPageTM, teachingPerPage, allTeachingMaterials } = this.state;
-    let filteredMaterials = allTeachingMaterials;
+    const { s_query, currentPageTM, teachingPerPage } = this.state;
+    let filteredMaterials = [...teachingList]; // clone list safely
 
-    // Replace "nan" with empty string
-    filteredMaterials.forEach(mat => {
-      for (var key in mat) {
-        if (mat[key] === 'nan') {
-          mat[key] = '';
-        }
-      }
-    });
-
-    // Trim & remove leading/trailing commas
+    // Clean values but DO NOT touch arrays/objects
     filteredMaterials.forEach(mat => {
       for (const key in mat) {
-        mat[key] = String(mat[key]).trim();
-        if (mat[key].startsWith(',')) {
-          mat[key] = mat[key].substring(1).trim();
+
+        // Replace "nan"
+        if (mat[key] === "nan") {
+          mat[key] = "";
         }
-        if (mat[key].endsWith(',')) {
-          mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+
+        // Only process string fields (NOT arrays or objects!)
+        if (typeof mat[key] === "string") {
+          mat[key] = mat[key].trim();
+
+          if (mat[key].startsWith(",")) {
+            mat[key] = mat[key].substring(1).trim();
+          }
+
+          if (mat[key].endsWith(",")) {
+            mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+          }
         }
       }
     });
 
-    // Search/filter logic
+    // Search logic
     if (s_query && s_query.trim() !== "") {
       filteredMaterials = filteredMaterials.filter(material => {
-        return Object.keys(material).some(key =>
-          String(material[key]).toLowerCase().includes(s_query.toLowerCase())
-        );
+        return Object.keys(material).some(key => {
+          const value = material[key];
+
+          if (typeof value === "string") {
+            return value.toLowerCase().includes(s_query.toLowerCase());
+          }
+
+          // Search inside ratings array
+          if (Array.isArray(value)) {
+            return value.some(r =>
+              r.rating.toLowerCase().includes(s_query.toLowerCase()) ||
+              String(r.year).includes(s_query)
+            );
+          }
+
+          return false;
+        });
       });
     }
 
-    // Overlapping pagination: shift by (teachingPerPage - 1) instead of teachingPerPage
-    const shiftAmount = teachingPerPage - 1; // This will be 2 when teachingPerPage is 3
+    // Overlapping pagination (shiftMechanism)
+    const shiftAmount = teachingPerPage - 1;
     const startIndex = currentPageTM * shiftAmount;
     const endIndex = startIndex + teachingPerPage;
+
     const paginatedMaterials = filteredMaterials.slice(startIndex, endIndex);
 
-    // Fill with placeholders if needed
+    // Add placeholders for UI balance
     while (paginatedMaterials.length < teachingPerPage) {
       paginatedMaterials.push(null);
     }
 
     return paginatedMaterials;
   }
+
 
   // Get filtered materials count
   getFilteredTeachingMaterialsCount() {
@@ -1435,6 +1524,8 @@ export class Home extends Component {
     const { conferenceInputOpen, conferenceSearchValue } = this.state;
 
     const paginatedMaterials = this.getPaginatedTeachingMaterials();
+    console.log('paginatedMaterials', paginatedMaterials);
+
     const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
     const totalPages = Math.ceil(totalFilteredCount / this.state.teachingPerPage);
 
@@ -1730,20 +1821,20 @@ export class Home extends Component {
                               )}
 
                             </div>
-                             <div className="PubJournal">
-                            {Paper.Conference || Paper.Journal ? (
-                              <div>
-                                {Paper.Conference && Paper.Conference !== "nan" ? (
-                                  <a href={Paper.Conference} target="_blank">{Paper.Journal || "See Journal/Conference"}</a>
-                                ) : (
-                                  <span>{Paper.Journal}</span>
-                                )}
-                                {Paper["Publishing Year"] && <span>, {this.getPublishDate(Paper["Publishing Year"])}</span>}
-                              </div>
-                            ) : null}
+                            <div className="PubJournal">
+                              {Paper.Conference || Paper.Journal ? (
+                                <div>
+                                  {Paper.Conference && Paper.Conference !== "nan" ? (
+                                    <a href={Paper.Conference} target="_blank">{Paper.Journal || "See Journal/Conference"}</a>
+                                  ) : (
+                                    <span>{Paper.Journal}</span>
+                                  )}
+                                  {Paper["Publishing Year"] && <span>, {this.getPublishDate(Paper["Publishing Year"])}</span>}
+                                </div>
+                              ) : null}
 
-                          </div>
-                          {Paper.Authors && <div className="author">{Paper.Authors}</div>}
+                            </div>
+                            {Paper.Authors && <div className="author">{Paper.Authors}</div>}
                           </div>
                           <div className='d-flex flex-column align-items-end'>
                             {Paper["Publishing Year"] && <div className="date">{this.getPublishDate(Paper["Publishing Year"])}</div>}
@@ -1753,7 +1844,7 @@ export class Home extends Component {
                             </div>
                           </div>
 
-                         
+
                         </div>
                         {this.state.openIndex === index && (
                           <div className='publicationContent'>
@@ -1856,24 +1947,29 @@ export class Home extends Component {
                       <div key={index} className='activityCourse'>
                         <div className='courseNumber'>
                           <h5>{index + 1}</h5>
-                          <p>Merges & <br /> Acquisitions</p>
+                          <p> {material.title.split(" ")[0]} <br />
+                            {material.title.split(" ").slice(1).join(" ")}</p>
                         </div>
                         <div className='courseBox'>
                           <div className='courseHeading'>
-                            <p>{material.Title}</p>
-                            <p>2018</p>
+                            <p>{material.title}</p>
+                            <p>{material.years}</p>
                           </div>
                           <div className='courseHeading'>
-                            <p>University of Utah</p>
+                            <p>{material.university}</p>
                           </div>
-                          <div className='courseContent'>
-                            <p>Average instructor rating </p>
-                          </div>
+                          {Array.isArray(material.ratings) && material.ratings.length > 0 && (
+  <div className='courseContent'>
+    <p>Average instructor rating</p>
+  </div>
+)}
                           <div className='courseRating'>
                             <ul>
-                              <li>5.7/6.0(2023)</li>
-                              <li>5.9/6.0(2024)</li>
-                              <li>5.7/6.0(2023)</li>
+                              {Array.isArray(material.ratings) &&
+                                material.ratings.map((rate, i) => (
+                                  <li key={i}>{rate.rating} ({rate.year})</li>
+                                ))
+                              }
                             </ul>
                           </div>
                         </div>
