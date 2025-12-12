@@ -317,6 +317,110 @@ const teachingList = [
   }
 ]
 
+const awardsList = [
+  {
+    "id": 1,
+    "date": "2023, 2024",
+    "name": "Excellence in Refereeing Award",
+    "description": "Journal of Accounting Research"
+  },
+  {
+    "id": 2,
+    "date": "2024",
+    "name": "Top Referee Award",
+    "description": "Review of Accounting Studies"
+  },
+  {
+    "id": 3,
+    "date": "2024",
+    "name": "Outstanding Reviewer Award",
+    "description": "The Accounting Review"
+  },
+  {
+    "id": 4,
+    "date": "2024",
+    "name": "AAA FARS Outstanding Service Award",
+    "description": "American Accounting Association"
+  },
+  {
+    "id": 5,
+    "date": "2023",
+    "name": "Daniels Fund Leadership in Ethics Education Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 6,
+    "date": "2023",
+    "name": "Dr. Rodney H. Brady Faculty Superior Teaching Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 7,
+    "date": "2022, 2023, 2024",
+    "name": "David Eccles Faculty Fellow Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 8,
+    "date": "2017, 2020, 2021, 2023",
+    "name": "AAA FARS Excellence in Reviewing Award",
+    "description": "American Accounting Association"
+  },
+  {
+    "id": 9,
+    "date": "2020, 2021",
+    "name": "David Eccles Emerging Scholar Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 10,
+    "date": "2020",
+    "name": "Kenneth J. Hanni Teaching Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 11,
+    "date": "2018, 2019",
+    "name": "H. James Griggs-FIA Fellow Award",
+    "description": "University of Utah"
+  },
+  {
+    "id": 12,
+    "date": "2010 – 2015",
+    "name": "PhD Program Financial Award",
+    "description": "London Business School"
+  },
+  {
+    "id": 13,
+    "date": "2012",
+    "name": "Best Paper Prize for Young Economists",
+    "description": "Warsaw International Economic Meeting"
+  },
+  {
+    "id": 14,
+    "date": "2006, 2007",
+    "name": "Performance Award for Leadership in Recruiting and Training",
+    "description": "UBS Investment Bank"
+  },
+  {
+    "id": 15,
+    "date": "1999",
+    "name": "Distinction Awarded for MSc Degree",
+    "description": "London School of Economics"
+  },
+  {
+    "id": 16,
+    "date": "1997",
+    "name": "Askari Bank Gold Medal for Best Student in Banking",
+    "description": "Lahore University of Management Sciences"
+  },
+  {
+    "id": 17,
+    "date": "1996, 1997",
+    "name": "Dean’s Honor Roll",
+    "description": "Lahore University of Management Sciences"
+  }
+]
 
 
 
@@ -1352,9 +1456,9 @@ handleCategoryFilter = (category) => {
 
 
   awardFinder = () => {
-    const { allAwards, currentPos2, screenWidth } = this.state;
+    const {  currentPos2, screenWidth } = this.state;
 
-    const books = allAwards;
+    const books = awardsList;
     const currentPos = currentPos2 - 1;
 
     // Decide how many items to show
@@ -2151,9 +2255,9 @@ console.log('paginatedMaterials',paginatedMaterials);
                           return (
                             <div className='award' key={index}>
                               <img src="/Assets/award.svg" alt="award" />
-                              <div className='awardDTitle paper_link_gtm' id="Awards">{award.Title}</div>
+                              <div className='awardDTitle paper_link_gtm' id="Awards">{award.name}</div>
                               <div className='awardD'>
-                                {award.Course}
+                                {award.description} ({award.date})
                               </div>
                             </div>
                           );
@@ -2166,24 +2270,27 @@ console.log('paginatedMaterials',paginatedMaterials);
                   <div className='awardsItems'>
                     <div className='bookButtonCont'>
                       {(() => {
-                        const totalSteps = Math.ceil(this.state.allAwards.length / 3);
+  const { currentPos2 } = this.state;
 
-                        // convert odd numbers (1,3,5...) → 0,1,2...
-                        const stepNumber = (this.state.currentPos2 - 1) / 2;
+  const itemsPerPage = 3;
+  const totalSteps = Math.ceil(awardsList.length / itemsPerPage);
 
-                        // percent from 0% to ~100%
-                        const progressPercent =
-                          totalSteps > 1 ? (stepNumber / (totalSteps - 1)) * 100 : 0;
+  // currentPos2 increases by 2 → convert to page number
+  const stepNumber = Math.floor(currentPos2 / 2);
 
-                        return (
-                          <div className="progress-container">
-                            <div
-                              className="progress-fill"
-                              style={{ width: `${progressPercent}%` }}
-                            ></div>
-                          </div>
-                        );
-                      })()}
+  const progressPercent =
+    totalSteps > 1 ? (stepNumber / (totalSteps - 1)) * 100 : 0;
+
+  return (
+    <div className="progress-container">
+      <div
+        className="progress-fill"
+        style={{ width: `${progressPercent}%` }}
+      ></div>
+    </div>
+  );
+})()}
+
                     </div>
                     <div className='bookButtonCont'>
 
@@ -2191,7 +2298,7 @@ console.log('paginatedMaterials',paginatedMaterials);
                       <div
                         className='awardNav'
                         onClick={() => {
-                          const totalSteps = Math.ceil(this.state.allAwards.length / 3);
+                          const totalSteps = Math.ceil(awardsList.length / 3);
                           const maxPos = totalSteps * 2;
                           let newPos = this.state.currentPos2 - 2;
 
@@ -2208,7 +2315,7 @@ console.log('paginatedMaterials',paginatedMaterials);
                       <div
                         className='awardNav'
                         onClick={() => {
-                          const totalSteps = Math.ceil(this.state.allAwards.length / 3);
+                          const totalSteps = Math.ceil(awardsList.length / 3);
                           const maxPos = totalSteps * 2;
                           let newPos = this.state.currentPos2 + 2;
 
