@@ -383,6 +383,7 @@ export class Home extends Component {
       openIndex: null,
       expanded: false,
       height: 300,
+       selectedCategory: "All",
     };
     this.boxRef = createRef();
   }
@@ -456,7 +457,9 @@ export class Home extends Component {
       }
     }, 1000);
   };
-
+handleCategoryFilter = (category) => {
+  this.setState({ selectedCategory: category });
+};
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(prevState, this.state)) {
@@ -1226,70 +1229,62 @@ export class Home extends Component {
 
 
   getPaginatedTeachingMaterials() {
-    const { s_query, currentPageTM, teachingPerPage } = this.state;
-    let filteredMaterials = [...teachingList]; // clone list safely
+  const { s_query, currentPageTM, teachingPerPage } = this.state;
+  let filteredMaterials = [...teachingList];
 
-    // Clean values but DO NOT touch arrays/objects
-    filteredMaterials.forEach(mat => {
-      for (const key in mat) {
+  // Clean string values
+  filteredMaterials.forEach(mat => {
+    for (const key in mat) {
 
-        // Replace "nan"
-        if (mat[key] === "nan") {
-          mat[key] = "";
+      if (mat[key] === "nan") {
+        mat[key] = "";
+      }
+
+      if (typeof mat[key] === "string") {
+        mat[key] = mat[key].trim();
+
+        if (mat[key].startsWith(",")) {
+          mat[key] = mat[key].substring(1).trim();
         }
 
-        // Only process string fields (NOT arrays or objects!)
-        if (typeof mat[key] === "string") {
-          mat[key] = mat[key].trim();
-
-          if (mat[key].startsWith(",")) {
-            mat[key] = mat[key].substring(1).trim();
-          }
-
-          if (mat[key].endsWith(",")) {
-            mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
-          }
+        if (mat[key].endsWith(",")) {
+          mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
         }
       }
-    });
-
-    // Search logic
-    if (s_query && s_query.trim() !== "") {
-      filteredMaterials = filteredMaterials.filter(material => {
-        return Object.keys(material).some(key => {
-          const value = material[key];
-
-          if (typeof value === "string") {
-            return value.toLowerCase().includes(s_query.toLowerCase());
-          }
-
-          // Search inside ratings array
-          if (Array.isArray(value)) {
-            return value.some(r =>
-              r.rating.toLowerCase().includes(s_query.toLowerCase()) ||
-              String(r.year).includes(s_query)
-            );
-          }
-
-          return false;
-        });
-      });
     }
+  });
 
-    // Overlapping pagination (shiftMechanism)
-    const shiftAmount = teachingPerPage - 1;
-    const startIndex = currentPageTM * shiftAmount;
-    const endIndex = startIndex + teachingPerPage;
+  // Search logic
+  if (s_query && s_query.trim() !== "") {
+    filteredMaterials = filteredMaterials.filter(material =>
+      Object.keys(material).some(key => {
+        const value = material[key];
 
-    const paginatedMaterials = filteredMaterials.slice(startIndex, endIndex);
+        if (typeof value === "string") {
+          return value.toLowerCase().includes(s_query.toLowerCase());
+        }
 
-    // Add placeholders for UI balance
-    while (paginatedMaterials.length < teachingPerPage) {
-      paginatedMaterials.push(null);
-    }
+        // ratings array search
+        if (Array.isArray(value)) {
+          return value.some(r =>
+            r.rating.toLowerCase().includes(s_query.toLowerCase()) ||
+            String(r.year).includes(s_query)
+          );
+        }
 
-    return paginatedMaterials;
+        return false;
+      })
+    );
   }
+
+  // Pagination (shift mechanism)
+  const shiftAmount = teachingPerPage - 1;
+  const startIndex = currentPageTM * shiftAmount;
+  const endIndex = startIndex + teachingPerPage;
+
+  return filteredMaterials.slice(startIndex, endIndex);
+}
+
 
 
   // Get filtered materials count
@@ -1524,8 +1519,14 @@ export class Home extends Component {
     const { conferenceInputOpen, conferenceSearchValue } = this.state;
 
     const paginatedMaterials = this.getPaginatedTeachingMaterials();
-    console.log('paginatedMaterials', paginatedMaterials);
+    console.log('this.state.selectedCategory', this.state.selectedCategory);
+console.log('paginatedMaterials',paginatedMaterials);
 
+    // if (this.state.selectedCategory !== "All") {
+//   filteredMaterials = paginatedMaterials.filter(
+//     (mat) => mat.category === this.state.selectedCategory
+//   );
+// }
     const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
     const totalPages = Math.ceil(totalFilteredCount / this.state.teachingPerPage);
 
@@ -1895,11 +1896,16 @@ export class Home extends Component {
               </div>
               <div className='filterBox'>
                 <ul>
-                  <li><button className='active'>All</button></li>
-                  <li><button>MAcc/MSF/MBA/PMBA</button></li>
-                  <li><button>Undergraduate</button></li>
-                  <li><button>Executive Education</button></li>
-                  <li><button>PhD</button></li>
+                  <li><button className={this.state.selectedCategory === "All" ? "active" : ""}
+      onClick={() => this.handleCategoryFilter("All")}>All</button></li>
+                  <li><button className={this.state.selectedCategory === "MAcc/MSF/MBA/PMBA" ? "active" : ""}
+      onClick={() => this.handleCategoryFilter("MAcc/MSF/MBA/PMBA")}>MAcc/MSF/MBA/PMBA</button></li>
+                  <li><button  className={this.state.selectedCategory === "Undergraduate" ? "active" : ""}
+      onClick={() => this.handleCategoryFilter("Undergraduate")}>Undergraduate</button></li>
+                  <li><button  className={this.state.selectedCategory === "Executive Education" ? "active" : ""}
+      onClick={() => this.handleCategoryFilter("Executive Education")}>Executive Education</button></li>
+                  <li><button  className={this.state.selectedCategory === "PhD" ? "active" : ""}
+      onClick={() => this.handleCategoryFilter("PhD")}>PhD</button></li>
                 </ul>
                 <div className='searchFilter'>
                   <div className="toggle-input-wrapper">
@@ -1941,7 +1947,9 @@ export class Home extends Component {
 
             <div className=' teachingSection scroll-transparent '>
               <div className='courseCarousel container'>
-                {paginatedMaterials.map((material, index) => {
+                {paginatedMaterials.filter(item => 
+  this.state.selectedCategory === "All" || item.category === this.state.selectedCategory
+).map((material, index) => {
                   if (material) {
                     return (
                       <div key={index} className='activityCourse'>
