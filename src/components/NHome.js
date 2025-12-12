@@ -422,6 +422,128 @@ const awardsList = [
   }
 ]
 
+const conferenceList=[
+  { "year": 2026, "university_or_event": "Rice University", "role": "Scheduled", "category": "Workshop/Presentation" },
+
+  { "year": 2025, "university_or_event": "Maastricht University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2025, "university_or_event": "Tilburg University", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2024, "university_or_event": "LSE Economics of Accounting Conference", "role": "Discussant", "category": "Workshop/Presentation" },
+  { "year": 2024, "university_or_event": "Utah Winter Accounting Conference (UWAC)", "role": "Discussant", "category": "Workshop/Presentation" },
+
+  { "year": 2023, "university_or_event": "Journal of Accounting and Economics Conference", "role": "Discussant", "category": "Workshop/Presentation" },
+
+  { "year": 2022, "university_or_event": "Monash University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2022, "university_or_event": "Nanyang Technological University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2022, "university_or_event": "Rotman Accounting Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2022, "university_or_event": "Singapore Management University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2022, "university_or_event": "University of Miami", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2022, "university_or_event": "University of Southern California", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2022, "university_or_event": "University of Sydney", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2021, "university_or_event": "2nd Boca Corp. Finance & Governance Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2021, "university_or_event": "Columbia Business School", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2021, "university_or_event": "University of Texas Dallas", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2020, "university_or_event": "Journal of Accounting Research Conference", "role": "Virtual", "category": "Workshop/Presentation" },
+
+  { "year": 2018, "university_or_event": "AAA Western Region Conference", "role": "Discussant", "category": "Workshop/Presentation" },
+  { "year": 2018, "university_or_event": "CARE Conference, University of Notre Dame", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2018, "university_or_event": "Rutgers University", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2017, "university_or_event": "Journal of Accounting, Auditing, and Finance Conference", "role": "Discussant", "category": "Workshop/Presentation" },
+  { "year": 2017, "university_or_event": "University of Illinois at Chicago", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2017, "university_or_event": "Washington University in St. Louis", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2016, "university_or_event": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2016, "university_or_event": "AFA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2016, "university_or_event": "George Washington University Cherry Blossom Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2016, "university_or_event": "Journal of Accounting and Economics Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2016, "university_or_event": "University of Colorado Boulder", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2015, "university_or_event": "Duke University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2015, "university_or_event": "Massachusetts Institute of Technology", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2015, "university_or_event": "University of California Berkeley", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2015, "university_or_event": "University of Chicago (Booth)", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2015, "university_or_event": "University of Michigan", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2015, "university_or_event": "University of North Carolina at Chapel Hill", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2015, "university_or_event": "University of Pennsylvania (Wharton)", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2015, "university_or_event": "University of Utah", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2014, "university_or_event": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2014, "university_or_event": "AQR Capital Management", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2014, "university_or_event": "EAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2014, "university_or_event": "London School of Economics", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2013, "university_or_event": "EEA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  { "year": 2012, "university_or_event": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2012, "university_or_event": "JAR/FRBNY Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "year": 2012, "university_or_event": "LBS Trans-Atlantic Doctoral Conference (TADC)", "role": "Presenter", "category": "Workshop/Presentation" },
+
+  /* ----- Conference Participation Section ----- */
+
+  { "year": 2025, "university_or_event": "INSEAD Accounting Symposium", "role": "Scheduled", "category": "Conference Participation" },
+  { "year": 2025, "university_or_event": "Kelley Accounting Research Symposium", "role": "Scheduled", "category": "Conference Participation" },
+  { "year": 2025, "university_or_event": "LSE Economics of Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2025, "university_or_event": "NYU Big Apple Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2025, "university_or_event": "University of Illinois Young Scholars Research Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2025, "university_or_event": "Utah Winter Accounting Conference (UWAC)", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2025, "university_or_event": "UTD-SMU Cowtown Accounting Conference", "role": "Scheduled", "category": "Conference Participation" },
+
+  { "year": 2024, "university_or_event": "Bocconi Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2024, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2024, "university_or_event": "Minnesota Empirical Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2024, "university_or_event": "Review of Accounting Studies Conference", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2023, "university_or_event": "Bocconi Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2023, "university_or_event": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2023, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2023, "university_or_event": "Michigan Kapnick Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2023, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2023, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2023, "university_or_event": "WashU Dopuch Conference", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2022, "university_or_event": "Carbon Disclosures Conference (Stanford)", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2022, "university_or_event": "LAG Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2022, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2022, "university_or_event": "Miami Winter Warm-up Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2022, "university_or_event": "JAR Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2022, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2022, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2021, "university_or_event": "JAR Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2021, "university_or_event": "Miami Winter Warm-up Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2021, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2020, "university_or_event": "RAST Conference", "role": "Virtual", "category": "Conference Participation" },
+  { "year": 2020, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2019, "university_or_event": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2019, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2019, "university_or_event": "Michigan Kapnick Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2019, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2018, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2018, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2018, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2018, "university_or_event": "WashU Dopuch Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2017, "university_or_event": "CAR Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2017, "university_or_event": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2017, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2017, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2016, "university_or_event": "CAR Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2016, "university_or_event": "CARE Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2016, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2016, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+
+  { "year": 2015, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "year": 2015, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" }
+]
+
+
 
 
 // Initialize Firebase
@@ -2070,7 +2192,7 @@ prevPage = () => {
                         </div>
                         <div className='courseBox'>
                           <div className='courseHeading'>
-                            <p>{material.title}</p>
+                            <p>{material.category}</p>
                             <p>{material.years}</p>
                           </div>
                           <div className='courseHeading'>
