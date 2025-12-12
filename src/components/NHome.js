@@ -25,7 +25,7 @@ const paginatedPaper = [
     "Journal": "Journal of Finance, 80(4), 2255–2302",
     "Conference": "nan",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "CEOs with weak oversight were rewarded for windfall tax gains from the 2017 Tax Cuts and Jobs Act but not penalized for losses, suggesting pay reflects rent extraction rather than performance.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -39,7 +39,7 @@ const paginatedPaper = [
     "Journal": "Management Science, 71(1), 779–802",
     "Conference": "nan",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "High-IRI M&As, requiring large post-acquisition ROE gains, tend to underperform due to overestimated synergies and CEO overconfidence.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -53,7 +53,7 @@ const paginatedPaper = [
     "Journal": "Journal of Accounting and Economics, 78(2–3), 101717",
     "Conference": "2023 JAE Conference",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "Arif and Sul (2024) show that industry-level NOA accruals predict future crashes and lower returns, highlighting sentiment-driven overinvestment as a signal of asset pricing bubbles.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -67,7 +67,7 @@ const paginatedPaper = [
     "Journal": "The Accounting Review, 97(4), 259–286",
     "Conference": "nan",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "The association between disclosure and risk premium depends on firm growth: it is negative for low-growth firms but less negative or even positive for high-growth firms.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -81,7 +81,7 @@ const paginatedPaper = [
     "Journal": "Journal of Accounting Research, 60(1), 129–167",
     "Conference": "nan",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "Higher voluntary disclosure and credible information intermediaries help ICO ventures raise more capital, highlighting their role in supporting the unregulated crypto-token market.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -95,7 +95,7 @@ const paginatedPaper = [
     "Journal": "Journal of Accounting Research, 59(2), 613–655",
     "Conference": "nan",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "In weak-institution countries, firms use faster-adjusting, early dividend policies to signal lower agency conflicts and improve their ability to raise external capital.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -109,7 +109,7 @@ const paginatedPaper = [
     "Journal": "Review of Accounting Studies, 26(2), 620–655",
     "Conference": "nan",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "Management forecasts of expected volatility reveal private information and predict future stock and earnings volatility, but less so when earnings-management incentives are strong.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -123,7 +123,7 @@ const paginatedPaper = [
     "Journal": "Review of Accounting Studies, 26(1), 81–122",
     "Conference": "nan",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "An earnings beta based on price-scaled expectation shocks reliably measures systematic risk and explains cross-sectional returns, offering a simple and valid tool for future research.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -137,7 +137,7 @@ const paginatedPaper = [
     "Journal": "Journal of Accounting and Economics, 64(2–3), 346–367",
     "Conference": "2016 JAE Conference",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "CEO ethnicity affects pay and firing sensitivity, with larger changes when replaced by a CEO of a different ethnicity.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -151,7 +151,7 @@ const paginatedPaper = [
     "Journal": "Journal of Monetary Economics, 90, 13–27",
     "Conference": "Warsaw International Economic Meeting (2012)",
     "Paper Type": "Publications",
-    "Abstract": "nan",
+    "Abstract": "Government investment, particularly in education and health, strongly boosts output, unlike aggregate purchases.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -167,7 +167,7 @@ const paginatedPaper = [
     "Journal": "The Palgrave Encyclopedia of Private Equity",
     "Conference": "nan",
     "Paper Type": "Book Chapters",
-    "Abstract": "nan",
+    "Abstract": "An ICO lets a blockchain start-up raise funds by selling tokens, which can serve as a medium of exchange, store of value, utility, investment, or DeFi tool.",
     "Citations": "nan",
     "Paper Link": "nan",
     "Slides": "nan",
@@ -487,7 +487,7 @@ export class Home extends Component {
       openIndex: null,
       expanded: false,
       height: 300,
-       selectedCategory: "All",
+      selectedCategory: "All",
     };
     this.boxRef = createRef();
   }
@@ -561,9 +561,9 @@ export class Home extends Component {
       }
     }, 1000);
   };
-handleCategoryFilter = (category) => {
-  this.setState({ selectedCategory: category });
-};
+  handleCategoryFilter = (category) => {
+    this.setState({ selectedCategory: category });
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(prevState, this.state)) {
@@ -1091,20 +1091,20 @@ handleCategoryFilter = (category) => {
   }
 
   getPaginatedPaperDetails() {
-    const { s_query, allPapers, currentPaperType } = this.state;
-    let filteredStudents = allPapers;
+    const { s_query, currentPaperType } = this.state;
+    let filteredStudents = paginatedPaper;
 
 
     // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
 
-    allPapers.forEach(paper => {
+    paginatedPaper.forEach(paper => {
       if (!paper.hasOwnProperty('Paper Type') || paper['Paper Type'] === '') {
         paper['Paper Type'] = 'Publications';
       }
     });
 
     // filter based on paper type now
-    filteredStudents = allPapers.filter(paper => paper['Paper Type'] === currentPaperType);
+    filteredStudents = paginatedPaper.filter(paper => paper['Paper Type'] === currentPaperType);
 
     // in any field if the content is "nan" then make it empty
     filteredStudents.forEach(paper => {
@@ -1146,19 +1146,26 @@ handleCategoryFilter = (category) => {
   }
 
   // Handle next and previous page
-  nextPage = () => {
-    var dim_paper = this.getPaginatedPaperDetails();
+ nextPage = () => {
+  const dim_paper = this.getPaginatedPaperDetails();
 
-    if ((this.state.currentPage + 1) * this.state.studentsPerPage < dim_paper.length) {
-      this.setState((prevState) => ({ currentPage: prevState.currentPage + 1 }));
-    }
-  };
+  if ((this.state.currentPage + 1) * this.state.studentsPerPage < dim_paper.length) {
+    this.setState((prevState) => ({
+      currentPage: prevState.currentPage + 1,
+      openIndex: null // close any open abstracts
+    }));
+  }
+};
 
-  prevPage = () => {
-    if (this.state.currentPage > 0) {
-      this.setState((prevState) => ({ currentPage: prevState.currentPage - 1 }));
-    }
-  };
+prevPage = () => {
+  if (this.state.currentPage > 0) {
+    this.setState((prevState) => ({
+      currentPage: prevState.currentPage - 1,
+      openIndex: null // close any open abstracts
+    }));
+  }
+};
+
 
   handleInputChangeUni = (event) => {
     this.setState({ uniVal: event.target.value });
@@ -1333,61 +1340,61 @@ handleCategoryFilter = (category) => {
 
 
   getPaginatedTeachingMaterials() {
-  const { s_query, currentPageTM, teachingPerPage } = this.state;
-  let filteredMaterials = [...teachingList];
+    const { s_query, currentPageTM, teachingPerPage } = this.state;
+    let filteredMaterials = [...teachingList];
 
-  // Clean string values
-  filteredMaterials.forEach(mat => {
-    for (const key in mat) {
+    // Clean string values
+    filteredMaterials.forEach(mat => {
+      for (const key in mat) {
 
-      if (mat[key] === "nan") {
-        mat[key] = "";
-      }
-
-      if (typeof mat[key] === "string") {
-        mat[key] = mat[key].trim();
-
-        if (mat[key].startsWith(",")) {
-          mat[key] = mat[key].substring(1).trim();
+        if (mat[key] === "nan") {
+          mat[key] = "";
         }
 
-        if (mat[key].endsWith(",")) {
-          mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+        if (typeof mat[key] === "string") {
+          mat[key] = mat[key].trim();
+
+          if (mat[key].startsWith(",")) {
+            mat[key] = mat[key].substring(1).trim();
+          }
+
+          if (mat[key].endsWith(",")) {
+            mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+          }
         }
       }
+    });
+
+    // Search logic
+    if (s_query && s_query.trim() !== "") {
+      filteredMaterials = filteredMaterials.filter(material =>
+        Object.keys(material).some(key => {
+          const value = material[key];
+
+          if (typeof value === "string") {
+            return value.toLowerCase().includes(s_query.toLowerCase());
+          }
+
+          // ratings array search
+          if (Array.isArray(value)) {
+            return value.some(r =>
+              r.rating.toLowerCase().includes(s_query.toLowerCase()) ||
+              String(r.year).includes(s_query)
+            );
+          }
+
+          return false;
+        })
+      );
     }
-  });
 
-  // Search logic
-  if (s_query && s_query.trim() !== "") {
-    filteredMaterials = filteredMaterials.filter(material =>
-      Object.keys(material).some(key => {
-        const value = material[key];
+    // Pagination (shift mechanism)
+    const shiftAmount = teachingPerPage - 1;
+    const startIndex = currentPageTM * shiftAmount;
+    const endIndex = startIndex + teachingPerPage;
 
-        if (typeof value === "string") {
-          return value.toLowerCase().includes(s_query.toLowerCase());
-        }
-
-        // ratings array search
-        if (Array.isArray(value)) {
-          return value.some(r =>
-            r.rating.toLowerCase().includes(s_query.toLowerCase()) ||
-            String(r.year).includes(s_query)
-          );
-        }
-
-        return false;
-      })
-    );
+    return filteredMaterials.slice(startIndex, endIndex);
   }
-
-  // Pagination (shift mechanism)
-  const shiftAmount = teachingPerPage - 1;
-  const startIndex = currentPageTM * shiftAmount;
-  const endIndex = startIndex + teachingPerPage;
-
-  return filteredMaterials.slice(startIndex, endIndex);
-}
 
 
 
@@ -1456,7 +1463,7 @@ handleCategoryFilter = (category) => {
 
 
   awardFinder = () => {
-    const {  currentPos2, screenWidth } = this.state;
+    const { currentPos2, screenWidth } = this.state;
 
     const books = awardsList;
     const currentPos = currentPos2 - 1;
@@ -1624,13 +1631,13 @@ handleCategoryFilter = (category) => {
 
     const paginatedMaterials = this.getPaginatedTeachingMaterials();
     console.log('this.state.selectedCategory', this.state.selectedCategory);
-console.log('paginatedMaterials',paginatedMaterials);
+    console.log('paginatedMaterials', paginatedMaterials);
 
     // if (this.state.selectedCategory !== "All") {
-//   filteredMaterials = paginatedMaterials.filter(
-//     (mat) => mat.category === this.state.selectedCategory
-//   );
-// }
+    //   filteredMaterials = paginatedMaterials.filter(
+    //     (mat) => mat.category === this.state.selectedCategory
+    //   );
+    // }
     const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
     const totalPages = Math.ceil(totalFilteredCount / this.state.teachingPerPage);
 
@@ -1860,7 +1867,7 @@ console.log('paginatedMaterials',paginatedMaterials);
                 <ul>
                   {["Publications", "Working Papers", "Book Chapters"].map((type) => (
                     <li key={type}
-                      onClick={() => this.setState({ currentPaperType: type, currentPage: 0 })}
+                      onClick={() => this.setState({ currentPaperType: type, currentPage: 0, openIndex: null })}
                     >
                       <button className={this.state.currentPaperType === type ? 'active' : ''}>{type}</button>
                     </li>
@@ -1951,13 +1958,12 @@ console.log('paginatedMaterials',paginatedMaterials);
 
 
                         </div>
-                        {this.state.openIndex === index && (
+                        {Paper.Abstract && this.state.openIndex === index && (
                           <div className='publicationContent'>
-                            <p>
-                              Study examining whether CEOs are rewarded for luck arising from corporate tax windfalls
-                            </p>
+                            <p>{Paper.Abstract}</p>
                           </div>
                         )}
+
                       </div>
                     </div>
                   ) : null
@@ -2001,15 +2007,15 @@ console.log('paginatedMaterials',paginatedMaterials);
               <div className='filterBox'>
                 <ul>
                   <li><button className={this.state.selectedCategory === "All" ? "active" : ""}
-      onClick={() => this.handleCategoryFilter("All")}>All</button></li>
+                    onClick={() => this.handleCategoryFilter("All")}>All</button></li>
                   <li><button className={this.state.selectedCategory === "MAcc/MSF/MBA/PMBA" ? "active" : ""}
-      onClick={() => this.handleCategoryFilter("MAcc/MSF/MBA/PMBA")}>MAcc/MSF/MBA/PMBA</button></li>
-                  <li><button  className={this.state.selectedCategory === "Undergraduate" ? "active" : ""}
-      onClick={() => this.handleCategoryFilter("Undergraduate")}>Undergraduate</button></li>
-                  <li><button  className={this.state.selectedCategory === "Executive Education" ? "active" : ""}
-      onClick={() => this.handleCategoryFilter("Executive Education")}>Executive Education</button></li>
-                  <li><button  className={this.state.selectedCategory === "PhD" ? "active" : ""}
-      onClick={() => this.handleCategoryFilter("PhD")}>PhD</button></li>
+                    onClick={() => this.handleCategoryFilter("MAcc/MSF/MBA/PMBA")}>MAcc/MSF/MBA/PMBA</button></li>
+                  <li><button className={this.state.selectedCategory === "Undergraduate" ? "active" : ""}
+                    onClick={() => this.handleCategoryFilter("Undergraduate")}>Undergraduate</button></li>
+                  <li><button className={this.state.selectedCategory === "Executive Education" ? "active" : ""}
+                    onClick={() => this.handleCategoryFilter("Executive Education")}>Executive Education</button></li>
+                  <li><button className={this.state.selectedCategory === "PhD" ? "active" : ""}
+                    onClick={() => this.handleCategoryFilter("PhD")}>PhD</button></li>
                 </ul>
                 <div className='searchFilter'>
                   <div className="toggle-input-wrapper">
@@ -2051,9 +2057,9 @@ console.log('paginatedMaterials',paginatedMaterials);
 
             <div className=' teachingSection scroll-transparent '>
               <div className='courseCarousel container'>
-                {paginatedMaterials.filter(item => 
-  this.state.selectedCategory === "All" || item.category === this.state.selectedCategory
-).map((material, index) => {
+                {paginatedMaterials.filter(item =>
+                  this.state.selectedCategory === "All" || item.category === this.state.selectedCategory
+                ).map((material, index) => {
                   if (material) {
                     return (
                       <div key={index} className='activityCourse'>
@@ -2071,10 +2077,10 @@ console.log('paginatedMaterials',paginatedMaterials);
                             <p>{material.university}</p>
                           </div>
                           {Array.isArray(material.ratings) && material.ratings.length > 0 && (
-  <div className='courseContent'>
-    <p>Average instructor rating</p>
-  </div>
-)}
+                            <div className='courseContent'>
+                              <p>Average instructor rating</p>
+                            </div>
+                          )}
                           <div className='courseRating'>
                             <ul>
                               {Array.isArray(material.ratings) &&
@@ -2189,7 +2195,7 @@ console.log('paginatedMaterials',paginatedMaterials);
                       <div className="PubContent">
                         {Paper["CRN"] && <div className="date">{Paper["CRN"]}</div>}
 
-                        <div className="">
+                        <div className="d-flex justify-content-between flex-column">
                           {Paper["Paper Link"] ? (
                             <a href={Paper["Paper Link"]} target="_blank" className="title">
                               {Paper.Title}
@@ -2270,26 +2276,26 @@ console.log('paginatedMaterials',paginatedMaterials);
                   <div className='awardsItems'>
                     <div className='bookButtonCont'>
                       {(() => {
-  const { currentPos2 } = this.state;
+                        const { currentPos2 } = this.state;
 
-  const itemsPerPage = 3;
-  const totalSteps = Math.ceil(awardsList.length / itemsPerPage);
+                        const itemsPerPage = 3;
+                        const totalSteps = Math.ceil(awardsList.length / itemsPerPage);
 
-  // currentPos2 increases by 2 → convert to page number
-  const stepNumber = Math.floor(currentPos2 / 2);
+                        // currentPos2 increases by 2 → convert to page number
+                        const stepNumber = Math.floor(currentPos2 / 2);
 
-  const progressPercent =
-    totalSteps > 1 ? (stepNumber / (totalSteps - 1)) * 100 : 0;
+                        const progressPercent =
+                          totalSteps > 1 ? (stepNumber / (totalSteps - 1)) * 100 : 0;
 
-  return (
-    <div className="progress-container">
-      <div
-        className="progress-fill"
-        style={{ width: `${progressPercent}%` }}
-      ></div>
-    </div>
-  );
-})()}
+                        return (
+                          <div className="progress-container">
+                            <div
+                              className="progress-fill"
+                              style={{ width: `${progressPercent}%` }}
+                            ></div>
+                          </div>
+                        );
+                      })()}
 
                     </div>
                     <div className='bookButtonCont'>
