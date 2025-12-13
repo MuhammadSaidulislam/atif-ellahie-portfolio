@@ -543,6 +543,26 @@ z-index: 99999; */
   transform: translateX(-50%);
 }
 
+.conferenceLogo:before {
+  content: "";
+  position: absolute;
+  top: 110px;
+  width: 5px;
+  height: 5px;
+  background: #000;
+
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+    border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
 .conferenceList:before {
  content: "";
     position: absolute;

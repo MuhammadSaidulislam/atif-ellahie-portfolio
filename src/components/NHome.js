@@ -422,125 +422,125 @@ const awardsList = [
   }
 ]
 
-const conferenceList=[
-  { "year": 2026, "university_or_event": "Rice University", "role": "Scheduled", "category": "Workshop/Presentation" },
+const conferenceList = [
+  { "Year": 2026, "Title": "Rice University", "role": "Scheduled", "category": "Workshop/Presentation" },
 
-  { "year": 2025, "university_or_event": "Maastricht University", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2025, "university_or_event": "Tilburg University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2025, "Title": "Maastricht University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2025, "Title": "Tilburg University", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2024, "university_or_event": "LSE Economics of Accounting Conference", "role": "Discussant", "category": "Workshop/Presentation" },
-  { "year": 2024, "university_or_event": "Utah Winter Accounting Conference (UWAC)", "role": "Discussant", "category": "Workshop/Presentation" },
+  { "Year": 2024, "Title": "LSE Economics of Accounting Conference", "role": "Discussant", "category": "Workshop/Presentation" },
+  { "Year": 2024, "Title": "Utah Winter Accounting Conference (UWAC)", "role": "Discussant", "category": "Workshop/Presentation" },
 
-  { "year": 2023, "university_or_event": "Journal of Accounting and Economics Conference", "role": "Discussant", "category": "Workshop/Presentation" },
+  { "Year": 2023, "Title": "Journal of Accounting and Economics Conference", "role": "Discussant", "category": "Workshop/Presentation" },
 
-  { "year": 2022, "university_or_event": "Monash University", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2022, "university_or_event": "Nanyang Technological University", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2022, "university_or_event": "Rotman Accounting Conference", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2022, "university_or_event": "Singapore Management University", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2022, "university_or_event": "University of Miami", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2022, "university_or_event": "University of Southern California", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2022, "university_or_event": "University of Sydney", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2022, "Title": "Monash University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2022, "Title": "Nanyang Technological University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2022, "Title": "Rotman Accounting Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2022, "Title": "Singapore Management University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2022, "Title": "University of Miami", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2022, "Title": "University of Southern California", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2022, "Title": "University of Sydney", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2021, "university_or_event": "2nd Boca Corp. Finance & Governance Conference", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2021, "university_or_event": "Columbia Business School", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2021, "university_or_event": "University of Texas Dallas", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2021, "Title": "2nd Boca Corp. Finance & Governance Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2021, "Title": "Columbia Business School", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2021, "Title": "University of Texas Dallas", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2020, "university_or_event": "Journal of Accounting Research Conference", "role": "Virtual", "category": "Workshop/Presentation" },
+  { "Year": 2020, "Title": "Journal of Accounting Research Conference", "role": "Virtual", "category": "Workshop/Presentation" },
 
-  { "year": 2018, "university_or_event": "AAA Western Region Conference", "role": "Discussant", "category": "Workshop/Presentation" },
-  { "year": 2018, "university_or_event": "CARE Conference, University of Notre Dame", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2018, "university_or_event": "Rutgers University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2018, "Title": "AAA Western Region Conference", "role": "Discussant", "category": "Workshop/Presentation" },
+  { "Year": 2018, "Title": "CARE Conference, University of Notre Dame", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2018, "Title": "Rutgers University", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2017, "university_or_event": "Journal of Accounting, Auditing, and Finance Conference", "role": "Discussant", "category": "Workshop/Presentation" },
-  { "year": 2017, "university_or_event": "University of Illinois at Chicago", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2017, "university_or_event": "Washington University in St. Louis", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2017, "Title": "Journal of Accounting, Auditing, and Finance Conference", "role": "Discussant", "category": "Workshop/Presentation" },
+  { "Year": 2017, "Title": "University of Illinois at Chicago", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2017, "Title": "Washington University in St. Louis", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2016, "university_or_event": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2016, "university_or_event": "AFA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2016, "university_or_event": "George Washington University Cherry Blossom Conference", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2016, "university_or_event": "Journal of Accounting and Economics Conference", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2016, "university_or_event": "University of Colorado Boulder", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2016, "Title": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2016, "Title": "AFA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2016, "Title": "George Washington University Cherry Blossom Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2016, "Title": "Journal of Accounting and Economics Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2016, "Title": "University of Colorado Boulder", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2015, "university_or_event": "Duke University", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2015, "university_or_event": "Massachusetts Institute of Technology", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2015, "university_or_event": "University of California Berkeley", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2015, "university_or_event": "University of Chicago (Booth)", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2015, "university_or_event": "University of Michigan", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2015, "university_or_event": "University of North Carolina at Chapel Hill", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2015, "university_or_event": "University of Pennsylvania (Wharton)", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2015, "university_or_event": "University of Utah", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2015, "Title": "Duke University", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2015, "Title": "Massachusetts Institute of Technology", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2015, "Title": "University of California Berkeley", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2015, "Title": "University of Chicago (Booth)", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2015, "Title": "University of Michigan", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2015, "Title": "University of North Carolina at Chapel Hill", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2015, "Title": "University of Pennsylvania (Wharton)", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2015, "Title": "University of Utah", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2014, "university_or_event": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2014, "university_or_event": "AQR Capital Management", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2014, "university_or_event": "EAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2014, "university_or_event": "London School of Economics", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2014, "Title": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2014, "Title": "AQR Capital Management", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2014, "Title": "EAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2014, "Title": "London School of Economics", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2013, "university_or_event": "EEA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2013, "Title": "EEA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
 
-  { "year": 2012, "university_or_event": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2012, "university_or_event": "JAR/FRBNY Conference", "role": "Presenter", "category": "Workshop/Presentation" },
-  { "year": 2012, "university_or_event": "LBS Trans-Atlantic Doctoral Conference (TADC)", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2012, "Title": "AAA Annual Meeting", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2012, "Title": "JAR/FRBNY Conference", "role": "Presenter", "category": "Workshop/Presentation" },
+  { "Year": 2012, "Title": "LBS Trans-Atlantic Doctoral Conference (TADC)", "role": "Presenter", "category": "Workshop/Presentation" },
 
   /* ----- Conference Participation Section ----- */
 
-  { "year": 2025, "university_or_event": "INSEAD Accounting Symposium", "role": "Scheduled", "category": "Conference Participation" },
-  { "year": 2025, "university_or_event": "Kelley Accounting Research Symposium", "role": "Scheduled", "category": "Conference Participation" },
-  { "year": 2025, "university_or_event": "LSE Economics of Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2025, "university_or_event": "NYU Big Apple Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2025, "university_or_event": "University of Illinois Young Scholars Research Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2025, "university_or_event": "Utah Winter Accounting Conference (UWAC)", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2025, "university_or_event": "UTD-SMU Cowtown Accounting Conference", "role": "Scheduled", "category": "Conference Participation" },
+  { "Year": 2025, "Title": "INSEAD Accounting Symposium", "role": "Scheduled", "category": "Conference Participation" },
+  { "Year": 2025, "Title": "Kelley Accounting Research Symposium", "role": "Scheduled", "category": "Conference Participation" },
+  { "Year": 2025, "Title": "LSE Economics of Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2025, "Title": "NYU Big Apple Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2025, "Title": "University of Illinois Young Scholars Research Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2025, "Title": "Utah Winter Accounting Conference (UWAC)", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2025, "Title": "UTD-SMU Cowtown Accounting Conference", "role": "Scheduled", "category": "Conference Participation" },
 
-  { "year": 2024, "university_or_event": "Bocconi Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2024, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2024, "university_or_event": "Minnesota Empirical Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2024, "university_or_event": "Review of Accounting Studies Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2024, "Title": "Bocconi Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2024, "Title": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2024, "Title": "Minnesota Empirical Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2024, "Title": "Review of Accounting Studies Conference", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2023, "university_or_event": "Bocconi Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2023, "university_or_event": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2023, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2023, "university_or_event": "Michigan Kapnick Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2023, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2023, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2023, "university_or_event": "WashU Dopuch Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2023, "Title": "Bocconi Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2023, "Title": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2023, "Title": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2023, "Title": "Michigan Kapnick Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2023, "Title": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2023, "Title": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2023, "Title": "WashU Dopuch Conference", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2022, "university_or_event": "Carbon Disclosures Conference (Stanford)", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2022, "university_or_event": "LAG Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2022, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2022, "university_or_event": "Miami Winter Warm-up Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2022, "university_or_event": "JAR Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2022, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2022, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2022, "Title": "Carbon Disclosures Conference (Stanford)", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2022, "Title": "LAG Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2022, "Title": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2022, "Title": "Miami Winter Warm-up Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2022, "Title": "JAR Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2022, "Title": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2022, "Title": "UWAC", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2021, "university_or_event": "JAR Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2021, "university_or_event": "Miami Winter Warm-up Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2021, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2021, "Title": "JAR Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2021, "Title": "Miami Winter Warm-up Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2021, "Title": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2020, "university_or_event": "RAST Conference", "role": "Virtual", "category": "Conference Participation" },
-  { "year": 2020, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2020, "Title": "RAST Conference", "role": "Virtual", "category": "Conference Participation" },
+  { "Year": 2020, "Title": "UWAC", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2019, "university_or_event": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2019, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2019, "university_or_event": "Michigan Kapnick Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2019, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2019, "Title": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2019, "Title": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2019, "Title": "Michigan Kapnick Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2019, "Title": "UWAC", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2018, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2018, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2018, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2018, "university_or_event": "WashU Dopuch Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2018, "Title": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2018, "Title": "RAST Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2018, "Title": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2018, "Title": "WashU Dopuch Accounting Conference", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2017, "university_or_event": "CAR Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2017, "university_or_event": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2017, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2017, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2017, "Title": "CAR Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2017, "Title": "Columbia Burton Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2017, "Title": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2017, "Title": "UWAC", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2016, "university_or_event": "CAR Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2016, "university_or_event": "CARE Conference", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2016, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2016, "university_or_event": "UWAC", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2016, "Title": "CAR Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2016, "Title": "CARE Conference", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2016, "Title": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2016, "Title": "UWAC", "role": "Presenter", "category": "Conference Participation" },
 
-  { "year": 2015, "university_or_event": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
-  { "year": 2015, "university_or_event": "RAST Conference", "role": "Presenter", "category": "Conference Participation" }
+  { "Year": 2015, "Title": "LBS Accounting Symposium", "role": "Presenter", "category": "Conference Participation" },
+  { "Year": 2015, "Title": "RAST Conference", "role": "Presenter", "category": "Conference Participation" }
 ]
 
 
@@ -581,7 +581,7 @@ export class Home extends Component {
       currentPage2: 0,
       currentPageTM: 0,
       studentsPerPage: 5,
-      conferencePerPage: 6,
+      conferencePerPage: 9,
       teachingPerPage: 30,
       currentPaperType: 'Publications',
       expandedIndexes: [],
@@ -604,12 +604,13 @@ export class Home extends Component {
       sidebarOpen: false,
       screenWidth: document.documentElement.clientWidth,
       visiblePapers: [],   // items currently shown
-      loadCount: 6,       // how many to load per scroll
+      loadCount: 9,       // how many to load per scroll
       isFetching: false,
       openIndex: null,
       expanded: false,
       height: 300,
       selectedCategory: "All",
+      activeCategory: "All"
     };
     this.boxRef = createRef();
   }
@@ -1130,7 +1131,6 @@ export class Home extends Component {
   getPaginatedPaper() {
     const { s_query, currentPage, studentsPerPage, currentPaperType } = this.state;
     let filteredStudents = paginatedPaper;
-    console.log('allPapers', paginatedPaper);
 
     // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
 
@@ -1268,25 +1268,25 @@ export class Home extends Component {
   }
 
   // Handle next and previous page
- nextPage = () => {
-  const dim_paper = this.getPaginatedPaperDetails();
+  nextPage = () => {
+    const dim_paper = this.getPaginatedPaperDetails();
 
-  if ((this.state.currentPage + 1) * this.state.studentsPerPage < dim_paper.length) {
-    this.setState((prevState) => ({
-      currentPage: prevState.currentPage + 1,
-      openIndex: null // close any open abstracts
-    }));
-  }
-};
+    if ((this.state.currentPage + 1) * this.state.studentsPerPage < dim_paper.length) {
+      this.setState((prevState) => ({
+        currentPage: prevState.currentPage + 1,
+        openIndex: null // close any open abstracts
+      }));
+    }
+  };
 
-prevPage = () => {
-  if (this.state.currentPage > 0) {
-    this.setState((prevState) => ({
-      currentPage: prevState.currentPage - 1,
-      openIndex: null // close any open abstracts
-    }));
-  }
-};
+  prevPage = () => {
+    if (this.state.currentPage > 0) {
+      this.setState((prevState) => ({
+        currentPage: prevState.currentPage - 1,
+        openIndex: null // close any open abstracts
+      }));
+    }
+  };
 
 
   handleInputChangeUni = (event) => {
@@ -1334,117 +1334,64 @@ prevPage = () => {
     }
   }
 
-  getPaginatedCF() {
-    const { s_query, currentPage2, conferencePerPage, allConfarences } = this.state;
-    var currentPage = currentPage2;
-    let filteredStudents = allConfarences;
 
-    // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
-
-    // in any field if the content is "nan" then make it empty
-    filteredStudents.forEach(paper => {
-      for (var key in paper) {
-        if (paper[key] === 'nan') {
-          paper[key] = '';
-        }
-      }
+   // ✅ category handler (arrow fn = auto bind)
+  setCategory = (category) => {
+    this.setState({
+      activeCategory: category,
+      currentPage2: 0
     });
+  };
 
-    filteredStudents.forEach(paper => {
-      for (const key in paper) {
-        // Trim the value first to avoid extra spaces affecting checks
-        paper[key] = paper[key].trim();
 
-        // Remove leading comma
-        if (paper[key].startsWith(',')) {
-          paper[key] = paper[key].substring(1).trim();
-        }
+ getPaginatedCF() {
+  const { currentPage2, conferencePerPage } = this.state;
 
-        // Remove trailing comma
-        if (paper[key].endsWith(',')) {
-          paper[key] = paper[key].substring(0, paper[key].length - 1).trim();
-        }
-      }
-    });
+  const filtered = this.getPaginatedCFDetails();
 
-    // publishing year can be year or date or empty we need to sort this based on year and date if available, papers with no year/date will go at bottom
-    filteredStudents.sort((a, b) => {
-      if (a['Year'] === '' && b['Year'] === '') {
-        return 0;
-      } else if (a['Year'] === '') {
-        return 1;
-      } else if (b['Year'] === '') {
-        return -1;
-      } else {
-        return new Date(b['Year']) - new Date(a['Year']);
-      }
-    });
+  const start = currentPage2 * conferencePerPage;
+  const end = start + conferencePerPage;
 
-    if (s_query && s_query.trim() !== "") {
-      filteredStudents = filteredStudents.filter(student => {
-        // Check if any key in the student matches the s_query (case-insensitive)
-        return Object.keys(student).some(key =>
-          String(student[key]).toLowerCase().includes(s_query.toLowerCase())
-        );
-      });
+  return filtered.slice(start, end);
+}
+
+
+ getPaginatedCFDetails() {
+  const { s_query, activeCategory } = this.state;
+
+  // Always clone source
+  let filtered = conferenceList.map(paper => {
+    const cleaned = {};
+
+    for (const key in paper) {
+      let value = paper[key];
+      if (value === 'nan' || value == null) value = '';
+      cleaned[key] = value;
     }
 
-    // Now paginate the filtered students
-    const startIndex = currentPage * conferencePerPage;
-    const endIndex = startIndex + conferencePerPage;
-    const paginatedStudents = filteredStudents.slice(startIndex, endIndex);
+    return cleaned;
+  });
 
-    // Ensure we always have `conferencePerPage` items by adding empty placeholders if needed
-    while (paginatedStudents.length < conferencePerPage) {
-      paginatedStudents.push(null);  // Add `null` or an empty object `{}` as placeholder
-    }
-
-    return paginatedStudents;
+  // 🔹 CATEGORY FILTER (IMPORTANT)
+  if (activeCategory !== "All") {
+    filtered = filtered.filter(
+      item => item.category === activeCategory
+    );
   }
 
-  getPaginatedCFDetails() {
-    const { s_query, allConfarences } = this.state;
-    let filteredStudents = allConfarences;
-
-
-    // in any field if the content is "nan" then make it empty
-    filteredStudents.forEach(paper => {
-      for (var key in paper) {
-        if (paper[key] === 'nan') {
-          paper[key] = '';
-        }
-      }
-    });
-
-    filteredStudents.forEach(paper => {
-      for (const key in paper) {
-        // Trim the value first to avoid extra spaces affecting checks
-        paper[key] = paper[key].trim();
-
-        // Remove leading comma
-        if (paper[key].startsWith(',')) {
-          paper[key] = paper[key].substring(1).trim();
-        }
-
-        // Remove trailing comma
-        if (paper[key].endsWith(',')) {
-          paper[key] = paper[key].substring(0, paper[key].length - 1).trim();
-        }
-      }
-    });
-
-
-    if (s_query && s_query.trim() !== "") {
-      filteredStudents = filteredStudents.filter(student => {
-        // Check if any key in the student matches the s_query (case-insensitive)
-        return Object.keys(student).some(key =>
-          String(student[key]).toLowerCase().includes(s_query.toLowerCase())
-        );
-      });
-    }
-
-    return filteredStudents;
+  // 🔹 SEARCH FILTER
+  if (s_query?.trim()) {
+    const q = s_query.toLowerCase();
+    filtered = filtered.filter(item =>
+      Object.values(item).some(val =>
+        String(val).toLowerCase().includes(q)
+      )
+    );
   }
+
+  return filtered;
+}
+
 
   // Handle next and previous page
   nextPageCF = () => {
@@ -1752,9 +1699,7 @@ prevPage = () => {
     const { conferenceInputOpen, conferenceSearchValue } = this.state;
 
     const paginatedMaterials = this.getPaginatedTeachingMaterials();
-    console.log('this.state.selectedCategory', this.state.selectedCategory);
-    console.log('paginatedMaterials', paginatedMaterials);
-
+    const paginatedConference = this.getPaginatedCF(conferenceList);
     // if (this.state.selectedCategory !== "All") {
     //   filteredMaterials = paginatedMaterials.filter(
     //     (mat) => mat.category === this.state.selectedCategory
@@ -2264,11 +2209,12 @@ prevPage = () => {
                 </div>
                 <div className='filterBox'>
                   <ul>
-                    <li><button className='active'>All</button></li>
-                    <li><button>Conferences</button></li>
-                    <li><button>Symposia</button></li>
-                    <li><button>Workshops</button></li>
-                    <li><button>Panels</button></li>
+                    <li><button className={this.state.activeCategory === "All" ? "active" : ""}
+                      onClick={() => this.setCategory("All")}>All</button></li>
+                    <li><button className={this.state.activeCategory === "Workshop/Presentation" ? "active" : ""}
+                      onClick={() => this.setCategory("Workshop/Presentation")}>Workshop/Presentation</button></li>
+                    <li><button className={this.state.activeCategory === "Conference Participation" ? "active" : ""}
+                      onClick={() => this.setCategory("Conference Participation")}>Conference Participation</button></li>
                   </ul>
                   <div className='searchFilter'>
                     <div className="toggle-input-wrapper">
@@ -2306,8 +2252,8 @@ prevPage = () => {
             </div>
           </div>
           <div className="conferenceList">
-            {this.getPaginatedCF().length > 0 ? (
-              this.getPaginatedCF().map((Paper, index) => (
+            {paginatedConference.length > 0 ? (
+              paginatedConference.map((Paper, index) => (
                 Paper ? (
                   <div className='enclosePublic' key={index}>
                     <div className="conferenceItem">
@@ -2325,11 +2271,11 @@ prevPage = () => {
                           ) : (
                             <span className="title">{Paper.Title}</span>
                           )}
-                          <p className='presenter'>Presenter</p>
+                          {Paper["Year"] && <p className='presenter'>{Paper["role"]}</p>}
                         </div>
 
                         <div className="author">
-                          {Paper["Year"] && <span>{this.getPublishDate(Paper["Year"])}</span>}
+                          {Paper["Year"] && <span>{Paper["Year"]}</span>}
                         </div>
                       </div>
                     </div>
@@ -2353,7 +2299,7 @@ prevPage = () => {
                   </div>
                   <button className="btn-back"
                     onClick={this.nextPageCF}
-                    disabled={(this.state.currentPage2 + 1) * this.state.conferencePerPage >= this.state.allConfarences.length}>
+                    disabled={(this.state.currentPage2 + 1) * this.state.conferencePerPage >= conferenceList.length}>
                     <i className="fa-solid fa-chevron-up"></i>
                   </button>
                 </div>
