@@ -1782,7 +1782,7 @@ export class Home extends Component {
 
               <div className="button-group">
                 <a href="#about" className="btn btn-about">About me</a>
-                <a href="#research" className="btn btn-research">View research</a>
+                <a href="#publications" className="btn btn-research">View research</a>
               </div>
             </div>
 
@@ -2443,6 +2443,9 @@ export class Home extends Component {
               <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
             </div>
           </div>
+          {/* <div className="footerContent container">
+            <p></p>
+          </div> */}
         </footer>
 
         <div className='contactMe'>
