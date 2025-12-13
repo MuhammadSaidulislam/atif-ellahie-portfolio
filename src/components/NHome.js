@@ -2075,13 +2075,13 @@ export class Home extends Component {
                 <ul>
                   <li><button className={this.state.selectedCategory === "All" ? "active" : ""}
                     onClick={() => this.handleCategoryFilter("All")}>All</button></li>
-                  <li><button className={this.state.selectedCategory === "MAcc/MSF/MBA/PMBA" ? "active" : ""}
+                  <li><button data-title="Teaching Initiatives" data-type="MAcc/MSF/MBA/PMBA" id="Teaching" className={this.state.selectedCategory === "MAcc/MSF/MBA/PMBA" ? "active" : ""}
                     onClick={() => this.handleCategoryFilter("MAcc/MSF/MBA/PMBA")}>MAcc/MSF/MBA/PMBA</button></li>
-                  <li><button className={this.state.selectedCategory === "Undergraduate" ? "active" : ""}
+                  <li><button data-title="Teaching Initiatives" data-type="Undergraduate" id="Teaching" className={this.state.selectedCategory === "Undergraduate" ? "active" : ""}
                     onClick={() => this.handleCategoryFilter("Undergraduate")}>Undergraduate</button></li>
-                  <li><button className={this.state.selectedCategory === "Executive Education" ? "active" : ""}
+                  <li><button data-title="Teaching Initiatives" data-type="Executive Education" id="Teaching" className={this.state.selectedCategory === "Executive Education" ? "active" : ""}
                     onClick={() => this.handleCategoryFilter("Executive Education")}>Executive Education</button></li>
-                  <li><button className={this.state.selectedCategory === "PhD" ? "active" : ""}
+                  <li><button data-title="Teaching Initiatives" data-type="PhD" id="Teaching" className={this.state.selectedCategory === "PhD" ? "active" : ""}
                     onClick={() => this.handleCategoryFilter("PhD")}>PhD</button></li>
                 </ul>
                 <div className='searchFilter'>
