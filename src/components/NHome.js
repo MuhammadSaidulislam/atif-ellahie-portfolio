@@ -2436,8 +2436,8 @@ export class Home extends Component {
         <footer className="FooterSection">
           <div className="footerContent container">
             <div className="FooterLeft">
-              <span>Copyright © atifellahie - 2025</span>
-              <div className="FooterRight mt-1">
+              <span>Copyright © Atif Ellahie - 2025</span>
+              <div className="FooterRight mt-3">
               <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="SocialIcon"> <img src="/Assets/scholars.svg" alt="facebook" /> </Link>
               <Link target='_blank' to="https://x.com/atifellahie" className="SocialIcon"> <img src="/Assets/x.svg" alt="facebook" /> </Link>
               <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="SocialIcon"> <img src="/Assets/linkedin.svg" alt="facebook" /> </Link>
@@ -2446,7 +2446,8 @@ export class Home extends Component {
             </div>
             </div>
             <Link to="https://academic.blog">
-          <img src="/Assets/powered_by.svg" alt="powerd" />
+          {/* <img src="/Assets/powered_by.svg" alt="powerd" /> */}
+          Powered by academic.blog
           </Link> 
           </div>
           {/* <div className="footerContent container">
