@@ -1568,12 +1568,15 @@ nav {
   }
 
   .conferenceList {
-    display: block;
+    display: flex;
     padding: 25px 12px;
+    overflow-x: auto;
   }
 
   .conferenceList .enclosePublic {
     margin-top: 12px;
+    min-width: 285px;
+    padding: 17px;
   }
 }
 
@@ -1646,6 +1649,9 @@ nav {
   text-decoration: none;
 }
 .mobileInput{
+  display: none;
+}
+.smallSocial{
   display: none;
 }
 /* Hide desktop nav on mobile */
@@ -1736,6 +1742,23 @@ nav {
   }
   .aboutBtn {
   padding: 34px 13px 34px 25px;
+}
+.largeSocial{
+  display: none;
+}
+.smallSocial{
+  display: flex;
+  margin-top: 30px;
+  width: 100%;
+}
+.filterBox ul li button{
+  font-size: 14px;
+}
+.input-container i{
+  display: none;
+}
+.publicationsBox{
+  margin-bottom: 30px;
 }
 }
 

@@ -1796,7 +1796,7 @@ export class Home extends Component {
                 atif.ellahie@eccles.utah.edu
               </a> */}
 
-              <div className="social-icons">
+              <div className="social-icons largeSocial">
                 <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
                 <Link target='_blank' to="https://x.com/atifellahie" className="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
                 <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
@@ -1809,6 +1809,13 @@ export class Home extends Component {
           <div className="right-image">
             <img src="/Assets/Man.png" alt="Atif Ellahie" />
           </div>
+          <div className="social-icons smallSocial">
+                <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://x.com/atifellahie" className="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
+              </div>
         </div>
 
         {/* About section */}
