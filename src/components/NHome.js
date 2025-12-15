@@ -2445,7 +2445,7 @@ export class Home extends Component {
               <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
             </div>
             </div>
-            <Link to="">
+            <Link to="https://academic.blog">
           <img src="/Assets/powered_by.svg" alt="powerd" />
           </Link> 
           </div>
