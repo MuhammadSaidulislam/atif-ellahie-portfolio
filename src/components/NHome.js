@@ -1941,14 +1941,20 @@ export class Home extends Component {
                   ))}
                 </ul>
                 <div className='searchFilter'>
-                  <div className="toggle-input-wrapper">
+                  <div className="input-container open mobileInput">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      value={teachingSearchValue}
+                      onChange={this.handleTeachingChange}
+                    />
+                    <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
+                  </div>
+                   <div className="toggle-input-wrapper">
                     <button className={`toggle-btn  ${inputOpen ? "open" : ""}`} onClick={this.toggleInput}>
                       <img src="/Assets/search-normal.svg" alt="search" />
-                      {/* <i className="fa-solid fa-search"></i> */}
                     </button>
-
-
-                  </div>
+                  </div> 
                   <div className={`custom-dropdown ${open ? "open" : ""}`}>
                     <button className="dropdown-btn" onClick={this.toggleDropdown}>
                       {selected ? selected : <img src="/Assets/Filter.svg" alt="search" />}
@@ -2085,6 +2091,15 @@ export class Home extends Component {
                     onClick={() => this.handleCategoryFilter("PhD")}>PhD</button></li>
                 </ul>
                 <div className='searchFilter'>
+                   <div className="input-container open mobileInput">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      value={teachingSearchValue}
+                      onChange={this.handleTeachingChange}
+                    />
+                    <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
+                  </div>
                   <div className="toggle-input-wrapper">
                     <button className={`toggle-btn  ${teachingInputOpen ? "open" : ""}`} onClick={this.toggleTeachingInput}>
                       <img src="/Assets/search-normal.svg" alt="search" />
@@ -2217,6 +2232,15 @@ export class Home extends Component {
                       onClick={() => this.setCategory("Conference Participation")}>Conference Participation</button></li>
                   </ul>
                   <div className='searchFilter'>
+                       <div className="input-container open mobileInput">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      value={teachingSearchValue}
+                      onChange={this.handleTeachingChange}
+                    />
+                    <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
+                  </div>
                     <div className="toggle-input-wrapper">
                       <button className={`toggle-btn  ${conferenceInputOpen ? "open" : ""}`} onClick={this.toggleConferenceInput}>
                         <img src="/Assets/search-normal.svg" alt="search" />
