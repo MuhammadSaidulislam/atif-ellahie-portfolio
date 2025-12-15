@@ -105,7 +105,7 @@ box-shadow: 0px 14.21px 28.42px 0px rgba(0, 0, 0, 0.3);
 @media screen and (max-width: 1000px) {
   .award {
     padding: 20px;
-    min-width: 340px;
+    min-width: 290px;
   }
 
   .AwardTitle {
@@ -405,5 +405,11 @@ color: #ffffff;
 .courseCarousel{
   gap: 12px;
   padding-left: 20px;
+}
+.courseRating ul{
+  flex-wrap: wrap;
+}
+.courseBox{
+  min-height: 222px;
 }
 }

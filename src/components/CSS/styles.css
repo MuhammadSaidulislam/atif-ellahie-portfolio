@@ -943,8 +943,8 @@ nav {
   } */
 
   .right-image {
-    min-height: 500px;
-    width: 90%;
+    min-height: 300px;
+    width: 280px;
     margin-right: 0px;
     position: relative;
     left: 50%;
@@ -1496,7 +1496,7 @@ nav {
 
   .download-btn {
     position: static;
-    margin-top: 30px;
+    /* margin-top: 30px; */
     display: flex;
     justify-content: flex-start;
   }
@@ -1697,11 +1697,12 @@ nav {
   }
 
   .right-image img {
-    width: 410px;
+    width: 310px;
+    height: 290px;
   }
 
   .aboutBox .content {
-    padding: 25px 20px 0px 29px;
+    padding: 25px 0px 0px 33px;
   }
 
   .aboutSection {
@@ -1733,6 +1734,9 @@ nav {
   .toggle-input-wrapper{
     display: none;
   }
+  .aboutBtn {
+  padding: 34px 13px 34px 25px;
+}
 }
 
 /* cv form */
