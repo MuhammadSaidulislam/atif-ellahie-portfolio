@@ -933,9 +933,16 @@ height: 35px;
 
   .right-image {
     min-height: 500px;
-    width: 100%;
+    width: 90%;
     margin-right: 0px;
-  }
+    position: relative;
+    left: 50%;
+    transform: translate(-50%,0);
+    -webkit-transform: translate(-50%,0);
+    -moz-transform: translate(-50%,0);
+    -ms-transform: translate(-50%,0);
+    -o-transform: translate(-50%,0);
+}
 
   h1 {
     font-size: 56px;
@@ -1663,6 +1670,12 @@ border-top: 1px solid rgba(224, 224, 224, 1)
   .right-image img {
   width: 410px;
   }
+  .aboutBox .content {
+  padding: 25px 20px 0px 29px;
+}
+.aboutSection {
+  padding: 20px;
+}
 }
 
 /* cv form */

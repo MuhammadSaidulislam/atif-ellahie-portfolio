@@ -2428,20 +2428,26 @@ export class Home extends Component {
             link.click();
             document.body.removeChild(link);
           }}>Download my cv <img src="/Assets/download.svg" alt="download" /> </button>
+          {/* <Link to="">
+          <img src="/Assets/powered_by.svg" alt="powerd" />
+          </Link> */}
         </div>
 
         <footer className="FooterSection">
           <div className="footerContent container">
             <div className="FooterLeft">
               <span>Copyright © atifellahie - 2025</span>
-            </div>
-            <div className="FooterRight">
+              <div className="FooterRight mt-1">
               <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="SocialIcon"> <img src="/Assets/scholars.svg" alt="facebook" /> </Link>
               <Link target='_blank' to="https://x.com/atifellahie" className="SocialIcon"> <img src="/Assets/x.svg" alt="facebook" /> </Link>
               <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="SocialIcon"> <img src="/Assets/linkedin.svg" alt="facebook" /> </Link>
               <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="SocialIcon"> <img src="/Assets/ssrn.svg" alt="facebook" /> </Link>
               <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
             </div>
+            </div>
+            <Link to="">
+          <img src="/Assets/powered_by.svg" alt="powerd" />
+          </Link> 
           </div>
           {/* <div className="footerContent container">
             <p></p>

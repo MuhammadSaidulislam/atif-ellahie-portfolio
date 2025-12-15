@@ -169,7 +169,7 @@ box-shadow: 0px 14.21px 28.42px 0px rgba(0, 0, 0, 0.3);
 .cvDownload{
   text-align: center;
   margin-top: 80px;
-  margin-bottom: 100px;
+  margin-bottom: 40px;
 }
 .cvDownload button{
   border: none;
@@ -180,6 +180,26 @@ font-size: 18px;
 line-height: 100%;
 letter-spacing: 0%;
 background-color: #fff;
+}
+.cvDownload {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center button */
+  width: 100%;
+}
+
+.cvDownload button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cvDownload a {
+  position: absolute;
+  right: 0;          /* push link to right */
+  display: flex;
+  align-items: center;
 }
 
 .awardsItems{
