@@ -600,6 +600,7 @@ export class Home extends Component {
       conferenceInputOpen: false,
       searchValue: "",
       teachingSearchValue: "",
+      pubSearchValue: "",
       conferenceSearchValue: "",
       sidebarOpen: false,
       screenWidth: document.documentElement.clientWidth,
@@ -673,6 +674,7 @@ export class Home extends Component {
 
     delete parsed.searchValue;
     delete parsed.teachingSearchValue;
+    delete parsed.pubSearchValue
     delete parsed.conferenceSearchValue;
 
     this.setState(parsed);
@@ -1129,84 +1131,89 @@ export class Home extends Component {
 
 
   getPaginatedPaper() {
-    const { s_query, currentPage, studentsPerPage, currentPaperType } = this.state;
-    let filteredStudents = paginatedPaper;
+    const {
+      pubSearchValue,
+      currentPage,
+      studentsPerPage,
+      currentPaperType
+    } = this.state;
 
-    // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
+    // clone data to avoid mutation
+    let filteredStudents = paginatedPaper.map(paper => {
+      const updatedPaper = { ...paper };
 
-    paginatedPaper.forEach(paper => {
-      if (!paper.hasOwnProperty('Paper Type') || paper['Paper Type'] === '') {
-        paper['Paper Type'] = 'Publications';
+      // Ensure Paper Type exists
+      if (!updatedPaper["Paper Type"] || updatedPaper["Paper Type"] === "") {
+        updatedPaper["Paper Type"] = "Publications";
       }
-    });
 
-    // filter based on paper type now
-    filteredStudents = paginatedPaper.filter(paper => paper['Paper Type'] === currentPaperType);
-
-    // in any field if the content is "nan" then make it empty
-    filteredStudents.forEach(paper => {
-      for (var key in paper) {
-        if (paper[key] === 'nan') {
-          paper[key] = '';
-        }
-      }
-    });
-
-    filteredStudents.forEach(paper => {
-      for (const key in paper) {
-        // Trim the value first to avoid extra spaces affecting checks
-        paper[key] = paper[key].trim();
-
-        // Remove leading comma
-        if (paper[key].startsWith(',')) {
-          paper[key] = paper[key].substring(1).trim();
+      // Clean "nan", trim spaces, remove commas
+      for (const key in updatedPaper) {
+        if (updatedPaper[key] === "nan") {
+          updatedPaper[key] = "";
         }
 
-        // Remove trailing comma
-        if (paper[key].endsWith(',')) {
-          paper[key] = paper[key].substring(0, paper[key].length - 1).trim();
+        if (typeof updatedPaper[key] === "string") {
+          updatedPaper[key] = updatedPaper[key].trim();
+
+          if (updatedPaper[key].startsWith(",")) {
+            updatedPaper[key] = updatedPaper[key].substring(1).trim();
+          }
+
+          if (updatedPaper[key].endsWith(",")) {
+            updatedPaper[key] = updatedPaper[key]
+              .substring(0, updatedPaper[key].length - 1)
+              .trim();
+          }
         }
       }
-    });
 
-    // publishing year can be year or date or empty we need to sort this based on year and date if available, papers with no year/date will go at bottom
-
-    filteredStudents.forEach(paper => {
-      // check if date is like 2020.0 then make it 2020
-      if (paper['Publishing Year'].includes('.')) {
-        paper['Publishing Year'] = paper['Publishing Year'].split('.')[0];
+      // Normalize publishing year (e.g. 2020.0 → 2020)
+      if (
+        updatedPaper["Publishing Year"] &&
+        updatedPaper["Publishing Year"].includes(".")
+      ) {
+        updatedPaper["Publishing Year"] =
+          updatedPaper["Publishing Year"].split(".")[0];
       }
+
+      return updatedPaper;
     });
 
+    // Filter by paper type
+    filteredStudents = filteredStudents.filter(
+      paper => paper["Paper Type"] === currentPaperType
+    );
+
+    // Sort by Publishing Year (latest first, empty last)
     filteredStudents.sort((a, b) => {
-      if (a['Publishing Year'] === '' && b['Publishing Year'] === '') {
-        return 0;
-      } else if (a['Publishing Year'] === '') {
-        return 1;
-      } else if (b['Publishing Year'] === '') {
-        return -1;
-      } else {
-        return new Date(b['Publishing Year']) - new Date(a['Publishing Year']);
-      }
+      if (!a["Publishing Year"] && !b["Publishing Year"]) return 0;
+      if (!a["Publishing Year"]) return 1;
+      if (!b["Publishing Year"]) return -1;
+      return (
+        new Date(b["Publishing Year"]) - new Date(a["Publishing Year"])
+      );
     });
 
-    if (s_query && s_query.trim() !== "") {
-      filteredStudents = filteredStudents.filter(student => {
-        // Check if any key in the student matches the s_query (case-insensitive)
-        return Object.keys(student).some(key =>
-          String(student[key]).toLowerCase().includes(s_query.toLowerCase())
-        );
-      });
+    // 🔍 Search filter
+    if (pubSearchValue && pubSearchValue.trim() !== "") {
+      const searchText = pubSearchValue.toLowerCase();
+
+      filteredStudents = filteredStudents.filter(paper =>
+        Object.keys(paper).some(key =>
+          String(paper[key]).toLowerCase().includes(searchText)
+        )
+      );
     }
 
-    // Now paginate the filtered students
+    // Pagination
     const startIndex = currentPage * studentsPerPage;
     const endIndex = startIndex + studentsPerPage;
     const paginatedStudents = filteredStudents.slice(startIndex, endIndex);
 
-    // Ensure we always have `studentsPerPage` items by adding empty placeholders if needed
+    // Fill empty slots for UI consistency
     while (paginatedStudents.length < studentsPerPage) {
-      paginatedStudents.push(null);  // Add `null` or an empty object `{}` as placeholder
+      paginatedStudents.push(null);
     }
 
     return paginatedStudents;
@@ -1346,49 +1353,26 @@ export class Home extends Component {
 
   getPaginatedCF() {
     const { currentPage2, conferencePerPage } = this.state;
-
     const filtered = this.getPaginatedCFDetails();
-
     const start = currentPage2 * conferencePerPage;
     const end = start + conferencePerPage;
-
     return filtered.slice(start, end);
   }
 
 
+
   getPaginatedCFDetails() {
-    const { s_query, activeCategory } = this.state;
-
-    // Always clone source
-    let filtered = conferenceList.map(paper => {
-      const cleaned = {};
-
-      for (const key in paper) {
-        let value = paper[key];
-        if (value === 'nan' || value == null) value = '';
-        cleaned[key] = value;
-      }
-
-      return cleaned;
-    });
-
-    // 🔹 CATEGORY FILTER (IMPORTANT)
-    if (activeCategory !== "All") {
-      filtered = filtered.filter(
-        item => item.category === activeCategory
-      );
-    }
-
-    // 🔹 SEARCH FILTER
-    if (s_query?.trim()) {
-      const q = s_query.toLowerCase();
+    const { conferenceSearchValue } = this.state;
+    let filtered = [...conferenceList];
+    // 🔍 SEARCH LOGIC
+    if (conferenceSearchValue && conferenceSearchValue.trim() !== "") {
+      const searchText = conferenceSearchValue.toLowerCase();
       filtered = filtered.filter(item =>
-        Object.values(item).some(val =>
-          String(val).toLowerCase().includes(q)
+        Object.keys(item).some(key =>
+          String(item[key]).toLowerCase().includes(searchText)
         )
       );
     }
-
     return filtered;
   }
 
@@ -1409,46 +1393,57 @@ export class Home extends Component {
 
 
   getPaginatedTeachingMaterials() {
-    const { s_query, currentPageTM, teachingPerPage } = this.state;
-    let filteredMaterials = [...teachingList];
+    const {
+      teachingSearchValue,
+      currentPageTM,
+      teachingPerPage
+    } = this.state;
 
-    // Clean string values
-    filteredMaterials.forEach(mat => {
-      for (const key in mat) {
+    let filteredMaterials = teachingList.map(mat => {
+      const cleaned = { ...mat };
 
-        if (mat[key] === "nan") {
-          mat[key] = "";
+      // Clean string values safely
+      for (const key in cleaned) {
+        if (cleaned[key] === "nan") {
+          cleaned[key] = "";
         }
 
-        if (typeof mat[key] === "string") {
-          mat[key] = mat[key].trim();
+        if (typeof cleaned[key] === "string") {
+          cleaned[key] = cleaned[key].trim();
 
-          if (mat[key].startsWith(",")) {
-            mat[key] = mat[key].substring(1).trim();
+          if (cleaned[key].startsWith(",")) {
+            cleaned[key] = cleaned[key].substring(1).trim();
           }
 
-          if (mat[key].endsWith(",")) {
-            mat[key] = mat[key].substring(0, mat[key].length - 1).trim();
+          if (cleaned[key].endsWith(",")) {
+            cleaned[key] = cleaned[key]
+              .substring(0, cleaned[key].length - 1)
+              .trim();
           }
         }
       }
+
+      return cleaned;
     });
 
-    // Search logic
-    if (s_query && s_query.trim() !== "") {
+    // 🔍 SEARCH LOGIC (CONNECTED PROPERLY)
+    if (teachingSearchValue && teachingSearchValue.trim() !== "") {
+      const searchText = teachingSearchValue.toLowerCase();
+
       filteredMaterials = filteredMaterials.filter(material =>
         Object.keys(material).some(key => {
           const value = material[key];
 
+          // string fields
           if (typeof value === "string") {
-            return value.toLowerCase().includes(s_query.toLowerCase());
+            return value.toLowerCase().includes(searchText);
           }
 
-          // ratings array search
+          // ratings array
           if (Array.isArray(value)) {
             return value.some(r =>
-              r.rating.toLowerCase().includes(s_query.toLowerCase()) ||
-              String(r.year).includes(s_query)
+              String(r.rating).toLowerCase().includes(searchText) ||
+              String(r.year).includes(searchText)
             );
           }
 
@@ -1464,6 +1459,7 @@ export class Home extends Component {
 
     return filteredMaterials.slice(startIndex, endIndex);
   }
+
 
 
 
@@ -1540,7 +1536,7 @@ export class Home extends Component {
     // Decide how many items to show
     const itemsToShow = screenWidth <= 768 ? 5 : 3;
     // mobile 5 items, desktop 3 items
-console.log('itemsToShow',itemsToShow);
+    console.log('itemsToShow', itemsToShow);
 
     const result = [];
 
@@ -1607,8 +1603,18 @@ console.log('itemsToShow',itemsToShow);
   toggleTeachingInput = () => {
     this.setState({ teachingInputOpen: !this.state.teachingInputOpen });
   };
+  handlePublicationChange = (e) => {
+    this.setState({
+      pubSearchValue: e.target.value,
+      currentPage: 0 // reset page on search
+    });
+  };
+
   handleTeachingChange = (e) => {
-    this.setState({ teachingSearchValue: e.target.value });
+    this.setState({
+      teachingSearchValue: e.target.value,
+      currentPage: 0 // reset page on search
+    });
   };
 
   // Conference
@@ -1622,7 +1628,10 @@ console.log('itemsToShow',itemsToShow);
     this.setState({ conferenceInputOpen: !this.state.conferenceInputOpen });
   };
   handleConferenceChange = (e) => {
-    this.setState({ conferenceSearchValue: e.target.value });
+    this.setState({
+      conferenceSearchValue: e.target.value,
+      currentPage2: 0
+    });
   };
 
 
@@ -1695,7 +1704,7 @@ console.log('itemsToShow',itemsToShow);
     const { open, selected } = this.state;
     const { teachingOpen, teachingSelected } = this.state;
     const { conferenceOpen, conferenceSelected } = this.state;
-    const { inputOpen, searchValue } = this.state;
+    const { inputOpen, pubSearchValue } = this.state;
     const { teachingInputOpen, teachingSearchValue } = this.state;
     const { conferenceInputOpen, conferenceSearchValue } = this.state;
 
@@ -1954,7 +1963,7 @@ console.log('itemsToShow',itemsToShow);
                       type="text"
                       placeholder="Search"
                       value={teachingSearchValue}
-                      onChange={this.handleTeachingChange}
+                      onChange={this.handlePublicationChange}
                     />
                     <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
                   </div>
@@ -1983,8 +1992,8 @@ console.log('itemsToShow',itemsToShow);
               <input
                 type="text"
                 placeholder="Search"
-                value={searchValue}
-                onChange={this.handleSearchChange}
+                value={pubSearchValue}
+                onChange={this.handlePublicationChange}
               />
               <i onClick={this.toggleInput} className="fa-solid fa-xmark"></i>
             </div>
@@ -2244,8 +2253,8 @@ console.log('itemsToShow',itemsToShow);
                       <input
                         type="text"
                         placeholder="Search"
-                        value={teachingSearchValue}
-                        onChange={this.handleTeachingChange}
+                        value={conferenceSearchValue}
+                        onChange={this.handleConferenceChange}
                       />
                       <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
                     </div>
@@ -2477,10 +2486,10 @@ console.log('itemsToShow',itemsToShow);
                 <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
               </div>
             </div>
-               <div className="FooterLeft">
-                <span>Copyright © Atif Ellahie - 2025</span>
-               </div>
-                          
+            <div className="FooterLeft">
+              <span>Copyright © Atif Ellahie - 2025</span>
+            </div>
+
             <Link to="https://academic.blog" className='powerLink'>
               {/* <img src="/Assets/powered_by.svg" alt="powerd" /> */}
               Powered by academic.blog
