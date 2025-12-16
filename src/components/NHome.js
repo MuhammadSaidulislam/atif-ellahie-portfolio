@@ -1335,7 +1335,7 @@ export class Home extends Component {
   }
 
 
-   // ✅ category handler (arrow fn = auto bind)
+  // ✅ category handler (arrow fn = auto bind)
   setCategory = (category) => {
     this.setState({
       activeCategory: category,
@@ -1344,53 +1344,53 @@ export class Home extends Component {
   };
 
 
- getPaginatedCF() {
-  const { currentPage2, conferencePerPage } = this.state;
+  getPaginatedCF() {
+    const { currentPage2, conferencePerPage } = this.state;
 
-  const filtered = this.getPaginatedCFDetails();
+    const filtered = this.getPaginatedCFDetails();
 
-  const start = currentPage2 * conferencePerPage;
-  const end = start + conferencePerPage;
+    const start = currentPage2 * conferencePerPage;
+    const end = start + conferencePerPage;
 
-  return filtered.slice(start, end);
-}
+    return filtered.slice(start, end);
+  }
 
 
- getPaginatedCFDetails() {
-  const { s_query, activeCategory } = this.state;
+  getPaginatedCFDetails() {
+    const { s_query, activeCategory } = this.state;
 
-  // Always clone source
-  let filtered = conferenceList.map(paper => {
-    const cleaned = {};
+    // Always clone source
+    let filtered = conferenceList.map(paper => {
+      const cleaned = {};
 
-    for (const key in paper) {
-      let value = paper[key];
-      if (value === 'nan' || value == null) value = '';
-      cleaned[key] = value;
+      for (const key in paper) {
+        let value = paper[key];
+        if (value === 'nan' || value == null) value = '';
+        cleaned[key] = value;
+      }
+
+      return cleaned;
+    });
+
+    // 🔹 CATEGORY FILTER (IMPORTANT)
+    if (activeCategory !== "All") {
+      filtered = filtered.filter(
+        item => item.category === activeCategory
+      );
     }
 
-    return cleaned;
-  });
+    // 🔹 SEARCH FILTER
+    if (s_query?.trim()) {
+      const q = s_query.toLowerCase();
+      filtered = filtered.filter(item =>
+        Object.values(item).some(val =>
+          String(val).toLowerCase().includes(q)
+        )
+      );
+    }
 
-  // 🔹 CATEGORY FILTER (IMPORTANT)
-  if (activeCategory !== "All") {
-    filtered = filtered.filter(
-      item => item.category === activeCategory
-    );
+    return filtered;
   }
-
-  // 🔹 SEARCH FILTER
-  if (s_query?.trim()) {
-    const q = s_query.toLowerCase();
-    filtered = filtered.filter(item =>
-      Object.values(item).some(val =>
-        String(val).toLowerCase().includes(q)
-      )
-    );
-  }
-
-  return filtered;
-}
 
 
   // Handle next and previous page
@@ -1810,12 +1810,12 @@ export class Home extends Component {
             <img src="/Assets/Man.png" alt="Atif Ellahie" />
           </div>
           <div className="social-icons smallSocial">
-                <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://x.com/atifellahie" className="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
-              </div>
+            <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
+            <Link target='_blank' to="https://x.com/atifellahie" className="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
+            <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
+            <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
+            <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
+          </div>
         </div>
 
         {/* About section */}
@@ -1957,11 +1957,11 @@ export class Home extends Component {
                     />
                     <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
                   </div>
-                   <div className="toggle-input-wrapper">
+                  <div className="toggle-input-wrapper">
                     <button className={`toggle-btn  ${inputOpen ? "open" : ""}`} onClick={this.toggleInput}>
                       <img src="/Assets/search-normal.svg" alt="search" />
                     </button>
-                  </div> 
+                  </div>
                   <div className={`custom-dropdown ${open ? "open" : ""}`}>
                     <button className="dropdown-btn" onClick={this.toggleDropdown}>
                       {selected ? selected : <img src="/Assets/Filter.svg" alt="search" />}
@@ -2098,7 +2098,7 @@ export class Home extends Component {
                     onClick={() => this.handleCategoryFilter("PhD")}>PhD</button></li>
                 </ul>
                 <div className='searchFilter'>
-                   <div className="input-container open mobileInput">
+                  <div className="input-container open mobileInput">
                     <input
                       type="text"
                       placeholder="Search"
@@ -2239,15 +2239,15 @@ export class Home extends Component {
                       onClick={() => this.setCategory("Conference Participation")}>Conference Participation</button></li>
                   </ul>
                   <div className='searchFilter'>
-                       <div className="input-container open mobileInput">
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      value={teachingSearchValue}
-                      onChange={this.handleTeachingChange}
-                    />
-                    <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
-                  </div>
+                    <div className="input-container open mobileInput">
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        value={teachingSearchValue}
+                        onChange={this.handleTeachingChange}
+                      />
+                      <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
+                    </div>
                     <div className="toggle-input-wrapper">
                       <button className={`toggle-btn  ${conferenceInputOpen ? "open" : ""}`} onClick={this.toggleConferenceInput}>
                         <img src="/Assets/search-normal.svg" alt="search" />
@@ -2467,19 +2467,23 @@ export class Home extends Component {
         <footer className="FooterSection">
           <div className="footerContent container">
             <div className="FooterLeft">
-              <span>Copyright © Atif Ellahie - 2025</span>
-              <div className="FooterRight mt-3">
-              <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="SocialIcon"> <img src="/Assets/scholars.svg" alt="facebook" /> </Link>
-              <Link target='_blank' to="https://x.com/atifellahie" className="SocialIcon"> <img src="/Assets/x.svg" alt="facebook" /> </Link>
-              <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="SocialIcon"> <img src="/Assets/linkedin.svg" alt="facebook" /> </Link>
-              <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="SocialIcon"> <img src="/Assets/ssrn.svg" alt="facebook" /> </Link>
-              <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
+
+              <div className="FooterRight">
+                <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="SocialIcon"> <img src="/Assets/scholars.svg" alt="facebook" /> </Link>
+                <Link target='_blank' to="https://x.com/atifellahie" className="SocialIcon"> <img src="/Assets/x.svg" alt="facebook" /> </Link>
+                <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="SocialIcon"> <img src="/Assets/linkedin.svg" alt="facebook" /> </Link>
+                <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="SocialIcon"> <img src="/Assets/ssrn.svg" alt="facebook" /> </Link>
+                <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="SocialIcon"> <img src="/Assets/id.svg" alt="facebook" /> </Link>
+              </div>
             </div>
-            </div>
+               <div className="FooterLeft">
+                <span>Copyright © Atif Ellahie - 2025</span>
+               </div>
+                          
             <Link to="https://academic.blog" className='powerLink'>
-          {/* <img src="/Assets/powered_by.svg" alt="powerd" /> */}
-          Powered by academic.blog
-          </Link> 
+              {/* <img src="/Assets/powered_by.svg" alt="powerd" /> */}
+              Powered by academic.blog
+            </Link>
           </div>
           {/* <div className="footerContent container">
             <p></p>

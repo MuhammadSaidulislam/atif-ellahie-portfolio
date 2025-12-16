@@ -1709,6 +1709,8 @@ nav {
 
   .aboutBox .content {
     padding: 25px 0px 0px 33px;
+    display: flex;
+    overflow-x: auto !important;
   }
 
   .aboutSection {
@@ -1759,6 +1761,10 @@ nav {
 }
 .publicationsBox{
   margin-bottom: 30px;
+}
+.section{
+  margin-bottom: 0px;
+  min-width: 500px;
 }
 }
 
