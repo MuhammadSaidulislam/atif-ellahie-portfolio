@@ -1571,6 +1571,7 @@ nav {
     display: flex;
     padding: 25px 12px;
     overflow-x: auto;
+    margin-bottom: 40px;
   }
 
   .conferenceList .enclosePublic {
@@ -1704,8 +1705,8 @@ nav {
   }
 
   .left-content {
-    padding-top: 120px;
-    padding-bottom: 40px;
+    padding-top: 80px;
+    padding-bottom: 0px;
   }
 
   .right-image img {
@@ -1734,7 +1735,8 @@ nav {
   }
 
   .pubSection {
-    padding: 20px;
+    padding: 35px 20px;
+    margin-top: 45px;
   }
 
   .PublicationsList {

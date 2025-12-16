@@ -111,10 +111,13 @@ margin-top: 150px;
 
 @media screen and (max-width: 768px) {
 .lineResHip h1{
-   font-size: 17px;
+   font-size: 22px;
   }
   .lineResHip p{
-    font-size: 12px;
+    font-size: 16px;
+  }
+  .teaching-section,.conferences{
+    margin-top: 100px;
   }
 }
 
