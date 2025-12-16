@@ -1538,8 +1538,9 @@ export class Home extends Component {
     const currentPos = currentPos2 - 1;
 
     // Decide how many items to show
-    const itemsToShow = screenWidth <= 768 ? 2 : 3;
-    // mobile 2 items, desktop 3 items
+    const itemsToShow = screenWidth <= 768 ? 5 : 3;
+    // mobile 5 items, desktop 3 items
+console.log('itemsToShow',itemsToShow);
 
     const result = [];
 
