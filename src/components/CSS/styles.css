@@ -216,6 +216,7 @@ z-index: 99999; */
   .ResHeader {
     flex-direction: column;
     align-items: start;
+    margin-bottom: 35px;
   }
 }
 
@@ -1556,6 +1557,7 @@ nav {
     flex-direction: column;
     width: 100%;
     align-items: normal;
+    margin-bottom: 10px;
   }
 
   .filterBox {
@@ -1742,7 +1744,7 @@ nav {
 
   .pubSection {
     padding: 35px 20px;
-    margin-top: 45px;
+    margin-top: 35px;
   }
 
   .PublicationsList {
