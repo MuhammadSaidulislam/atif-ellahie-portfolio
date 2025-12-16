@@ -1533,6 +1533,7 @@ nav {
   .subtitle {
     font-size: 18px;
     text-align: center;
+    margin-bottom: 20px;
   }
 
   .button-group {
@@ -1569,20 +1570,22 @@ nav {
 
   .conferenceList {
     display: flex;
-    padding: 25px 12px;
+    padding: 32px 12px;
     overflow-x: auto;
     margin-bottom: 40px;
   }
 
   .conferenceList .enclosePublic {
-    margin-top: 12px;
     min-width: 285px;
     padding: 17px;
   }
-  .conferenceList:before, .conferenceList:after{
+
+  .conferenceList:before,
+  .conferenceList:after {
     display: none;
   }
-  .timeline-label{
+
+  .timeline-label {
     display: none;
   }
 }
@@ -1655,12 +1658,15 @@ nav {
   color: #ffffff;
   text-decoration: none;
 }
-.mobileInput{
+
+.mobileInput {
   display: none;
 }
-.smallSocial{
+
+.smallSocial {
   display: none;
 }
+
 /* Hide desktop nav on mobile */
 @media (max-width: 991px) {
 
@@ -1722,7 +1728,7 @@ nav {
   }
 
   .aboutSection {
-    padding: 20px;
+    padding: 35px 20px;
   }
 
   .searchFilter {
@@ -1742,41 +1748,55 @@ nav {
   .PublicationsList {
     padding: 45px 0px !important;
   }
-  .conferencePagination{
+
+  .conferencePagination {
     margin-top: 10px;
   }
-  .mobileInput{
+
+  .mobileInput {
     display: block;
   }
-  .toggle-input-wrapper{
+
+  .toggle-input-wrapper {
     display: none;
   }
+
   .aboutBtn {
-  padding: 34px 13px 34px 25px;
-  display: none;
-}
-.largeSocial{
-  display: none;
-}
-.smallSocial{
-  display: flex;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  width: 100%;
-}
-.filterBox ul li button{
-  font-size: 14px;
-}
-.input-container i{
-  display: none;
-}
-.publicationsBox{
-  margin-bottom: 30px;
-}
-.section{
-  margin-bottom: 0px;
-  min-width: 500px;
-}
+    padding: 34px 13px 34px 25px;
+    display: none;
+  }
+
+  .largeSocial {
+    display: none;
+  }
+
+  .smallSocial {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  .filterBox ul li button {
+    font-size: 14px;
+  }
+
+  .input-container i {
+    display: none;
+  }
+
+  .publicationsBox {
+    margin-bottom: 30px;
+  }
+
+  .section {
+    margin-bottom: 0px;
+    min-width: 500px;
+  }
+
+  .left-content .button-group {
+    margin-bottom: 65px;
+  }
 }
 
 /* cv form */
