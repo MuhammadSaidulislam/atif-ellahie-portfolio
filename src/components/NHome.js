@@ -2492,7 +2492,7 @@ export class Home extends Component {
 
             <Link to="https://academic.blog" className='powerLink'>
               {/* <img src="/Assets/powered_by.svg" alt="powerd" /> */}
-              Powered by academic.blog
+             <span>Powered by</span> academic.blog
             </Link>
           </div>
           {/* <div className="footerContent container">

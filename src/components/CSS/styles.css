@@ -1723,7 +1723,7 @@ nav {
   }
 
   .aboutBox .content {
-    padding: 25px 0px 25px 33px;
+    padding: 25px 0px 48px 33px;
     display: flex;
     overflow-x: auto !important;
     height: 100% !important;
@@ -1793,7 +1793,13 @@ nav {
 
   .section {
     margin-bottom: 0px;
-    min-width: 500px;
+    min-width: 100%;
+    width: 100%;
+    margin-right: 30px;
+    gap: 40px;
+  }
+  .aboutContent{
+    padding-right: 10px;
   }
 
   .left-content .button-group {
