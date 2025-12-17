@@ -108,7 +108,12 @@ margin-top: 150px;
   letter-spacing: 0%;
 
 }
-
+@media screen and (max-width: 998px) {
+  .teaching-header{
+display: flex;
+flex-direction: column;
+  }
+}
 @media screen and (max-width: 768px) {
 .lineResHip h1{
    font-size: 22px;
@@ -119,5 +124,6 @@ margin-top: 150px;
   .teaching-section,.conferences{
     margin-top: 70px;
   }
+
 }
 
