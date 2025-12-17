@@ -1610,16 +1610,12 @@ nav {
   display: none;
 }
 .aboutSmallView{
-  display: block;
+  display: flex;
 }
 .aboutSection.aboutSmallView{
 padding: 35px 0px 15px 0px; 
 }
-.aboutSmallView .paginationBackground{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
+
   .aboutSection {
     padding: 35px 20px;
   }
