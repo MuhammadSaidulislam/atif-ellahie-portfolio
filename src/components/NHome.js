@@ -249,6 +249,7 @@ const paginatedPaper = [
 
 const teachingList = [
   {
+    "id": 1,
     "category": "MAcc/MSF/MBA/PMBA",
     "title": "Mergers & Acquisitions",
     "university": "University of Utah",
@@ -260,6 +261,7 @@ const teachingList = [
     ]
   },
   {
+    "id": 2,
     "category": "MAcc/MSF/MBA/PMBA",
     "title": "Business Valuation and Analysis",
     "university": "University of Utah",
@@ -270,6 +272,7 @@ const teachingList = [
     ]
   },
   {
+    "id": 3,
     "category": "Executive Education",
     "title": "Finance for the Non-Financial Leader",
     "university": "University of Utah",
@@ -277,6 +280,7 @@ const teachingList = [
     "ratings": []
   },
   {
+    "id": 4,
     "category": "PhD",
     "title": "Accounting PhD Seminar",
     "university": "University of Utah",
@@ -284,6 +288,7 @@ const teachingList = [
     "ratings": []
   },
   {
+    "id": 5,
     "category": "Undergraduate",
     "title": "Business Fundamentals of Accounting",
     "university": "University of Utah",
@@ -294,6 +299,7 @@ const teachingList = [
     ]
   },
   {
+    "id": 6,
     "category": "Undergraduate",
     "title": "Intermediate Accounting",
     "university": "University of Utah",
@@ -305,6 +311,7 @@ const teachingList = [
     ]
   },
   {
+    "id": 7,
     "category": "MAcc/MSF/MBA/PMBA",
     "title": "Financial Reporting Analysis",
     "university": "University of Utah",
@@ -651,6 +658,8 @@ export class Home extends Component {
       currentPage: 0,
       currentPage2: 0,
       currentPageTM: 0,
+      teachingItemPage: 7,
+      isMobile: false,
       studentsPerPage: 5,
       conferencePerPage: 9,
       teachingPerPage: 30,
@@ -712,6 +721,7 @@ export class Home extends Component {
     if (box) {
       box.addEventListener("scroll", this.handleScroll);
     }
+
   }
   componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
@@ -1546,9 +1556,10 @@ export class Home extends Component {
     const {
       teachingSearchValue,
       currentPageTM,
-      teachingPerPage,
+      teachingItemPage,
       sortKeyTM,
-      sortOrderTM
+      sortOrderTM,
+      isMobile
     } = this.state;
 
     let filteredMaterials = teachingList.map(mat => {
@@ -1612,9 +1623,10 @@ export class Home extends Component {
     }
 
     // 📄 PAGINATION
-    const shiftAmount = teachingPerPage - 1;
-    const startIndex = currentPageTM * shiftAmount;
-    const endIndex = startIndex + teachingPerPage;
+
+    const shiftAmount = isMobile ? 1 : teachingItemPage;
+    const startIndex = currentPageTM;
+    const endIndex = startIndex + teachingItemPage;
 
     return filteredMaterials.slice(startIndex, endIndex);
   }
@@ -1823,6 +1835,13 @@ export class Home extends Component {
     this.setState({
       screenWidth: document.documentElement.clientWidth
     });
+    const isMobile = window.innerWidth <= 1024;
+
+    this.setState({
+      isMobile,
+      teachingItemPage: isMobile ? 2 : 7,
+      currentPageTM: 0 // reset page on view change
+    });
   };
 
   // new next button for scroll
@@ -1892,6 +1911,9 @@ export class Home extends Component {
 
 
     const section = sections[this.state.currentSection]
+
+    const { currentPageTM, teachingItemPage } = this.state;
+    const totalItems = teachingList.length;
 
     $(document).ready(function () {
     });
@@ -2373,63 +2395,85 @@ export class Home extends Component {
           </div>
 
           <div className='teachingWrapper'>
-
-
             <div className=' teachingSection scroll-transparent '>
-              <div className='courseCarousel container'>
-                {paginatedMaterials.filter(item =>
-                  this.state.selectedCategory === "All" || item.category === this.state.selectedCategory
-                ).map((material, index) => {
-                  if (material) {
-                    return (
-                      <div key={index} className='activityCourse'>
-                        <div className='courseNumber'>
-                          <h5>{index + 1}</h5>
-                          <p> {material.title.split(" ")[0]} <br />
-                            {material.title.split(" ").slice(1).join(" ")}</p>
-                        </div>
-                        <div className='courseBox'>
-                          <div className='courseHeading'>
-                            <p>{material.category}</p>
-                            <p>{material.years}</p>
+              
+                <div className='courseCarousel container'>
+                  {paginatedMaterials.filter(item =>
+                    this.state.selectedCategory === "All" || item.category === this.state.selectedCategory
+                  ).map((material, index) => {
+                    if (material) {
+                      return (
+                        <div key={index} className='activityCourse'>
+                          <div className='courseNumber'>
+                            <h5>{material.id}</h5>
+                            <p> {material.title.split(" ")[0]} <br />
+                              {material.title.split(" ").slice(1).join(" ")}</p>
                           </div>
-                          <div className='courseHeading'>
-                            <p>{material.university}</p>
-                          </div>
-                          {Array.isArray(material.ratings) && material.ratings.length > 0 && (
-                            <div className='courseContent'>
-                              <p>Average instructor rating</p>
+                          <div className='courseBox'>
+                            <div className='courseHeading'>
+                              <p>{material.category}</p>
+                              <p>{material.years}</p>
                             </div>
-                          )}
-                          <div className='courseRating'>
-                            <ul>
-                              {Array.isArray(material.ratings) &&
-                                material.ratings.map((rate, i) => (
-                                  <li key={i}>{rate.rating} ({rate.year})</li>
-                                ))
-                              }
-                            </ul>
+                            <div className='courseHeading'>
+                              <p>{material.university}</p>
+                            </div>
+                            {Array.isArray(material.ratings) && material.ratings.length > 0 && (
+                              <div className='courseContent'>
+                                <p>Average instructor rating</p>
+                              </div>
+                            )}
+                            <div className='courseRating'>
+                              <ul>
+                                {Array.isArray(material.ratings) &&
+                                  material.ratings.map((rate, i) => (
+                                    <li key={i}>{rate.rating} ({rate.year})</li>
+                                  ))
+                                }
+                              </ul>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
-                        {/* Empty placeholder for consistent layout */}
-                      </div>
-                    );
-                  }
-                })}
+                      );
+                    } else {
+                      return (
+                        <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
+                          {/* Empty placeholder for consistent layout */}
+                        </div>
+                      );
+                    }
+                  })}
 
-                {totalFilteredCount === 0 && (
-                  <div className="noResults">No teaching materials found</div>
-                )}
+                  {totalFilteredCount === 0 && (
+                    <div className="noResults">No teaching materials found</div>
+                  )}
 
-              </div>
+                </div>
+             
             </div>
           </div>
 
+
+ <div className="conferencePagination aboutSmallView container">
+          <div className='paginationBackground'>
+            <button className="btn-back" onClick={() =>
+                this.setState(prev => ({
+                  currentPageTM: Math.max(prev.currentPageTM - 1, 0)
+                }))
+              } disabled={currentPageTM === 0}>
+              <i className="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <button className="btn-back"
+           onClick={() =>
+                this.setState(prev => ({
+                  currentPageTM: prev.currentPageTM + (this.state.isMobile ? 1 : teachingItemPage)
+                }))
+              }
+              disabled={currentPageTM + teachingItemPage >= totalItems}>
+              <i className="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
 
 
         </div>
