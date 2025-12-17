@@ -1751,7 +1751,8 @@ nav {
   }
 
   .userInfo {
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
   }
 
   .right-image img {

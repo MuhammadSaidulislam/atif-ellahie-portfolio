@@ -395,9 +395,9 @@
     min-width: 290px;
   }
 
-  .AwardTitle {
+  /* .AwardTitle {
     max-width: 100%;
-  }
+  } */
    .awardCase {
     overflow-x: auto;
     scroll-snap-type: x mandatory;

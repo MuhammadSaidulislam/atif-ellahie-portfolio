@@ -1708,7 +1708,7 @@ export class Home extends Component {
   // Conference
   toggleConferenceDropdown = key => {
     this.setState(prev => ({
-      sortConferKey: key,
+      sortKey: key,
       sortOrder:
         prev.sortKey === key && prev.sortOrder === "asc"
           ? "desc"
@@ -2363,9 +2363,9 @@ export class Home extends Component {
                         <img src="/Assets/search-normal.svg" alt="search" />
                       </button>
                     </div>
-                    <div className={`custom-dropdown ${conferenceOpen ? "open" : ""}`}>
+                    <div className="custom-dropdown">
                       <button className="dropdown-btn" onClick={() => this.toggleConferenceDropdown("Title")}>
-                        {this.state.sortKey === "Title" ? (
+                      {this.state.sortKey === "Title" ? (
                           this.state.sortOrder === "asc" ? (
                             <i className="fa-solid fa-sort-amount-asc"></i>
                           ) : (
