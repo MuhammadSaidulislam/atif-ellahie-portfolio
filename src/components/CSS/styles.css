@@ -1554,6 +1554,7 @@ nav {
 
   .menu-toggle {
     display: block;
+    color: #ffffff;
   }
 
   nav {
@@ -1846,6 +1847,10 @@ nav {
   }
   .left-content{
     padding-bottom: 0px;
+  }
+   .menu-toggle {
+    display: block;
+    color: #000000;
   }
 }
  
