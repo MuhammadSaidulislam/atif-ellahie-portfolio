@@ -759,8 +759,6 @@ nav {
 /* Left Content Section */
 .left-content {
   flex: 1;
-  /* padding-top: 120px;
-  padding-bottom: 55px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1591,7 +1589,7 @@ nav {
 
   .left-content {
     padding-top: 100px;
-    padding-bottom: 0px;
+    padding-bottom: 30px;
   }
 
   .right-image img {
@@ -1645,16 +1643,7 @@ nav {
     display: none;
   }
 
-  .largeSocial {
-    display: none;
-  }
 
-  .smallSocial {
-    display: flex;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    width: 100%;
-  }
 
   .filterBox ul li button {
     font-size: 14px;
@@ -1751,13 +1740,9 @@ nav {
   }
 
   .userInfo {
-    /* flex-wrap: wrap; */
-    flex-direction: column;
+    flex-wrap: wrap; 
   }
 
-  .right-image img {
-    width: 100%;
-  }
 
   .conferenceFilter {
     flex-direction: column;
@@ -1804,12 +1789,12 @@ nav {
     width: 280px;
     margin-right: 0px;
     position: relative;
-    left: 50%;
+    /* left: 50%;
     transform: translate(-50%, 0);
     -webkit-transform: translate(-50%, 0);
     -moz-transform: translate(-50%, 0);
     -ms-transform: translate(-50%, 0);
-    -o-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0); */
   }
 
   h1 {
@@ -1839,3 +1824,28 @@ nav {
   }
 
 }
+
+@media (max-width: 724px) {
+ .userInfo {
+   flex-direction: column;
+  }
+   .smallSocial {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+   .largeSocial {
+    display: none;
+  }
+  .right-image{
+    left: 50%;
+    transform: translate(-50%, 0);
+    -webkit-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+  }
+  .left-content{
+    padding-bottom: 0px;
+  }
+}
+ 
