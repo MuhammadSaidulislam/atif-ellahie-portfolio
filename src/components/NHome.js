@@ -543,7 +543,78 @@ const conferenceList = [
   { "Year": 2015, "Title": "RAST Conference", "role": "Presenter", "category": "Conference Participation" }
 ]
 
-
+const sections = [
+  {
+    label: "Academic\nFocus",
+    content: (
+      <>
+        <h1>About Me</h1>
+        <p>Associate Professor, David Eccles School of Business, The University of Utah</p>
+        <p>
+          I am an Associate Professor at the David Eccles School of Business at The University of Utah.
+          I teach graduate-level courses on business valuation and analysis, and mergers and acquisitions.
+        </p>
+      </>
+    )
+  },
+  {
+    label: "Research\nFocus",
+    content: (
+      <>
+        <h2>Academic Focus</h2>
+        <p>Asset pricing • Disclosure • M&A • Compensation</p>
+      </>
+    )
+  },
+  {
+    label: "Education &\nCredentials",
+    content: (
+      <>
+        <h2>Research Focus</h2>
+        <div className="research-items">
+          <div className="research-item">
+            Examining risk by incorporating firm-level and macroeconomic information.
+          </div>
+          <div className="research-item">
+            Examining how firms respond to institutional environments like disclosure and culture.
+          </div>
+        </div>
+      </>
+    )
+  },
+  {
+    label: "Professional\nExperience",
+    content: (
+      <>
+        <h2>Education & Credentials</h2>
+        <p>
+          PhD from London Business School, MSc from LSE, MBA from LUMS.
+          Chartered Financial Analyst since 2003.
+        </p>
+      </>
+    )
+  },
+  {
+    label: "Personal\nInterests",
+    content: (
+      <>
+        <h2>Professional Experience</h2>
+        <p>
+          Former Executive Director at UBS Investment Bank, advising global technology firms.
+        </p>
+      </>
+    )
+  },
+  {
+    label: "",
+    content: (
+      <>
+        <h2>Personal Interests</h2>
+        <p>Traveling, cooking, cricket, cars, and long walks.</p>
+      </>
+    )
+  }
+]
 
 
 // Initialize Firebase
@@ -618,6 +689,7 @@ export class Home extends Component {
       sortOrderTM: "asc",
       sortKeyPaper: "",
       sortOrderPaper: "asc",
+      currentSection: 0
     };
     this.boxRef = createRef();
   }
@@ -656,6 +728,18 @@ export class Home extends Component {
       localStorage.removeItem('thisState');
       localStorage.setItem('loader', uid);
     }
+  }
+
+  handleNext = () => {
+    this.setState(prev => ({
+      currentSection: Math.min(prev.currentSection + 1, sections.length - 1)
+    }))
+  }
+
+  handlePrev = () => {
+    this.setState(prev => ({
+      currentSection: Math.max(prev.currentSection - 1, 0)
+    }))
   }
 
   loadState = () => {
@@ -1224,7 +1308,7 @@ export class Home extends Component {
       paginatedStudents.push(null);
     }
 
-     // 4️⃣ SORTING
+    // 4️⃣ SORTING
     if (sortKeyPaper) {
       paginatedStudents.sort((a, b) => {
         const aVal = String(a[sortKeyPaper]).toLowerCase();
@@ -1295,7 +1379,7 @@ export class Home extends Component {
       );
     }
 
-   
+
 
     return filteredStudents;
   }
@@ -1536,9 +1620,6 @@ export class Home extends Component {
   }
 
 
-
-
-
   // Get filtered materials count
   getFilteredTeachingMaterialsCount() {
     const { s_query, allTeachingMaterials } = this.state;
@@ -1600,7 +1681,6 @@ export class Home extends Component {
       }));
     }
   };
-
 
 
   awardFinder = () => {
@@ -1685,6 +1765,7 @@ export class Home extends Component {
           : "asc"
     }));
   };
+
   teachingSelectOption = (option) => {
     this.setState({ teachingSelected: option, teachingOpen: false });
   };
@@ -1743,9 +1824,6 @@ export class Home extends Component {
       screenWidth: document.documentElement.clientWidth
     });
   };
-
-
-
 
   // new next button for scroll
   prevPageScroll = () => {
@@ -1812,6 +1890,8 @@ export class Home extends Component {
     const totalFilteredCount = this.getFilteredTeachingMaterialsCount();
     const totalPages = Math.ceil(totalFilteredCount / this.state.teachingPerPage);
 
+
+    const section = sections[this.state.currentSection]
 
     $(document).ready(function () {
     });
@@ -1928,7 +2008,7 @@ export class Home extends Component {
         </div>
 
         {/* About section */}
-        <div id="about" className='aboutSection'>
+        <div id="about" className='aboutSection aboutLargeView'>
           <div className="container aboutBox">
 
             <div className="profile-photo"></div>
@@ -2023,8 +2103,6 @@ export class Home extends Component {
                   <p>In my free time, I enjoy traveling with family, cooking, cricket, cars, and long walks.</p>
                 </div>
               </div>
-
-
             </div>
 
             <div className='aboutBtn'>
@@ -2033,6 +2111,49 @@ export class Home extends Component {
                 Download my CV <img src="/Assets/document-download.svg" alt="document-download" />
               </button>
             </div>
+          </div>
+        </div>
+
+        <div id="about" className='aboutSection aboutSmallView'>
+          <div className="container aboutBox">
+
+            <div className="profile-photo"></div>
+            <div className="content aboutContent">
+              <div className="section">
+                <div className="timeline-section">
+                  <div className="timeline-line"></div>
+                  <div className="timeline-dot"></div>
+                  {section.label && (
+                    <div className="timeline-label">
+                      {section.label.split('\n').map((line, i) => (
+                        <span key={i}>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="aboutContent">
+                  {section.content}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="conferencePagination aboutSmallView container">
+          <div className='paginationBackground'>
+            <button className="btn-back" onClick={this.handlePrev} disabled={this.state.currentSection === 0}>
+              <i className="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <button className="btn-back"
+              onClick={this.handleNext}
+              disabled={this.state.currentSection === sections.length - 1}>
+              <i className="fa-solid fa-chevron-right"></i>
+            </button>
           </div>
         </div>
 
@@ -2225,14 +2346,14 @@ export class Home extends Component {
                   <div className={`custom-dropdown ${teachingOpen ? "open" : ""}`}>
                     <button className="dropdown-btn" onClick={() => this.toggleTeachingDropdown("title")}>
                       {this.state.sortKeyTM === "title" ? (
-                          this.state.sortOrderTM === "asc" ? (
-                            <i className="fa-solid fa-sort-amount-asc"></i>
-                          ) : (
-                            <i className="fa-solid fa-sort-amount-desc"></i>
-                          )
-                        ) : (
+                        this.state.sortOrderTM === "asc" ? (
                           <i className="fa-solid fa-sort-amount-asc"></i>
-                        )}
+                        ) : (
+                          <i className="fa-solid fa-sort-amount-desc"></i>
+                        )
+                      ) : (
+                        <i className="fa-solid fa-sort-amount-asc"></i>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -2311,24 +2432,6 @@ export class Home extends Component {
 
 
 
-
-          {/*   <div className="course-tabs container">
-            {this.state.allTeachingMaterials.map((cls, index) => (
-              <div className={"course-tab " + (this.state.currentTeachingTitle === cls.Title ? "active" : "")} onClick={() => this.setState({ currentTeachingTitle: cls.Title, currentTeachingCls: cls.Course })} key={index}>
-                Course {index + 1}
-              </div>
-            ))}
-          </div>
-
-         <div className="course-card container">
-            <div className="card-header">
-              <div className="course-name">{this.state.currentTeachingTitle}</div>
-            </div>
-            <div className="card-description">
-              {this.state.currentTeachingCls}
-            </div>
-          </div> */}
-
         </div>
 
         <div className="ResSection container conferences" id="conferences">
@@ -2365,7 +2468,7 @@ export class Home extends Component {
                     </div>
                     <div className="custom-dropdown">
                       <button className="dropdown-btn" onClick={() => this.toggleConferenceDropdown("Title")}>
-                      {this.state.sortKey === "Title" ? (
+                        {this.state.sortKey === "Title" ? (
                           this.state.sortOrder === "asc" ? (
                             <i className="fa-solid fa-sort-amount-asc"></i>
                           ) : (

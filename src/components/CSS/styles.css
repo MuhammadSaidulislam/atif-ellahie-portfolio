@@ -1486,7 +1486,9 @@ nav {
   -ms-transition: all 0.3s;
   -o-transition: all 0.3s;
 }
-
+.aboutSmallView{
+  display: none;
+}
 @media (max-width: 768px) {
   .container-md,
   .container-sm,
@@ -1604,7 +1606,20 @@ nav {
     overflow-x: auto !important;
     height: 100% !important;
   }
-
+.aboutLargeView{
+  display: none;
+}
+.aboutSmallView{
+  display: block;
+}
+.aboutSection.aboutSmallView{
+padding: 0px 20px; 
+}
+.aboutSmallView .paginationBackground{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
   .aboutSection {
     padding: 35px 20px;
   }
@@ -1664,6 +1679,7 @@ nav {
     width: 100%;
     margin-right: 30px;
     gap: 40px;
+    min-height: 150px;
   }
 
   .aboutContent {
@@ -1851,6 +1867,9 @@ nav {
    .menu-toggle {
     display: block;
     color: #000000;
+  }
+   .section {
+    min-height: 260px;
   }
 }
  
