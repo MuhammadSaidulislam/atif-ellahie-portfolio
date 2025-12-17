@@ -766,8 +766,8 @@ nav {
 /* Left Content Section */
 .left-content {
   flex: 1;
-  padding-top: 120px;
-  padding-bottom: 55px;
+  /* padding-top: 120px;
+  padding-bottom: 55px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -896,8 +896,8 @@ nav {
 }
 
 .social-icon {
-  width: 35px;
-  height: 35px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1718,7 +1718,7 @@ nav {
   }
 
   .left-content {
-    padding-top: 80px;
+    padding-top: 100px;
     padding-bottom: 0px;
   }
 
@@ -1810,6 +1810,10 @@ nav {
   .left-content .button-group {
     margin-bottom: 65px;
   }
+  .social-icon {
+  width: 35px;
+  height: 35px;
+}
 }
 
 /* cv form */

@@ -611,7 +611,13 @@ export class Home extends Component {
       expanded: false,
       height: 300,
       selectedCategory: "All",
-      activeCategory: "All"
+      activeCategory: "All",
+      sortKey: "",
+      sortOrder: "asc",
+      sortKeyTM: "",
+      sortOrderTM: "asc",
+      sortKeyPaper: "",
+      sortOrderPaper: "asc",
     };
     this.boxRef = createRef();
   }
@@ -1220,59 +1226,78 @@ export class Home extends Component {
   }
 
   getPaginatedPaperDetails() {
-    const { s_query, currentPaperType } = this.state;
-    let filteredStudents = paginatedPaper;
+    const {
+      s_query,
+      currentPaperType,
+      sortKeyPaper,
+      sortOrderPaper
+    } = this.state;
 
+    // 1️⃣ Clone & normalize data (NO mutation)
+    let filteredStudents = paginatedPaper.map(paper => {
+      const cleaned = { ...paper };
 
-    // check if all paper have "Paper Type" field and the papers where Paper Type is not present or empty make it "Publications"
-
-    paginatedPaper.forEach(paper => {
-      if (!paper.hasOwnProperty('Paper Type') || paper['Paper Type'] === '') {
-        paper['Paper Type'] = 'Publications';
+      // Default Paper Type
+      if (!cleaned.hasOwnProperty("Paper Type") || cleaned["Paper Type"] === "") {
+        cleaned["Paper Type"] = "Publications";
       }
-    });
 
-    // filter based on paper type now
-    filteredStudents = paginatedPaper.filter(paper => paper['Paper Type'] === currentPaperType);
-
-    // in any field if the content is "nan" then make it empty
-    filteredStudents.forEach(paper => {
-      for (var key in paper) {
-        if (paper[key] === 'nan') {
-          paper[key] = '';
-        }
-      }
-    });
-
-    filteredStudents.forEach(paper => {
-      for (const key in paper) {
-        // Trim the value first to avoid extra spaces affecting checks
-        paper[key] = paper[key].trim();
-
-        // Remove leading comma
-        if (paper[key].startsWith(',')) {
-          paper[key] = paper[key].substring(1).trim();
+      // Clean values
+      for (const key in cleaned) {
+        if (cleaned[key] === "nan" || cleaned[key] == null) {
+          cleaned[key] = "";
         }
 
-        // Remove trailing comma
-        if (paper[key].endsWith(',')) {
-          paper[key] = paper[key].substring(0, paper[key].length - 1).trim();
+        if (typeof cleaned[key] === "string") {
+          cleaned[key] = cleaned[key].trim();
+
+          if (cleaned[key].startsWith(",")) {
+            cleaned[key] = cleaned[key].substring(1).trim();
+          }
+
+          if (cleaned[key].endsWith(",")) {
+            cleaned[key] = cleaned[key]
+              .substring(0, cleaned[key].length - 1)
+              .trim();
+          }
         }
       }
+
+      return cleaned;
     });
 
+    // 2️⃣ PAPER TYPE FILTER
+    if (currentPaperType !== "All") {
+      filteredStudents = filteredStudents.filter(
+        paper => paper["Paper Type"] === currentPaperType
+      );
+    }
 
-    if (s_query && s_query.trim() !== "") {
-      filteredStudents = filteredStudents.filter(student => {
-        // Check if any key in the student matches the s_query (case-insensitive)
-        return Object.keys(student).some(key =>
-          String(student[key]).toLowerCase().includes(s_query.toLowerCase())
-        );
+    // 3️⃣ SEARCH
+    if (s_query?.trim()) {
+      const q = s_query.toLowerCase();
+      filteredStudents = filteredStudents.filter(paper =>
+        Object.values(paper).some(value =>
+          String(value).toLowerCase().includes(q)
+        )
+      );
+    }
+
+    // 4️⃣ SORTING
+    if (sortKeyPaper) {
+      filteredStudents.sort((a, b) => {
+        const aVal = String(a[sortKeyPaper]).toLowerCase();
+        const bVal = String(b[sortKeyPaper]).toLowerCase();
+
+        if (aVal < bVal) return sortOrderPaper === "asc" ? -1 : 1;
+        if (aVal > bVal) return sortOrderPaper === "asc" ? 1 : -1;
+        return 0;
       });
     }
 
     return filteredStudents;
   }
+
 
   // Handle next and previous page
   nextPage = () => {
@@ -1362,19 +1387,58 @@ export class Home extends Component {
 
 
   getPaginatedCFDetails() {
-    const { conferenceSearchValue } = this.state;
-    let filtered = [...conferenceList];
-    // 🔍 SEARCH LOGIC
-    if (conferenceSearchValue && conferenceSearchValue.trim() !== "") {
-      const searchText = conferenceSearchValue.toLowerCase();
+    const {
+      s_query,
+      conferenceSearchValue,
+      activeCategory,
+      sortKey,
+      sortOrder
+    } = this.state;
+
+    const searchText =
+      (conferenceSearchValue || s_query || "").trim().toLowerCase();
+
+    // 1️⃣ Clone & clean data
+    let filtered = conferenceList.map(item => {
+      const cleaned = {};
+      Object.keys(item).forEach(key => {
+        let value = item[key];
+        cleaned[key] = value === "nan" || value == null ? "" : value;
+      });
+      return cleaned;
+    });
+
+    // 2️⃣ CATEGORY FILTER
+    if (activeCategory && activeCategory !== "All") {
+      filtered = filtered.filter(
+        item => item.category === activeCategory
+      );
+    }
+
+    // 3️⃣ SEARCH FILTER
+    if (searchText) {
       filtered = filtered.filter(item =>
-        Object.keys(item).some(key =>
-          String(item[key]).toLowerCase().includes(searchText)
+        Object.values(item).some(value =>
+          String(value).toLowerCase().includes(searchText)
         )
       );
     }
+
+    // 4️⃣ SORTING
+    if (sortKey) {
+      filtered.sort((a, b) => {
+        const aVal = String(a[sortKey]).toLowerCase();
+        const bVal = String(b[sortKey]).toLowerCase();
+
+        if (aVal < bVal) return sortOrder === "asc" ? -1 : 1;
+        if (aVal > bVal) return sortOrder === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+
     return filtered;
   }
+
 
 
   // Handle next and previous page
@@ -1396,17 +1460,16 @@ export class Home extends Component {
     const {
       teachingSearchValue,
       currentPageTM,
-      teachingPerPage
+      teachingPerPage,
+      sortKeyTM,
+      sortOrderTM
     } = this.state;
 
     let filteredMaterials = teachingList.map(mat => {
       const cleaned = { ...mat };
 
-      // Clean string values safely
       for (const key in cleaned) {
-        if (cleaned[key] === "nan") {
-          cleaned[key] = "";
-        }
+        if (cleaned[key] === "nan") cleaned[key] = "";
 
         if (typeof cleaned[key] === "string") {
           cleaned[key] = cleaned[key].trim();
@@ -1426,20 +1489,18 @@ export class Home extends Component {
       return cleaned;
     });
 
-    // 🔍 SEARCH LOGIC (CONNECTED PROPERLY)
-    if (teachingSearchValue && teachingSearchValue.trim() !== "") {
+    // 🔍 SEARCH
+    if (teachingSearchValue?.trim()) {
       const searchText = teachingSearchValue.toLowerCase();
 
       filteredMaterials = filteredMaterials.filter(material =>
         Object.keys(material).some(key => {
           const value = material[key];
 
-          // string fields
           if (typeof value === "string") {
             return value.toLowerCase().includes(searchText);
           }
 
-          // ratings array
           if (Array.isArray(value)) {
             return value.some(r =>
               String(r.rating).toLowerCase().includes(searchText) ||
@@ -1452,13 +1513,26 @@ export class Home extends Component {
       );
     }
 
-    // Pagination (shift mechanism)
+    // 🔃 SORTING
+    if (sortKeyTM) {
+      filteredMaterials.sort((a, b) => {
+        const aVal = String(a[sortKeyTM]).toLowerCase();
+        const bVal = String(b[sortKeyTM]).toLowerCase();
+
+        if (aVal < bVal) return sortOrderTM === "asc" ? -1 : 1;
+        if (aVal > bVal) return sortOrderTM === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+
+    // 📄 PAGINATION
     const shiftAmount = teachingPerPage - 1;
     const startIndex = currentPageTM * shiftAmount;
     const endIndex = startIndex + teachingPerPage;
 
     return filteredMaterials.slice(startIndex, endIndex);
   }
+
 
 
 
@@ -1579,8 +1653,14 @@ export class Home extends Component {
 
 
   // publications
-  toggleDropdown = () => {
-    this.setState({ open: !this.state.open });
+  toggleDropdown = key => {
+    this.setState(prev => ({
+      sortKeyPaper: key,
+      sortOrderPaper:
+        prev.sortKeyPaper === key && prev.sortOrderPaper === "asc"
+          ? "desc"
+          : "asc"
+    }));
   };
   selectOption = (option) => {
     this.setState({ selected: option, open: false });
@@ -1594,8 +1674,14 @@ export class Home extends Component {
   };
 
   // Teaching
-  toggleTeachingDropdown = () => {
-    this.setState({ teachingOpen: !this.state.teachingOpen });
+  toggleTeachingDropdown = key => {
+    this.setState(prev => ({
+      sortKeyTM: key,
+      sortOrderTM:
+        prev.sortKeyTM === key && prev.sortOrderTM === "asc"
+          ? "desc"
+          : "asc"
+    }));
   };
   teachingSelectOption = (option) => {
     this.setState({ teachingSelected: option, teachingOpen: false });
@@ -1618,8 +1704,14 @@ export class Home extends Component {
   };
 
   // Conference
-  toggleConferenceDropdown = () => {
-    this.setState({ conferenceOpen: !this.state.conferenceOpen });
+  toggleConferenceDropdown = key => {
+    this.setState(prev => ({
+      sortConferKey: key,
+      sortOrder:
+        prev.sortKey === key && prev.sortOrder === "asc"
+          ? "desc"
+          : "asc"
+    }));
   };
   conferenceSelectOption = (option) => {
     this.setState({ conferenceSelected: option, conferenceOpen: false });
@@ -1727,7 +1819,7 @@ export class Home extends Component {
         <nav>
           <div className="container d-flex justify-content-between align-items-center">
             <div className="nav-left">
-              {/* <div className="logo">Atif Ellahie</div> */}
+              <div className="logo">Atif Ellahie</div>
             </div>
 
             {/* Desktop links */}
@@ -1760,8 +1852,6 @@ export class Home extends Component {
               <i className="fa-solid fa-bars"></i>
             </button>
           </div>
-
-
         </nav>
 
         {/* Mobile Sidebar */}
@@ -1794,18 +1884,6 @@ export class Home extends Component {
                 <a href="#about" className="btn btn-about">About me</a>
                 <a href="#publications" className="btn btn-research">View research</a>
               </div>
-            </div>
-
-            <div className="contact-section">
-              {/* <h3>Contact</h3>
-              <a href="mailto:atif.ellahie@eccles.utah.edu" className="email">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="M22 7L13.03 12.7C12.4 13.1 11.6 13.1 10.97 12.7L2 7" />
-                </svg>
-                atif.ellahie@eccles.utah.edu
-              </a> */}
-
               <div className="social-icons largeSocial">
                 <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
                 <Link target='_blank' to="https://x.com/atifellahie" className="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
@@ -1814,6 +1892,25 @@ export class Home extends Component {
                 <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
               </div>
             </div>
+
+            {/* <div className="contact-section">
+               <h3>Contact</h3>
+              <a href="mailto:atif.ellahie@eccles.utah.edu" className="email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M22 7L13.03 12.7C12.4 13.1 11.6 13.1 10.97 12.7L2 7" />
+                </svg>
+                atif.ellahie@eccles.utah.edu
+              </a> 
+
+               <div className="social-icons largeSocial">
+                <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://x.com/atifellahie" className="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
+                <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
+              </div> 
+            </div> */}
           </div>
 
           <div className="right-image">
@@ -1973,16 +2070,25 @@ export class Home extends Component {
                     </button>
                   </div>
                   <div className={`custom-dropdown ${open ? "open" : ""}`}>
-                    <button className="dropdown-btn" onClick={this.toggleDropdown}>
-                      {selected ? selected : <img src="/Assets/Filter.svg" alt="search" />}
+                    <button className="dropdown-btn" onClick={() => this.toggleDropdown("Title")}>
+                      {this.state.sortKeyPaper === "Title" ? (
+                        this.state.sortOrderPaper === "asc" ? (
+                          <i className="fa-solid fa-sort-amount-asc"></i>
+                        ) : (
+                          <i className="fa-solid fa-sort-amount-desc"></i>
+                        )
+                      ) : (
+                        <i className="fa-solid fa-sort-amount-asc"></i>
+                      )}
+
                     </button>
-                    <ul className="dropdown-menu">
+                    {/* <ul className="dropdown-menu">
                       {options.map((opt, index) => (
                         <li key={index} onClick={() => this.selectOption(opt)}>
                           {opt}
                         </li>
                       ))}
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </div>
@@ -2124,16 +2230,25 @@ export class Home extends Component {
                     </button>
                   </div>
                   <div className={`custom-dropdown ${teachingOpen ? "open" : ""}`}>
-                    <button className="dropdown-btn" onClick={this.toggleTeachingDropdown}>
-                      {teachingSelected ? teachingSelected : <img src="/Assets/Filter.svg" alt="search" />}
+                    <button className="dropdown-btn" onClick={() => this.toggleTeachingDropdown("title")}>
+                      {this.state.sortKeyTM === "title" ? (
+                          this.state.sortOrderTM === "asc" ? (
+                            <i className="fa-solid fa-sort-amount-asc"></i>
+                          ) : (
+                            <i className="fa-solid fa-sort-amount-desc"></i>
+                          )
+                        ) : (
+                          <i className="fa-solid fa-sort-amount-asc"></i>
+                        )}
+                   
                     </button>
-                    <ul className="dropdown-menu">
+                    {/* <ul className="dropdown-menu">
                       {options.map((opt, index) => (
                         <li key={index} onClick={() => this.teachingSelectOption(opt)}>
                           {opt}
                         </li>
                       ))}
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </div>
@@ -2267,16 +2382,17 @@ export class Home extends Component {
 
                     </div>
                     <div className={`custom-dropdown ${conferenceOpen ? "open" : ""}`}>
-                      <button className="dropdown-btn" onClick={this.toggleConferenceDropdown}>
-                        {conferenceSelected ? conferenceSelected : <img src="/Assets/Filter.svg" alt="search" />}
+                      <button className="dropdown-btn" onClick={() => this.toggleConferenceDropdown("Title")}>
+                        {this.state.sortKey === "Title" ? (
+                          this.state.sortOrder === "asc" ? (
+                            <i className="fa-solid fa-sort-amount-asc"></i>
+                          ) : (
+                            <i className="fa-solid fa-sort-amount-desc"></i>
+                          )
+                        ) : (
+                          <i className="fa-solid fa-sort-amount-asc"></i>
+                        )}
                       </button>
-                      <ul className="dropdown-menu">
-                        {options.map((opt, index) => (
-                          <li key={index} onClick={() => this.conferenceSelectOption(opt)}>
-                            {opt}
-                          </li>
-                        ))}
-                      </ul>
                     </div>
                   </div>
                 </div>
@@ -2492,7 +2608,7 @@ export class Home extends Component {
 
             <Link to="https://academic.blog" className='powerLink'>
               {/* <img src="/Assets/powered_by.svg" alt="powerd" /> */}
-             <span>Powered by</span> academic.blog
+              <span>Powered by</span> academic.blog
             </Link>
           </div>
           {/* <div className="footerContent container">
