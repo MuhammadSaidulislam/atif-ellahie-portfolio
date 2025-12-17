@@ -1141,7 +1141,9 @@ export class Home extends Component {
       pubSearchValue,
       currentPage,
       studentsPerPage,
-      currentPaperType
+      currentPaperType,
+      sortKeyPaper,
+      sortOrderPaper
     } = this.state;
 
     // clone data to avoid mutation
@@ -1222,15 +1224,25 @@ export class Home extends Component {
       paginatedStudents.push(null);
     }
 
+     // 4️⃣ SORTING
+    if (sortKeyPaper) {
+      paginatedStudents.sort((a, b) => {
+        const aVal = String(a[sortKeyPaper]).toLowerCase();
+        const bVal = String(b[sortKeyPaper]).toLowerCase();
+
+        if (aVal < bVal) return sortOrderPaper === "asc" ? -1 : 1;
+        if (aVal > bVal) return sortOrderPaper === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+
     return paginatedStudents;
   }
 
   getPaginatedPaperDetails() {
     const {
       s_query,
-      currentPaperType,
-      sortKeyPaper,
-      sortOrderPaper
+      currentPaperType
     } = this.state;
 
     // 1️⃣ Clone & normalize data (NO mutation)
@@ -1283,17 +1295,7 @@ export class Home extends Component {
       );
     }
 
-    // 4️⃣ SORTING
-    if (sortKeyPaper) {
-      filteredStudents.sort((a, b) => {
-        const aVal = String(a[sortKeyPaper]).toLowerCase();
-        const bVal = String(b[sortKeyPaper]).toLowerCase();
-
-        if (aVal < bVal) return sortOrderPaper === "asc" ? -1 : 1;
-        if (aVal > bVal) return sortOrderPaper === "asc" ? 1 : -1;
-        return 0;
-      });
-    }
+   
 
     return filteredStudents;
   }
@@ -1608,7 +1610,7 @@ export class Home extends Component {
     const currentPos = currentPos2 - 1;
 
     // Decide how many items to show
-    const itemsToShow = screenWidth <= 768 ? 5 : 3;
+    const itemsToShow = screenWidth <= 998 ? 5 : 3;
     // mobile 5 items, desktop 3 items
     console.log('itemsToShow', itemsToShow);
 
@@ -2080,15 +2082,7 @@ export class Home extends Component {
                       ) : (
                         <i className="fa-solid fa-sort-amount-asc"></i>
                       )}
-
                     </button>
-                    {/* <ul className="dropdown-menu">
-                      {options.map((opt, index) => (
-                        <li key={index} onClick={() => this.selectOption(opt)}>
-                          {opt}
-                        </li>
-                      ))}
-                    </ul> */}
                   </div>
                 </div>
               </div>
@@ -2226,7 +2220,6 @@ export class Home extends Component {
                   <div className="toggle-input-wrapper">
                     <button className={`toggle-btn  ${teachingInputOpen ? "open" : ""}`} onClick={this.toggleTeachingInput}>
                       <img src="/Assets/search-normal.svg" alt="search" />
-                      {/* <i className="fa-solid fa-search"></i> */}
                     </button>
                   </div>
                   <div className={`custom-dropdown ${teachingOpen ? "open" : ""}`}>
@@ -2240,15 +2233,7 @@ export class Home extends Component {
                         ) : (
                           <i className="fa-solid fa-sort-amount-asc"></i>
                         )}
-                   
                     </button>
-                    {/* <ul className="dropdown-menu">
-                      {options.map((opt, index) => (
-                        <li key={index} onClick={() => this.teachingSelectOption(opt)}>
-                          {opt}
-                        </li>
-                      ))}
-                    </ul> */}
                   </div>
                 </div>
               </div>
@@ -2376,10 +2361,7 @@ export class Home extends Component {
                     <div className="toggle-input-wrapper">
                       <button className={`toggle-btn  ${conferenceInputOpen ? "open" : ""}`} onClick={this.toggleConferenceInput}>
                         <img src="/Assets/search-normal.svg" alt="search" />
-                        {/* <i className="fa-solid fa-search"></i> */}
                       </button>
-
-
                     </div>
                     <div className={`custom-dropdown ${conferenceOpen ? "open" : ""}`}>
                       <button className="dropdown-btn" onClick={() => this.toggleConferenceDropdown("Title")}>
