@@ -1962,7 +1962,7 @@ export class Home extends Component {
                     <input
                       type="text"
                       placeholder="Search"
-                      value={teachingSearchValue}
+                      value={pubSearchValue}
                       onChange={this.handlePublicationChange}
                     />
                     <i onClick={this.toggleTeachingInput} className="fa-solid fa-xmark"></i>
@@ -2487,7 +2487,7 @@ export class Home extends Component {
               </div>
             </div>
             <div className="FooterLeft">
-              <span>Copyright © Atif Ellahie - 2025</span>
+              <span>© Atif Ellahie 2025</span>
             </div>
 
             <Link to="https://academic.blog" className='powerLink'>
