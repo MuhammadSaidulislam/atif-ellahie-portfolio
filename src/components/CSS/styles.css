@@ -1616,6 +1616,7 @@ nav {
   width: 100%;
   justify-content: space-between;
   padding: 20px 12px;
+  background-color: transparent;
 }
 .aboutSection.aboutSmallView{
 padding: 35px 0px 15px 0px; 
