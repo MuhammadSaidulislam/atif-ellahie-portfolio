@@ -1611,6 +1611,7 @@ nav {
 }
 .aboutSmallView{
   display: flex;
+  flex-direction: column;
 }
 .aboutSmallView  .paginationBackground{
   width: 100%;

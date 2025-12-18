@@ -741,10 +741,25 @@ export class Home extends Component {
   }
 
   handleNext = () => {
-    this.setState(prev => ({
-      currentSection: Math.min(prev.currentSection + 1, sections.length - 1)
-    }))
-  }
+    this.setState(prev => {
+      const total = sections.length;
+      let nextSection = prev.currentSection + 1;
+
+      if (nextSection === total) {
+        nextSection = 0; // wrap to first
+      }
+
+      console.log('Prev:', prev.currentSection);
+      console.log('Total Sections:', total);
+      console.log('Next:', nextSection);
+
+      return { currentSection: nextSection };
+    });
+  };
+
+
+
+
 
   handlePrev = () => {
     this.setState(prev => ({
@@ -1996,25 +2011,6 @@ export class Home extends Component {
                 <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
               </div>
             </div>
-
-            {/* <div className="contact-section">
-               <h3>Contact</h3>
-              <a href="mailto:atif.ellahie@eccles.utah.edu" className="email">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="M22 7L13.03 12.7C12.4 13.1 11.6 13.1 10.97 12.7L2 7" />
-                </svg>
-                atif.ellahie@eccles.utah.edu
-              </a> 
-
-               <div className="social-icons largeSocial">
-                <Link target='_blank' to="https://scholar.google.com/citations?user=b90kdvoAAAAJ&hl=en" className="social-icon"><img src="/Assets/dark_scholar.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://x.com/atifellahie" className="social-icon"><img src="/Assets/dark_x.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://www.linkedin.com/in/atifellahie/" className="social-icon"><img src="/Assets/dark_in.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1656321" className="social-icon"><img src="/Assets/dark_ssrn.svg" alt="facebook" /></Link>
-                <Link target='_blank' to="https://orcid.org/0000-0002-5241-8578" className="social-icon"><img src="/Assets/dark_id.svg" alt="facebook" /></Link>
-              </div> 
-            </div> */}
           </div>
 
           <div className="right-image">
@@ -2166,16 +2162,34 @@ export class Home extends Component {
         </div>
 
         <div className="conferencePagination aboutSmallView container">
-          <div className='paginationBackground'>
+          <div className="bookButtonCont">
+            {(() => {
+              const { currentSection } = this.state;
+              const totalSections = sections.length;
+
+              const progressPercent =
+                totalSections > 1
+                  ? (currentSection / (totalSections - 1)) * 100
+                  : 0;
+
+              return (
+                <div className="progress-container">
+                  <div
+                    className="progress-fill"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+              );
+            })()}
+          </div>
+
+          <div className='bookButtonCont'>
             <button className="btn-back awardNav" onClick={this.handlePrev} disabled={this.state.currentSection === 0}>
               <i className="fa-solid fa-chevron-left"></i>
             </button>
-{/* <div className="pageNumber">
-                  <span> {this.state.currentSection + 1}</span> <span>of</span> <span>{sections.length}</span>
-                </div> */}
             <button className="btn-back awardNav"
               onClick={this.handleNext}
-              disabled={this.state.currentSection === sections.length - 1}>
+              disabled={this.state.currentSection === sections.length}>
               <i className="fa-solid fa-chevron-right"></i>
             </button>
           </div>
@@ -2398,86 +2412,121 @@ export class Home extends Component {
 
           <div className='teachingWrapper'>
             <div className=' teachingSection scroll-transparent '>
-              
-                <div className='courseCarousel container'>
-                  {paginatedMaterials.filter(item =>
-                    this.state.selectedCategory === "All" || item.category === this.state.selectedCategory
-                  ).map((material, index) => {
-                    if (material) {
-                      return (
-                        <div key={index} className='activityCourse'>
-                          <div className='courseNumber'>
-                            <h5>{material.id}</h5>
-                            <p> {material.title.split(" ")[0]} <br />
-                              {material.title.split(" ").slice(1).join(" ")}</p>
+
+              <div className='courseCarousel container'>
+                {paginatedMaterials.filter(item =>
+                  this.state.selectedCategory === "All" || item.category === this.state.selectedCategory
+                ).map((material, index) => {
+                  if (material) {
+                    return (
+                      <div key={index} className='activityCourse'>
+                        <div className='courseNumber'>
+                          <h5>{material.id}</h5>
+                          <p> {material.title.split(" ")[0]} <br />
+                            {material.title.split(" ").slice(1).join(" ")}</p>
+                        </div>
+                        <div className='courseBox'>
+                          <div className='courseHeading'>
+                            <p>{material.category}</p>
+                            <p>{material.years}</p>
                           </div>
-                          <div className='courseBox'>
-                            <div className='courseHeading'>
-                              <p>{material.category}</p>
-                              <p>{material.years}</p>
+                          <div className='courseHeading'>
+                            <p>{material.university}</p>
+                          </div>
+                          {Array.isArray(material.ratings) && material.ratings.length > 0 && (
+                            <div className='courseContent'>
+                              <p>Average instructor rating</p>
                             </div>
-                            <div className='courseHeading'>
-                              <p>{material.university}</p>
-                            </div>
-                            {Array.isArray(material.ratings) && material.ratings.length > 0 && (
-                              <div className='courseContent'>
-                                <p>Average instructor rating</p>
-                              </div>
-                            )}
-                            <div className='courseRating'>
-                              <ul>
-                                {Array.isArray(material.ratings) &&
-                                  material.ratings.map((rate, i) => (
-                                    <li key={i}>{rate.rating} ({rate.year})</li>
-                                  ))
-                                }
-                              </ul>
-                            </div>
+                          )}
+                          <div className='courseRating'>
+                            <ul>
+                              {Array.isArray(material.ratings) &&
+                                material.ratings.map((rate, i) => (
+                                  <li key={i}>{rate.rating} ({rate.year})</li>
+                                ))
+                              }
+                            </ul>
                           </div>
                         </div>
-                      );
-                    } else {
-                      return (
-                        <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
-                          {/* Empty placeholder for consistent layout */}
-                        </div>
-                      );
-                    }
-                  })}
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div key={index} className="materialItem placeholder" style={{ visibility: 'hidden' }}>
+                        {/* Empty placeholder for consistent layout */}
+                      </div>
+                    );
+                  }
+                })}
 
-                  {totalFilteredCount === 0 && (
-                    <div className="noResults">No teaching materials found</div>
-                  )}
+                {totalFilteredCount === 0 && (
+                  <div className="noResults">No teaching materials found</div>
+                )}
 
-                </div>
-             
+              </div>
+
             </div>
           </div>
 
 
- <div className="conferencePagination aboutSmallView container">
-          <div className='paginationBackground'>
-            <button className="btn-back awardNav" onClick={() =>
+          <div className="conferencePagination aboutSmallView container">
+            <div className='bookButtonCont'>
+              {(() => {
+                const { currentPageTM, isMobile } = this.state;
+
+                // how many items move per click
+                const itemsPerStep = isMobile ? 1 : teachingItemPage;
+
+                // total steps
+                const totalSteps = Math.ceil(totalItems - 1 / itemsPerStep);
+
+                // current step
+                const stepNumber = Math.floor(currentPageTM / itemsPerStep);
+
+                // progress %
+                const progressPercent =
+                  totalSteps > 1 ? (stepNumber / (totalSteps - 1)) * 100 : 0;
+
+                return (
+                  <div className="progress-container">
+                    <div
+                      className="progress-fill"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+                );
+              })()}
+            </div>
+
+            <div className='bookButtonCont'>
+              <button className="btn-back awardNav" onClick={() =>
                 this.setState(prev => ({
                   currentPageTM: Math.max(prev.currentPageTM - 1, 0)
                 }))
               } disabled={currentPageTM === 0}>
-              <i className="fa-solid fa-chevron-left"></i>
-            </button>
-{/* <div className="pageNumber">
+                <i className="fa-solid fa-chevron-left"></i>
+              </button>
+              {/* <div className="pageNumber">
       <span>{Math.min(currentPageTM + (this.state.isMobile ? 2 : teachingItemPage), totalItems)}</span> <span>of</span> <span>{totalItems}</span>
     </div> */}
-            <button className="btn-back awardNav"
-           onClick={() =>
-                this.setState(prev => ({
-                  currentPageTM: prev.currentPageTM + (this.state.isMobile ? 1 : teachingItemPage)
-                }))
-              }
-              disabled={currentPageTM + teachingItemPage >= totalItems}>
-              <i className="fa-solid fa-chevron-right"></i>
-            </button>
+              <button
+                className="btn-back awardNav"
+                onClick={() =>
+                  this.setState(prev => {
+                    const step = this.state.isMobile ? 1 : teachingItemPage;
+                    const nextPage = prev.currentPageTM + step;
+
+                    return {
+                      currentPageTM: nextPage >= totalItems ? 0 : nextPage
+                    };
+                  })
+                }
+              >
+                <i className="fa-solid fa-chevron-right"></i>
+              </button>
+
+            </div>
           </div>
-        </div>
 
 
         </div>
