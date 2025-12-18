@@ -163,6 +163,7 @@
 .cvDownload button {
   border: none;
   font-family: var(--font-poppins);
+  color: #292d32;
   font-weight: 500;
   font-style: Medium;
   font-size: 18px;
