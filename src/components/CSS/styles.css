@@ -1612,6 +1612,11 @@ nav {
 .aboutSmallView{
   display: flex;
 }
+.aboutSmallView  .paginationBackground{
+  width: 100%;
+  justify-content: space-between;
+  padding: 20px 12px;
+}
 .aboutSection.aboutSmallView{
 padding: 35px 0px 15px 0px; 
 }

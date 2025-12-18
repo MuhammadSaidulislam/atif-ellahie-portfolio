@@ -2167,13 +2167,13 @@ export class Home extends Component {
 
         <div className="conferencePagination aboutSmallView container">
           <div className='paginationBackground'>
-            <button className="btn-back" onClick={this.handlePrev} disabled={this.state.currentSection === 0}>
+            <button className="btn-back awardNav" onClick={this.handlePrev} disabled={this.state.currentSection === 0}>
               <i className="fa-solid fa-chevron-left"></i>
             </button>
-<div className="pageNumber">
+{/* <div className="pageNumber">
                   <span> {this.state.currentSection + 1}</span> <span>of</span> <span>{sections.length}</span>
-                </div>
-            <button className="btn-back"
+                </div> */}
+            <button className="btn-back awardNav"
               onClick={this.handleNext}
               disabled={this.state.currentSection === sections.length - 1}>
               <i className="fa-solid fa-chevron-right"></i>
@@ -2457,17 +2457,17 @@ export class Home extends Component {
 
  <div className="conferencePagination aboutSmallView container">
           <div className='paginationBackground'>
-            <button className="btn-back" onClick={() =>
+            <button className="btn-back awardNav" onClick={() =>
                 this.setState(prev => ({
                   currentPageTM: Math.max(prev.currentPageTM - 1, 0)
                 }))
               } disabled={currentPageTM === 0}>
               <i className="fa-solid fa-chevron-left"></i>
             </button>
-<div className="pageNumber">
+{/* <div className="pageNumber">
       <span>{Math.min(currentPageTM + (this.state.isMobile ? 2 : teachingItemPage), totalItems)}</span> <span>of</span> <span>{totalItems}</span>
-    </div>
-            <button className="btn-back"
+    </div> */}
+            <button className="btn-back awardNav"
            onClick={() =>
                 this.setState(prev => ({
                   currentPageTM: prev.currentPageTM + (this.state.isMobile ? 1 : teachingItemPage)
